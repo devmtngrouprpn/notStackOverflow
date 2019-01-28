@@ -32,8 +32,6 @@ app.use((req, res, next) => {
 });
 // *** ENDPOINTS *** //
 
-Happy_hacking!
-
 // *** IM LISTENING! *** //
 
 app.listen(SERVER_PORT, () => console.log(`Listening on PORT: SERVER_PORT`));
