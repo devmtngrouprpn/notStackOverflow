@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Header from './Header/Header.jsx';
 import Sidebar from './Sidebar1.jsx';
+import { flex } from '../../utilites/index.js';
 
 function Layout(props) {
     return (
@@ -11,13 +12,12 @@ function Layout(props) {
                 <Header />
             </HeaderHolder>
 
-            <SidebarHolder>
-                <Sidebar />
-            </SidebarHolder>
-
-            <ChildHolder>
-                {props.children}
-            </ChildHolder>
+            <ContentHolder>
+                <StyledSidebar />
+                <ChildFlexContainer>
+                    {props.children}
+                </ChildFlexContainer>
+            </ContentHolder>
 
         </Grid>
     )
@@ -25,23 +25,28 @@ function Layout(props) {
 
 const Grid = styled.div`
     display: grid;
-    grid-template-rows: 100px 1fr;
-    grid-template-columns: 150px 1fr;
+    grid-template-rows: 50px 1fr;
+    grid-template-columns: 1fr;
     grid-template-areas: 
-    "header header"
-    "sidebar children";
+    "header"
+    "content";
 `;
 
-const ChildHolder = styled.div`
-    grid-area: children;
+const StyledSidebar = styled(Sidebar)`
+    flex-basis: 164px;
+    flex-shrink: 0;
 `
+const ChildFlexContainer = styled.div`
+    flex-basis: 1100px;
+`
+
+const ContentHolder = styled.div`
+    grid-area: content;
+    ${flex()};
+`;
 
 const HeaderHolder = styled.div`
     grid-area: header;
-`
-
-const SidebarHolder = styled.div`
-    grid-area: sidebar;
-`
+`;
 
 export default Layout;

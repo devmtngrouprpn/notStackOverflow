@@ -4,7 +4,7 @@ import SearchBar from './SearchBar.jsx';
 import { flex } from '../../../utilites/index.js';
 import { P, Logo } from '../../../utilites/globals.js';
 
-function name(props) {
+function Header(props) {
     return (
         <FlexBox>
 
@@ -64,4 +64,4 @@ const FlexBox = styled.div`
     ${flex('row', 'space-between')}
 `;
 
-export default name;
+export default Header;

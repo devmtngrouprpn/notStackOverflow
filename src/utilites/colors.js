@@ -10,9 +10,11 @@ export const tagTextBlue = '#33658A';
 export const tagBlue = '#CDE0ED';
 export const linkBlue = '#3277AB';
 export const linkLightBlue = '#32AAFF';
-export const borderGray = '#F5F6F6';
+export const borderShadowGray = '#F5F6F6';
+export const borderGray = '#D6D9DC';
+export const textDarkGray = '#535A60';
 export const textGray = '#6A737C';
-export const textDarkGray = '#7D8287';
+export const textLighterGray = '#7D8287';
 export const textLightGray = '#777F87';
 export const green = '#45A163';
 export const lightGreen = '#A3D0B1';
@@ -31,9 +33,10 @@ export default {
     linkBlue,
     linkLightBlue,
     borderGray,
-    textGray,
     textDarkGray,
+    textGray,
     textLightGray,
+    textLighterGray,
     green,
     lightGreen,
     darkGreen,
