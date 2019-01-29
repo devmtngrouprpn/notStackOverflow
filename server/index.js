@@ -5,6 +5,7 @@ const express = require('express');
 const session = require('express-session');
 const massive = require('massive');
 const authorization = require('./controllers/authorization')
+const questions = require('./controllers/questions')
 
 
 const app = express();
@@ -36,6 +37,7 @@ app.use((req, res, next) => {
 
 app.get('/auth/callback', authorization.authCallback)
 app.get('/api/user-data', authorization.checkUser)
+app.get(`/api/home`, questions.homeStart)
 
 // *** IM LISTENING! *** //
 
