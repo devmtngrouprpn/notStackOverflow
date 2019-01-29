@@ -5,7 +5,6 @@ import Question from './components/Questions/Questions.jsx';
 import Tags from './components/Tags/Tags.jsx';
 import Users from './components/Users/Users.jsx';
 import './App.css';
-
 class App extends Component {
   render() {
     return (
