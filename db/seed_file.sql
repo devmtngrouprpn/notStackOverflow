@@ -173,8 +173,8 @@ CREATE TABLE "edit" (
 );
 
 
-
-
+-- TABLE ALTERS Start--
+-- Forigen Keys Start --
 ALTER TABLE "question" ADD CONSTRAINT "question_fk0" FOREIGN KEY ("user_id") REFERENCES "user"("auth_id");
 
 
@@ -198,7 +198,27 @@ ALTER TABLE "reputation" ADD CONSTRAINT "reputation_fk0" FOREIGN KEY ("user_id")
 ALTER TABLE "vote" ADD CONSTRAINT "vote_fk0" FOREIGN KEY ("user_id") REFERENCES "user"("auth_id");
 
 ALTER TABLE "edit" ADD CONSTRAINT "edit_fk0" FOREIGN KEY ("user_id") REFERENCES "user"("auth_id");
+-- Forigen Keys End --
+-- Table Changes Start --
 
+ALTER TABLE "public"."users" ADD COLUMN "picture" text;
+
+ALTER TABLE "public"."answer"
+  ALTER COLUMN "answer_last_edit" DROP NOT NULL,
+  ALTER COLUMN "modified_time" DROP NOT NULL;
+
+ALTER TABLE "public"."users"
+  ADD COLUMN "picture" text,
+  ADD UNIQUE ("auth_id");
+
+ALTER TABLE "public"."users"
+  DROP CONSTRAINT "users_auth_id_key",
+  ADD UNIQUE ("username");
+
+
+-- Table Changes End --
+
+-- TABLE ALTERS End--
 
 -- initialize DB End --
 -- Drop DB Start --
