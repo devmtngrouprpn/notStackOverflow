@@ -15,14 +15,18 @@ app.use(
   session({
     secret: SESSION_SECRET,
     resave: false,
-    saveUninitialized: false
-  })
-);
-massive(DB_CONNECTION_STRING).then(db => {
-  app.set("db", db);
-});
+    saveUninitialized: false,
+    cookie: {
+        maxAge: 30 * 24 * 60 * 60 * 1000
+    }
+}));
+massive(DB_CONNECTION_STRING)
+    .then(db => {
+        app.set('db', db);
+        console.log('database connected')
+    });
 // app.use((req, res, next) => {
-//     if (DEV = 'true') {
+//     if (DEV === 'true') {
 //         if (!req.session.user) {
 //             req.session.user = {};
 //             next();
