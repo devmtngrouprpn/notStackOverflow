@@ -4,7 +4,7 @@ const { DB_CONNECTION_STRING, SERVER_PORT, SESSION_SECRET, DEV } = process.env;
 const express = require('express');
 const session = require('express-session');
 const massive = require('massive');
-const authorization = require('./authorization')
+const authorization = require('./controllers/authorization')
 
 
 const app = express();
