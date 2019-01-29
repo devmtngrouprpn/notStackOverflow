@@ -9,16 +9,12 @@ class App extends Component {
   render() {
     return (
       <>
-<<<<<<< HEAD
-        
-=======
         <Switch>
           <Route exact path='/' component={Home} /> // home
           <Route path='/questions' component={Question} /> // questions
           <Route path='/tags' component={Tags} /> // tags
           <Route path='/users' component={Users} /> // users
         </Switch>
->>>>>>> master
       </>
     );
   }
