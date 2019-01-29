@@ -1,0 +1,1 @@
+select tags_watching from users where auth_id = $1
