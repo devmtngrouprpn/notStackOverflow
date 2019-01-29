@@ -62,3 +62,22 @@ for (let i = 0; i < data.length; i++) {
         dataByUser[data[i].user.uid].push(data[i]);
     }
 }', NOW(), 1, false, false, false);
+
+insert into bounty(question_id, user_id, bounty_value, bounty_creation_timestamp, bounty_active)
+values(3, 'user1', 200, now(), true);
+
+insert into comments (source_id, source_type, content)
+values(3, 'question', 'hey I think you spelled some stuff wrong');
+
+insert into comments (source_id, source_type, content)
+values(2, 'answer', 'hey I think you spelled everything wrong');
+
+
+
+
+
+
+
+
+
+
