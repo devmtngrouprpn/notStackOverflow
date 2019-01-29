@@ -3,6 +3,7 @@ import color, { buttonBlue } from './colors'
 
 export const P = styled.p`
     font-family: Arial, Helvetica, sans-serif;
+
 `;
 
 export const Logo = styled.img`
