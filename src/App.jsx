@@ -8,11 +8,6 @@ import './App.css';
 class App extends Component {
   render() {
     return (
-<<<<<<< HEAD
-      <div className="App">
-      </div>
-    )
-=======
       <>
         <Switch>
           <Route exact path='/' component={Home} /> // home
@@ -22,7 +17,6 @@ class App extends Component {
         </Switch>
       </>
     );
->>>>>>> frontend-skeleton
   }
 }
 

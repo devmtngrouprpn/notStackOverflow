@@ -4,11 +4,6 @@ import { HashRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from './ducks/store.js';
 import App from './App';
-<<<<<<< HEAD
-import Login from './components/Login'
-
-ReactDOM.render(<Login />, document.getElementById('root'));
-=======
 import './index.css';
 
 ReactDOM.render(
@@ -19,4 +14,3 @@ ReactDOM.render(
     </Provider>
     , document.getElementById('root'));
 
->>>>>>> frontend-skeleton
