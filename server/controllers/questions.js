@@ -13,12 +13,12 @@ module.exports = {
         // let auth_id = 'user1'
 
         
-       let prom = await Promise.all([db.Home.interesting([]), db.Home.interesting([])])
+       let prom = await Promise.all([db.Home.interesting([])])
 
-        let [interesting, featured] = prom;
+        let [interesting] = prom;
 
         // console.log(getHome)
-        res.status(200).send({interesting, featured})
+        res.status(200).send({interesting})
         console.log('done')
     }
 }
