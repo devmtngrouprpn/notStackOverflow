@@ -1,14 +1,7 @@
-import React from 'react';
+import React from "react";
 
 function LoadingWraper({ text, children, loading }) {
-    return (
-        <>
-            {loading
-                ? text
-                : children
-            }
-        </>
-    )
+  return <>{loading ? text : children}</>;
 }
 
 export default LoadingWraper;
