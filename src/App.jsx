@@ -14,14 +14,12 @@ class App extends Component {
   }
   render() {
     return (
-      <>
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route path="/questions" component={Question} />
-          <Route path="/tags" component={Tags} />
-          <Route path="/users" component={Users} />
-        </Switch>
-      </>
+      <Switch>
+        <Route exact path="/" component={Home} />
+        <Route path="/questions" component={Question} />
+        <Route path="/tags" component={Tags} />
+        <Route path="/users" component={Users} />
+      </Switch>
     );
   }
 }

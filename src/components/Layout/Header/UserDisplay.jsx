@@ -36,7 +36,10 @@ class UserDisplay extends Component {
   }
 }
 function mapStateToProps(state) {
-  return { ...state };
+  let { user } = state.global;
+  return {
+    user
+  };
 }
 export default connect(
   mapStateToProps,
