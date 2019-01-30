@@ -5,8 +5,7 @@ import { flex, orange, offWhite, svgColor } from '../../../utilites/index.js';
 import { P, Logo } from '../../../utilites/globals.js';
 import LogFunctions from './LogFunctions'
 
-function name(props) {
-
+function Header(props) {
     return (
         <FlexBox>
             <Holder>
@@ -95,4 +94,5 @@ const FlexBox = styled.div`
     box-sizing: border-box;
     box-shadow: 0 1px 0 rgba(12,13,14,0.1), 0 1px 6px rgba(59,64,69,0.1);
 `;
-export default name;
+
+export default Header;
