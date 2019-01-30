@@ -1,10 +1,10 @@
 import React from 'react';
 
-function LoadingWraper({ children, loading }) {
+function LoadingWraper({ text, children, loading }) {
     return (
         <>
             {loading
-                ? "Loading"
+                ? text
                 : children
             }
         </>
