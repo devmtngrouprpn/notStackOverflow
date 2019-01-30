@@ -1,9 +1,21 @@
-import { createStore, applyMiddleware } from 'redux';
-import reduxPromiseMiddleware from 'redux-promise-middleware';
-import { composeWithDevTools } from 'redux-devtools-extension';
-import reducer from './reducer.js'
+import { createStore, applyMiddleware, combineReducers } from "redux";
+import reduxPromiseMiddleware from "redux-promise-middleware";
+import { composeWithDevTools } from "redux-devtools-extension";
+import global from "./global";
+import users from "./users";
+import questions from "./questions";
+import home from "./home";
+import tags from "./tags";
+
+let reducers = combineReducers({
+  global,
+  users,
+  questions,
+  home,
+  tags
+});
 
 export default createStore(
-    reducer,
-    composeWithDevTools(applyMiddleware(reduxPromiseMiddleware()))
-)
+  reducers,
+  composeWithDevTools(applyMiddleware(reduxPromiseMiddleware()))
+);

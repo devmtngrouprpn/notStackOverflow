@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import styled from "styled-components";
 import { flex, colors, P, StyledLink } from "../../utilites/index.js";
 import axios from 'axios'
@@ -14,14 +14,14 @@ function Sidebar({ match }) {
   return (
     <SidebarContainer>
       <SidebarLink to="/" active={route === "home"}>
-        <SidebarP>Home</SidebarP>
+        <SidebarP indent="8px">Home</SidebarP>
       </SidebarLink>
 
-      <SidebarP margin="15px 0 10px 0" fontSize="11px">
+      <SidebarP indent="8px" margin="15px 0 10px 0" fontSize="11px">
         PUBLIC
       </SidebarP>
 
-      <SidebarLink indent="20px" to="/questions" active={route === "questions"}>
+      <SidebarLink indent="8px" to="/questions" active={route === "questions"}>
         <svg
           aria-hidden="true"
           class="svg-icon iconGlobe"
@@ -31,14 +31,14 @@ function Sidebar({ match }) {
         >
           <Path d="M9 1a8 8 0 1 0 0 16A8 8 0 0 0 9 1zM8 15.32a6.4 6.4 0 0 1-5.23-7.75L7 11.68v.8c0 .88.12 1.32 1 1.32v1.52zm5.72-2c-.2-.66-1-1.32-1.72-1.32h-1v-2c0-.44-.56-1-1-1H6V7h1c.44 0 1-.56 1-1V5h2c.88 0 1.4-.72 1.4-1.6v-.33a6.4 6.4 0 0 1 2.32 10.24z" />
         </svg>
-        <SidebarP margin="0 0 0 3px">NotStackOverflow</SidebarP>
+        <SidebarP margin="0 0 0 3px">Not Stack Overflow</SidebarP>
       </SidebarLink>
 
-      <SidebarLink indent="20px" to="/tags" active={route === "tags"}>
+      <SidebarLink indent="28px" to="/tags" active={route === "tags"}>
         <SidebarP>Tags</SidebarP>
       </SidebarLink>
 
-      <SidebarLink indent="20px" to="/users" active={route === "users"}>
+      <SidebarLink indent="28px" to="/users" active={route === "users"}>
         <SidebarP>Users</SidebarP>
       </SidebarLink>
       <button onClick={getHome}>Here Boi</button>
@@ -68,7 +68,7 @@ const SidebarLink = styled(StyledLink)`
   font-weight: ${props => (props.active ? "bold" : "400px")};
   color: ${props => (props.active ? colors.black : "")};
   padding-left: ${props => props.indent || "0"};
-  background: ${props => (props.active ? colors.offWhite : "")};
+  background: ${props => (props.active ? colors.darkOffWhite : "")};
   border-right: ${props => (props.active ? `solid ${colors.orange} 3px` : "")};
   ${flex("row", "flex-start")};
 `;
@@ -78,6 +78,7 @@ const SidebarP = styled(P)`
   font-size: ${props => props.fontSize || "13px"};
   margin: ${props => props.margin || "0 0 0 0"};
   color: ${colors.textDarkGray};
+  padding-left: ${props => props.indent || "0"};
 `;
 
 export default withRouter(Sidebar);

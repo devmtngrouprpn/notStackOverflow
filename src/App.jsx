@@ -7,15 +7,19 @@ import Users from "./components/Users/Users.jsx";
 import axios from "axios";
 import "./App.css";
 class App extends Component {
-
+  getHome() {
+    let auth_id = "user1";
+    let res = axios.get(`/api/home/${auth_id}`);
+    console.log(res);
+  }
   render() {
     return (
       <>
         <Switch>
-          <Route exact path="/" component={Home} /> // home
-          <Route path="/questions" component={Question} /> // questions
-          <Route path="/tags" component={Tags} /> // tags
-          <Route path="/users" component={Users} /> // users
+          <Route exact path="/" component={Home} />
+          <Route path="/questions" component={Question} />
+          <Route path="/tags" component={Tags} />
+          <Route path="/users" component={Users} />
         </Switch>
       </>
     );

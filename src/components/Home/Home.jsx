@@ -16,7 +16,7 @@ export default class Home extends Component {
     this.setState({ loading: true });
     let res = await axios.get(`/api/questions/interesting`);
     console.log(res.data);
-    await this.setState({ interesting: res.data });
+    await this.setState({ interesting: res.data.interesting });
     this.setState({ loading: false });
   }
   render() {
