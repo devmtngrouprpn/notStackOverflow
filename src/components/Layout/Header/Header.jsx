@@ -4,6 +4,7 @@ import SearchBar from './SearchBar.jsx';
 import { flex, orange, offWhite, svgColor } from '../../../utilites/index.js';
 import { P, Logo } from '../../../utilites/globals.js';
 import LogFunctions from './LogFunctions'
+import UserDisplay from './UserDisplay.jsx';
 
 function Header(props) {
     return (
@@ -20,6 +21,7 @@ function Header(props) {
                     userData
             </div> */}
                 <IconWrapper>
+                    <UserDisplayer />
                     <SvgWrapper>
                         <svg aria-hidden="true" width="20" height="18" viewBox="0 0 20 18"><Path d="M15.19 1H4.63c-.85 0-1.6.54-1.85 1.35L0 10.79V15c0 1.1.9 2 2 2h16a2 2 0 0 0 2-2v-4.21l-2.87-8.44A2 2 0 0 0 15.19 1zm-.28 10l-2 2h-6l-2-2H1.96L4.4 3.68A1 1 0 0 1 5.35 3h9.12a1 1 0 0 1 .95.68L17.86 11h-2.95z"></Path></svg>
                     </SvgWrapper>
@@ -38,13 +40,15 @@ function Header(props) {
         </FlexBox>
     )
 }
+const UserDisplayer = styled(UserDisplay)`
+height: 100%;
+`
 const IconWrapper = styled.div`
 padding-left:48px;
 ${flex()}
 `
 const Path = styled.path`
 fill: currentColor;
-color: svgColor;
 `
 const SvgWrapper = styled.div`
 color: ${svgColor};
@@ -52,10 +56,14 @@ padding:10px;
 height: 50px;
 box-sizing: border-box;
 ${flex('row', 'center')}
-
+transition: .25s;
 :hover{
-    background-color:red;
+    background-color:#eff0f1;
+    color: #3b4045;
     cursor:pointer;
+    opacity: .6;
+    border-top: 1px solid ${orange};
+
 }
 `
 const LogoText = styled(P)`
@@ -79,6 +87,17 @@ const Bold = styled(LogoText)`
 
 const Container = styled.div`
     ${flex()}
+    height: 50px;
+    padding: 0 10px 0 10px;
+    transition: .25s;
+    :hover{
+
+        background-color:#eff0f1;
+    color: #3b4045;
+    cursor:pointer;
+    // border-top: 1px solid ${orange};
+
+    }
 `;
 
 const HeaderLogo = styled(Logo)`
@@ -88,10 +107,11 @@ height: 25px;
 
 const FlexBox = styled.div`
     ${flex('row')};
-    border-top: 3px solid ${orange};
+width: 100%;
     height: 50px;
     background-color: ${offWhite};
     box-sizing: border-box;
+    border-top: 3px solid ${orange};
     box-shadow: 0 1px 0 rgba(12,13,14,0.1), 0 1px 6px rgba(59,64,69,0.1);
 `;
 
