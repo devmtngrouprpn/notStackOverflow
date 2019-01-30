@@ -8,14 +8,27 @@ import {
 } from "../../../utilites/index.js";
 
 class SearchBar extends Component {
-  state = {};
+  state = {
+    searchInput: ""
+  };
+
+  handleInput = event => {
+    const { name, value } = event.target;
+    this.setState({ [name]: value });
+  };
 
   render() {
     return (
       <>
         <FlexBox>
-          <SearchBox placeholder="Search..." />
-          <SearchButton>
+          <SearchBox
+            name="searchInput"
+            placeholder="Search..."
+            onKeyDown={this.search}
+            onChange={this.handleInput}
+            value={this.state.searchInput}
+          />
+          <SearchButton onClick={this.search}>
             <svg
               aria-hidden="true"
               width="18"
