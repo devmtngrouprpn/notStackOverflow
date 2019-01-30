@@ -1,0 +1,1 @@
+select * from tag where name = $1
