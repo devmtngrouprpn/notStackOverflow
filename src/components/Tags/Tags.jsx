@@ -9,7 +9,7 @@ export default function Tags(props) {
             <Layout>
                 <Content>
                     <Title>Tags</Title>
-
+                    <TinyTag subject='javascript' />
                 </Content>
             </Layout>
         </>

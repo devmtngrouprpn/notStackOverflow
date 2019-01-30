@@ -16,7 +16,6 @@ export default class TinyTag extends Component {
             }),
             stilWant: false
         }
-
     }
     runCall = async () => {
         let res = await axios.post("/api/tags/tinytag", { subject: this.props.subject })

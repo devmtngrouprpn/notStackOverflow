@@ -16,10 +16,10 @@ class App extends Component {
     return (
       <>
         <Switch>
-          <Route exact path='/' component={Home} /> // home
-          <Route path='/questions' component={Question} /> // questions
-          <Route path='/tags' component={Tags} /> // tags
-          <Route path='/users' component={Users} /> // users
+          <Route exact path='/' component={Home} />
+          <Route path='/questions' component={Question} />
+          <Route path='/tags' component={Tags} />
+          <Route path='/users' component={Users} />
         </Switch>
       </>
     );
