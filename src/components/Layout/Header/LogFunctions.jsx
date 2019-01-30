@@ -40,7 +40,10 @@ class LogFunctions extends Component {
   }
 }
 function mapStateToProps(state) {
-  return { ...state };
+  const { user } = state.global;
+  return {
+    user
+  };
 }
 export default connect(
   mapStateToProps,

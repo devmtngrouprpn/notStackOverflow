@@ -9,7 +9,7 @@ export const silver = "#B4B8BC";
 export const gold = "#FFCB02";
 export const tagTextBlue = "#33658A";
 export const tagBlue = "#CDE0ED";
-export const boxShadowBlue = "66BFFF";
+export const inputBorderBlue = "#66BFFF";
 export const linkBlue = "#3277AB";
 export const linkLightBlue = "#32AAFF";
 export const borderShadowGray = "#F5F6F6";
@@ -37,7 +37,7 @@ export default {
   gold,
   tagTextBlue,
   tagBlue,
-  boxShadowBlue,
+  inputBorderBlue,
   linkBlue,
   linkLightBlue,
   borderGray,
