@@ -13,7 +13,9 @@ function Layout(props) {
             </HeaderHolder>
 
             <ContentHolder>
-                <StyledSidebar />
+                <SidebarContainer>
+                    <Sidebar />
+                </SidebarContainer>
                 <ChildFlexContainer>
                     {props.children}
                 </ChildFlexContainer>
@@ -24,6 +26,7 @@ function Layout(props) {
 }
 
 const Grid = styled.div`
+    height: 130vh;
     display: grid;
     grid-template-rows: 50px 1fr;
     grid-template-columns: 1fr;
@@ -32,21 +35,27 @@ const Grid = styled.div`
     "content";
 `;
 
-const StyledSidebar = styled(Sidebar)`
-    flex-basis: 164px;
-    flex-shrink: 0;
+const SidebarContainer = styled.div`
+    position: fixed;
+    z-index: 1;
 `
+
 const ChildFlexContainer = styled.div`
     flex-basis: 1100px;
-`
+    position: relative;
+    left: 164px;
+    z-index: 0;
+`;
 
 const ContentHolder = styled.div`
     grid-area: content;
-    ${flex()};
+    ${flex('row', 'flex-start', 'flex-start')};
 `;
 
 const HeaderHolder = styled.div`
     grid-area: header;
+    position: fixed;
+    z-index: 1;
 `;
 
 export default Layout;

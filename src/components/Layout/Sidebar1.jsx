@@ -15,14 +15,15 @@ function Sidebar({ match }) {
                 <SidebarP>Home</SidebarP>
             </SidebarLink>
 
-            <SidebarP margin='15px 0 3px 0' fontSize='11px'>PUBLIC</SidebarP>
+            <SidebarP margin='15px 0 10px 0' fontSize='11px'>PUBLIC</SidebarP>
 
             <SidebarLink indent='20px' to='/questions' active={route === 'questions'}>
-                Not Stack Overflow
+                <svg aria-hidden="true" class="svg-icon iconGlobe" width="18" height="18" viewBox="0 0 18 18"><Path d="M9 1a8 8 0 1 0 0 16A8 8 0 0 0 9 1zM8 15.32a6.4 6.4 0 0 1-5.23-7.75L7 11.68v.8c0 .88.12 1.32 1 1.32v1.52zm5.72-2c-.2-.66-1-1.32-1.72-1.32h-1v-2c0-.44-.56-1-1-1H6V7h1c.44 0 1-.56 1-1V5h2c.88 0 1.4-.72 1.4-1.6v-.33a6.4 6.4 0 0 1 2.32 10.24z"></Path></svg>
+                <SidebarP margin='0 0 0 3px'>NotStackOverflow</SidebarP>
             </SidebarLink>
 
             <SidebarLink indent='20px' to='/tags' active={route === 'tags'}>
-                Tags
+                <SidebarP>Tags</SidebarP>
             </SidebarLink>
 
             <SidebarLink indent='20px' to='/users' active={route === 'users'}>
@@ -33,16 +34,22 @@ function Sidebar({ match }) {
     )
 }
 
+
+const Path = styled.path`
+    fill: currentColor;
+`
+
 const SidebarContainer = styled.div`
-    ${flex('column', 'center', 'flex-start')}
-    padding-left: 7px;
-    padding-top: 30px;
+    ${flex('column', 'flex-start', 'flex-start')}
+    padding-left: 8px;
+    padding-top: 20px;
     border-right: 1px solid ${colors.borderGray};
+    min-height: 200vh;
 `;
 
 const SidebarLink = styled(StyledLink)`
-    height: 30px;
-    width: 164px;
+    height: 35px;
+    width: 155px;
     vertical-align: center;
     font-size: 13px;
     font-weight: ${props => props.active ? 'bold' : '400px'};
@@ -50,13 +57,14 @@ const SidebarLink = styled(StyledLink)`
     padding-left: ${props => props.indent || '0'};
     background: ${props => props.active ? colors.offWhite : ''};
     border-right: ${props => props.active ? `solid ${colors.orange} 3px` : ''};
-
+    ${flex('row', 'flex-start')};
 `
 
 const SidebarP = styled(P)`
+    vertical-align: center;
     font-size: ${props => props.fontSize || '13px'};
     margin: ${props => props.margin || '0 0 0 0'};
-    color: ${colors.textDarkGray}
+    color: ${colors.textDarkGray};
 `;
 
 
