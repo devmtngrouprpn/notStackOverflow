@@ -94,7 +94,6 @@ const Bold = styled(LogoText)`
   font-weight: 900;
   margin: initial;
 `;
-
 const Container = styled.div`
     ${flex()}
     height: 46px;

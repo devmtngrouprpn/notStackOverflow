@@ -38,9 +38,20 @@ export const P = styled.p`
   font-family: Helvetica, sans-serif;
 `;
 
+
+
 export default {
+<<<<<<< HEAD
   P,
   Logo,
   StyledLink,
   blueButton
 };
+=======
+    P,
+    Logo,
+    StyledLink,
+    blueButton,
+};
+
+>>>>>>> master
