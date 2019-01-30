@@ -27,7 +27,7 @@ export default function(state = initialState, action) {
     case MONTH:
       return { ...state, month: action.payload };
     default:
-      return { state };
+      return { ...state };
   }
 }
 

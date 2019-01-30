@@ -18,7 +18,6 @@ class Home extends Component {
     loading: ""
   };
   componentDidMount() {
-    console.log("mounted");
     this.getQuestions();
   }
   async getQuestions() {
@@ -34,7 +33,6 @@ class Home extends Component {
     this.props.update_month(res.data.month);
   }
   render() {
-    console.log(this.state.interesting);
     let mappedQuestions = this.state.interesting.map(qInfo => {
       return (
         <>
