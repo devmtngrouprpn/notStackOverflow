@@ -12,13 +12,13 @@ function Sidebar({ match }) {
         <SidebarContainer>
 
             <SidebarLink to='/' active={route === 'home'}>
-                <P>Home</P>
+                <SidebarP>Home</SidebarP>
             </SidebarLink>
 
-            <SidebarP>Public</SidebarP>
+            <SidebarP margin='15px 0 3px 0' fontSize='11px'>PUBLIC</SidebarP>
 
             <SidebarLink indent='20px' to='/questions' active={route === 'questions'}>
-                notStackOverflow
+                Not Stack Overflow
             </SidebarLink>
 
             <SidebarLink indent='20px' to='/tags' active={route === 'tags'}>
@@ -26,7 +26,7 @@ function Sidebar({ match }) {
             </SidebarLink>
 
             <SidebarLink indent='20px' to='/users' active={route === 'users'}>
-                <P>Users</P>
+                <SidebarP>Users</SidebarP>
             </SidebarLink>
 
         </SidebarContainer>
@@ -36,12 +36,14 @@ function Sidebar({ match }) {
 const SidebarContainer = styled.div`
     ${flex('column', 'center', 'flex-start')}
     padding-left: 7px;
+    padding-top: 30px;
     border-right: 1px solid ${colors.borderGray};
 `;
 
 const SidebarLink = styled(StyledLink)`
     height: 30px;
     width: 164px;
+    vertical-align: center;
     font-size: 13px;
     font-weight: ${props => props.active ? 'bold' : '400px'};
     color: ${props => props.active ? colors.black : ''};
@@ -52,6 +54,8 @@ const SidebarLink = styled(StyledLink)`
 `
 
 const SidebarP = styled(P)`
+    font-size: ${props => props.fontSize || '13px'};
+    margin: ${props => props.margin || '0 0 0 0'};
     color: ${colors.textDarkGray}
 `;
 
