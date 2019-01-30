@@ -8,6 +8,17 @@ module.exports = {
         console.log(getHome)
     },
     questionsInteresting: async(req, res, next) => {
+        let db = req.app.get('db')
+        console.log('here')
+        // let auth_id = 'user1'
 
+        
+       let prom = await Promise.all([db.Home.interesting([]), db.Home.interesting([])])
+
+        let [interesting, featured] = prom;
+
+        // console.log(getHome)
+        res.status(200).send({interesting, featured})
+        console.log('done')
     }
 }
