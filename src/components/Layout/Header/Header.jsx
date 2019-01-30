@@ -89,6 +89,7 @@ const Container = styled.div`
     ${flex()}
     height: 50px;
     padding: 0 10px 0 10px;
+    transition: .25s;
     :hover{
 
         background-color:#eff0f1;
@@ -106,6 +107,7 @@ height: 25px;
 
 const FlexBox = styled.div`
     ${flex('row')};
+width: 100%;
     height: 50px;
     background-color: ${offWhite};
     box-sizing: border-box;

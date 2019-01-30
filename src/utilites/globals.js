@@ -16,6 +16,7 @@ export const blueButton = (padding = '8px 10px 8px 10px') => (
     outline: none;
     font-size: 13px;
     border: 1px solid #07c
+    white-space: nowrap;
     :hover{
         color: rgba(255,255,255,0.9);
         background-color: #07c;

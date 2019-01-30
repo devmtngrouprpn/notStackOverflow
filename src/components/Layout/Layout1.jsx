@@ -51,8 +51,8 @@ const ContentHolder = styled.div`
     grid-area: content;
     ${flex('row', 'flex-start', 'flex-start')};
 `;
-
 const HeaderHolder = styled.div`
+width: 100%;
     grid-area: header;
     position: fixed;
     z-index: 1;

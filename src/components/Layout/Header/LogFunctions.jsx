@@ -48,6 +48,7 @@ const Signup = styled.div`
 ${blueButton()}
 `
 const LoginButton = styled.div`
+white-space: nowrap;
 margin-right: 8px;
 border-radius: 3px;
 color: ${linkBlue};
