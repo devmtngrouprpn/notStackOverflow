@@ -1,9 +1,5 @@
 import React from "react";
 
-<<<<<<< HEAD
-function LoadingWraper({ children, loading, text }) {
-  return <>{loading ? text : children}</>;
-=======
 function LoadingWraper({ text, children, loading }) {
     return (
         <>
@@ -13,7 +9,6 @@ function LoadingWraper({ text, children, loading }) {
             }
         </>
     )
->>>>>>> master
 }
 
 export default LoadingWraper;

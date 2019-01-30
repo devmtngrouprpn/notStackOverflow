@@ -41,17 +41,9 @@ export const P = styled.p`
 
 
 export default {
-<<<<<<< HEAD
-  P,
-  Logo,
-  StyledLink,
-  blueButton
-};
-=======
     P,
     Logo,
     StyledLink,
     blueButton,
 };
 
->>>>>>> master
