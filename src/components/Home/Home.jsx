@@ -7,7 +7,6 @@ export default function Home(props) {
         <>
             <Layout>
                 <h1>Home Page</h1>
-                <HQCard />
             </Layout>
         </>
     )

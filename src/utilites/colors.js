@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 export const hoverGray = 'red';
 export const offWhite = '#FAFAFB';
+export const darkOffWhite = '#F3F3F3';
 export const headerGrays = '#bbc0c4';
 export const black = '#242728';
 export const orange = '#F48024';
@@ -29,6 +30,7 @@ export default {
     buttonBlue,
     headerGrays,
     offWhite,
+    darkOffWhite,
     black,
     orange,
     bronze,
