@@ -63,7 +63,6 @@ const SearchButton = styled.button`
   display: none;
   ${blueButton("6px 10px 2px 10px")};
   position: absolute;
-
   color: white;
   border-top-left-radius: 0px;
   border-bottom-left-radius: 0px;
