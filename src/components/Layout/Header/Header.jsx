@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import SearchBar from "./SearchBar.jsx";
 import { flex, orange, offWhite, svgColor } from "../../../utilites/index.js";
-import { P, Logo } from "../../../utilites/globals.js";
+import { P, Logo, black } from "../../../utilites/index.js";
 import LogFunctions from "./LogFunctions";
 import UserDisplay from "./UserDisplay.jsx";
 
@@ -62,16 +62,16 @@ const Path = styled.path`
 const SvgWrapper = styled.div`
   color: ${svgColor};
   padding: 10px;
-  height: 50px;
+  height: 46px;
   box-sizing: border-box;
   ${flex("row", "center")}
   transition: .25s;
   :hover {
     background-color: #eff0f1;
-    color: #3b4045;
+    color: ${black};
     cursor: pointer;
     opacity: 0.6;
-    border-top: 1px solid ${orange};
+    /* border-top: 1px solid ${orange}; */
   }
 `;
 const LogoText = styled(P)`
@@ -82,19 +82,21 @@ const LogoText = styled(P)`
   ${flex()}
   margin-left: 5px;
 `;
+
 const Holder = styled.div`
   width: inherit;
   height: inherit;
   ${flex()};
   max-width: 1264px;
 `;
+
 const Bold = styled(LogoText)`
   font-weight: 900;
   margin: initial;
 `;
 const Container = styled.div`
     ${flex()}
-    height: 50px;
+    height: 46px;
     padding: 0 10px 0 10px;
     transition: .25s;
     :hover{

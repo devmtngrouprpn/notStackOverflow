@@ -26,24 +26,21 @@ export const blueButton = (padding = "8px 10px 8px 10px") =>
     `;
 
 export const StyledLink = styled(Link)`
-    text-decoration: none;
-    font-family: Helvetica, sans-serif;
-    color: ${textDarkGray};
-    :hover {
-        color: ${black};
-    }
+  text-decoration: none;
+  font-family: Helvetica, sans-serif;
+  color: ${textDarkGray};
+  :hover {
+    color: ${black};
+  }
 `;
 
 export const P = styled.p`
   font-family: Helvetica, sans-serif;
 `;
 
-
-
 export default {
-    P,
-    Logo,
-    StyledLink,
-    blueButton,
+  P,
+  Logo,
+  StyledLink,
+  blueButton
 };
-
