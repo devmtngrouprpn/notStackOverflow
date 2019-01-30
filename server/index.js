@@ -12,14 +12,14 @@ const app = express();
 
 app.use(express.json());
 app.use(
-  session({
-    secret: SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-        maxAge: 30 * 24 * 60 * 60 * 1000
-    }
-}));
+    session({
+        secret: SESSION_SECRET,
+        resave: false,
+        saveUninitialized: false,
+        cookie: {
+            maxAge: 30 * 24 * 60 * 60 * 1000
+        }
+    }));
 massive(DB_CONNECTION_STRING)
     .then(db => {
         app.set('db', db);
@@ -40,7 +40,7 @@ massive(DB_CONNECTION_STRING)
 // *** ENDPOINTS *** //
 
 app.get("/auth/callback", authorization.authCallback);
-app.get("/api/user-data", authorization.checkUser);
+app.post("/api/user-data", authorization.checkUser);
 
 // HOME START
 app.get("/api/home/:auth_id", questions.homeStart);

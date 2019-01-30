@@ -16,6 +16,12 @@ export const blueButton = (padding = '8px 10px 8px 10px') => (
     outline: none;
     font-size: 13px;
     border: 1px solid #07c
+    :hover{
+        color: rgba(255,255,255,0.9);
+        background-color: #07c;
+        border-color: #005999;
+        box-shadow: inset 0 1px 0 #3af;
+    }
     `
 );
 

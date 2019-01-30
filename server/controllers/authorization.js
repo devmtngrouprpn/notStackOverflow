@@ -26,6 +26,7 @@ module.exports = {
         response.redirect('http://localhost:3000')
     },
     checkUser: (req, res) => {
+        console.log('hit')
         if (req.body.type === 'login') {
             if (req.session.user) {
                 res.status(200).send(req.session.user)

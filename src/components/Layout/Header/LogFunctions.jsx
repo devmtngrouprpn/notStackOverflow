@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import axios from 'axios'
 import { blueButton } from '../../../utilites/globals.js';
 import { linkBlue } from '../../../utilites';
 import styled from 'styled-components'
+import { addToUser, destroyUser } from '../../../ducks/reducer'
+import { connect } from 'react-redux'
 
 
 class LogFunctions extends Component {
@@ -11,9 +12,10 @@ class LogFunctions extends Component {
 
     }
     async componentDidMount() {
+
         let res = await axios.post('/api/user-data', { type: "login" });
-        console.log(res.data)
-        this.setState({ name: res.data.nickName })
+        this.props.addToUser(res.data)
+        console.log(this.props.user)
     }
     login = () => {
         const { REACT_APP_DOMAIN, REACT_APP_CLIENT_ID } = process.env
@@ -23,23 +25,39 @@ class LogFunctions extends Component {
     }
     logout = async () => {
         let res = await axios.post('/api/user-data', { type: "logout" });
+        this.props.destroyUser()
         console.log(res.data)
     }
     render() {
+
         return (
-            <>
-                <LoginButton onClick={this.login}>Log In</LoginButton>
-                <Signup onClick={this.login}>Sign Up</Signup>
-            </>
+            !this.props.user.auth_id ?
+                <>
+                    <LoginButton onClick={this.login}>Log In</LoginButton>
+                    <Signup onClick={this.login}>Sign Up</Signup>
+                </> :
+                <></>
         )
     }
 }
-export default LogFunctions;
+function mapStateToProps(state) {
+    return { ...state }
+}
+export default connect(mapStateToProps, { addToUser, destroyUser })(LogFunctions);
 const Signup = styled.div`
 ${blueButton()}
 `
 const LoginButton = styled.div`
+margin-right: 8px;
+border-radius: 3px;
 color: ${linkBlue};
 font-size: 13px;
 padding: 8px 10px 8px 10px;
+:hover{
+    color: #005999;
+    background-color: rgba(0,119,204,0.1);
+    border-color: transparent;
+    box-shadow: none;
+    cursor: pointer;
+}
 `
