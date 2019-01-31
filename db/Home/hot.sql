@@ -1,14 +1,15 @@
 SELECT
     q.question_id,
-    sum(v.up_or_down) AS votes,
+    sum(v.up_or_down) / 2 AS votes,
     v.source_type,
     (count(a.question_id) / 2) AS answers,
     q.question_title,
-    (now() - q.question_creation_timestamp),
+    (now() - q.question_creation_timestamp) AS time,
     q.question_views,
     use.username,
     use.reputation,
-    t.tag_name
+    t.tag_name,
+    use.auth_id
 FROM
     question q
     JOIN users use ON q.user_id = use.auth_id
@@ -20,7 +21,8 @@ GROUP BY
     use.username,
     use.reputation,
     t.tag_name,
-    q.question_id
+    q.question_id,
+    use.auth_id
 ORDER BY
     (((now() - q.question_creation_timestamp) / q.question_views) * (count(a.question_id) / 2))
 LIMIT 100;
