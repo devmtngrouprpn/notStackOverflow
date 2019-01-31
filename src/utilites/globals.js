@@ -1,9 +1,31 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { textDarkGray, black, buttonBlue } from "./colors.js";
+import {
+  textDarkGray,
+  black,
+  buttonBlue,
+  tabButtonGray,
+  tabButtonDarkGray,
+  tabButtonBorder,
+  tabButtonDarkBorder
+} from "./colors.js";
 
 export const Logo = styled.img`
   transform: scaleX(-1) rotate(126deg);
+`;
+
+export const tabButton = (padding = "8px 8px 8px 8px") =>
+  `
+  background-color: ${props => (props.active ? tabButtonDarkGray : "#fff")};
+  font-family: Helvetica, san-serif;
+  font-size: 13px;
+  padding: ${padding};
+  border: 1px solid ${props =>
+    props.active ? tabButtonDarkBorder : tabButtonBorder};
+  :hover {
+    background-color: ${props =>
+      props.active ? tabButtonDarkGray : tabButtonGray};
+  }
 `;
 
 export const blueButton = (padding = "8px 10px 8px 10px") =>
@@ -38,9 +60,16 @@ export const P = styled.p`
   font-family: Helvetica, sans-serif;
 `;
 
+export const H1 = styled.h1`
+  font-family: Helvetica, sans-serif;
+  font-size: 27px;
+`;
+
 export default {
   P,
   Logo,
+  H1,
   StyledLink,
-  blueButton
+  blueButton,
+  tabButton
 };
