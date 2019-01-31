@@ -24,6 +24,7 @@ function Layout(props) {
 }
 
 const Grid = styled.div`
+position: relative;
   height: 100vh;
   display: grid;
   grid-template-rows: 50px 1fr 272px;
@@ -43,6 +44,7 @@ const FooterContainer = styled.div`
 `;
 
 const SidebarContainer = styled.div`
+position: relative;
   z-index: 1;
   flex-basis: 164px;
   flex-shrink: 0;
@@ -51,11 +53,13 @@ const SidebarContainer = styled.div`
 const ChildFlexContainer = styled.div`
   flex-basis: 1100px;
   flex-shrink: 1;
-  z-index: 0;
+  z-index: 10;
   position: relative;
 `;
 
 const ContentHolder = styled.div`
+position: relative;
+z-index: 0;
   grid-area: content;
   ${flex("row", "center", "flex-start")};
 `;
