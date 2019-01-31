@@ -12,9 +12,27 @@ module.exports = {
       db.Home.featured([]),
       db.Home.hot([]),
       db.Home.week([]),
-      db.Home.month([])
+      db.Home.month([]),
+      db.Home.tfeatured([])
     ]);
-    let [interesting, featured, hot, week, month] = prom;
-    res.status(200).send({ interesting, featured, hot, week, month });
+    let [interesting, featured, hot, week, month, tfeatured] = prom;
+    res
+      .status(200)
+      .send({ interesting, featured, hot, week, month, tfeatured });
+  },
+  worldQuestions: async (req, res, next) => {
+    let db = req.app.get("db");
+    let promise = await Promise.all([
+      db.World.newest([]),
+      db.World.featured([]),
+      db.World.frequent([]),
+      db.World.votes([]),
+      db.World.active([]),
+      db.World.unanswered([])
+    ]);
+    let [newest, featured, frequent, votes, active, unanswered] = promise;
+    res
+      .status(200)
+      .send({ newest, featured, frequent, votes, active, unanswered });
   }
 };
