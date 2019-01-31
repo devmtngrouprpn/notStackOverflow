@@ -1,21 +1,22 @@
 import React, { Component } from "react";
+import axios from "axios";
+import styled from "styled-components";
 import Layout from "../Layout/Layout1.jsx";
 import HQCard from "./../Questions/HQCard";
-import { LoadingWraper } from "./../../utilites/index";
-import axios from "axios";
-import { connect } from "react-redux";
 import {
-  update_interesting,
-  update_featured,
-  update_hot,
-  update_week,
-  update_month
-} from "./../../ducks/home";
+  LoadingWraper,
+  H1,
+  blueButton,
+  TabButton,
+  flex
+} from "./../../utilites/index";
+import { connect } from "react-redux";
+import { update_home } from "./../../ducks/home";
 
 class Home extends Component {
   state = {
-    interesting: [],
-    loading: ""
+    view: "interesting",
+    loading: false
   };
   componentDidMount() {
     this.getQuestions();
@@ -23,48 +24,95 @@ class Home extends Component {
   async getQuestions() {
     this.setState({ loading: true });
     let res = await axios.get(`/api/questions/interesting`);
-    console.log(res.data);
-    await this.setState({ interesting: res.data.interesting });
     this.setState({ loading: false });
-    this.props.update_interesting(res.data.interesting);
-    this.props.update_featured(res.data.featured);
-    this.props.update_hot(res.data.hot);
-    this.props.update_week(res.data.week);
-    this.props.update_month(res.data.month);
+    console.log(res.data);
+    this.props.update_home(res.data);
   }
+  handleView = event => {
+    let { name } = event.target;
+    this.setState({ view: name });
+  };
   render() {
-    let mappedQuestions = this.state.interesting.map(qInfo => {
-      return (
-        <>
-          <>
-            <p>{qInfo.votes}</p>
-            <p>vote</p>
-          </>
-          <>
-            <p>{qInfo.answers}</p>
-            <p>answer</p>
-          </>
-          <>
-            <p>{qInfo.question_views}</p>
-            <p>views</p>
-          </>
-        </>
-      );
-    });
+    let questions = this.props[this.state.view].map(question => (
+      <HQCard question />
+    ));
+
     return (
-      <Layout>
-        <LoadingWraper text loading={this.state.loading}>
-          <h1>Home Page</h1>
-          {mappedQuestions}
-        </LoadingWraper>
-      </Layout>
+      <LoadingWraper text loading={this.state.loading}>
+        <Layout>
+          <H1>Top Questions</H1>
+          <AskButton>Ask Question</AskButton>
+          <div>
+            <TabButton
+              onClick={this.handleView}
+              name="interesting"
+              active={this.state.view === "interesting"}
+              activeNeigbor={this.state.view === "featured"}
+              position="left"
+            >
+              Interesting
+            </TabButton>
+            <TabButton
+              onClick={this.handleView}
+              name="featured"
+              active={this.state.view === "featured"}
+              activeNeigbor={this.state.view === "hot"}
+              position="mid"
+            >
+              Featured
+            </TabButton>
+            <TabButton
+              onClick={this.handleView}
+              name="hot"
+              active={this.state.view === "hot"}
+              activeNeigbor={this.state.view === "week"}
+              position="mid"
+            >
+              Hot
+            </TabButton>
+            <TabButton
+              onClick={this.handleView}
+              name="week"
+              active={this.state.view === "week"}
+              activeNeigbor={this.state.view === "month"}
+              position="mid"
+            >
+              Week
+            </TabButton>
+            <TabButton
+              onClick={this.handleView}
+              name="month"
+              active={this.state.view === "month"}
+              position="right"
+            >
+              Month
+            </TabButton>
+          </div>
+        </Layout>
+      </LoadingWraper>
     );
   }
 }
-function mapPropsToState(state) {
-  return { ...state };
+
+const AskButton = styled.button`
+  ${blueButton("10.4px 10.4px 10.4px 10.4px")}
+`;
+
+const TabBar = styled.div`
+  ${flex()}
+`;
+
+function mapStateToProps(state) {
+  let { interesting, featured, hot, week, month } = state.home;
+  return {
+    interesting,
+    featured,
+    hot,
+    week,
+    month
+  };
 }
 export default connect(
-  mapPropsToState,
-  { update_interesting, update_featured, update_hot, update_week, update_month }
+  mapStateToProps,
+  { update_home }
 )(Home);

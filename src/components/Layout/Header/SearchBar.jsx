@@ -1,11 +1,6 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import {
-  blueButton,
-  inputBorderBlue,
-  P,
-  flex
-} from "../../../utilites/index.js";
+import { blueButton, inputBorderBlue, flex } from "../../../utilites/index.js";
 
 class SearchBar extends Component {
   state = {
@@ -63,7 +58,6 @@ const SearchButton = styled.button`
   display: none;
   ${blueButton("6px 10px 2px 10px")};
   position: absolute;
-
   color: white;
   border-top-left-radius: 0px;
   border-bottom-left-radius: 0px;
