@@ -12,6 +12,7 @@ module.exports = {
       db.Tags.all_tags_week([]),
       db.Tags.all_tags_day([])
     ]);
-    res.status(200).send(getTags);
+    let [allTags, week, day] = getTags;
+    res.status(200).send(allTags, week, day);
   }
 };

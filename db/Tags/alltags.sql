@@ -10,5 +10,8 @@ FROM
 GROUP BY
     qt.tag_name,
     t.tag_name
+ORDER BY
+    count(qt.tag_name)
+    DESC
 LIMIT 28;
 
