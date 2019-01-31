@@ -49,7 +49,7 @@ app.get("/api/questions/interesting", questions.questionsInteresting);
 // HOME END
 // TAGS START
 app.post("/api/tags/tinytag", tinyTag.getTag);
-app.post("/api/tags/alltinytag", tinyTag.getAllTags);
+app.get("/api/tags/alltinytags", tinyTag.getAllTags);
 // TAGS END
 // USERS START
 // USERS END
