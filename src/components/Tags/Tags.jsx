@@ -29,16 +29,16 @@ export default class Tags extends Component {
                         <Desc>A tag is a keyword or label that categorizes your question with other, similar questions. Using the right tags makes it easier for others to find and answer your question.</Desc>
                         <Grid>
                             {
-                                // this.state.allTags.map((e) => {
-                                //     return <MapReturn>
-                                //         <Top>
-                                //             <TinyTag subject={`${e.name}`} />
-                                //             <QuestionsApartOf>
-                                //                 x {e.qtagname}
-                                //             </QuestionsApartOf>
-                                //         </Top>
-                                //     </MapReturn>
-                                // })
+                                this.state.allTags.map((e) => {
+                                    return <MapReturn>
+                                        <Top>
+                                            <TinyTag subject={`${e.name}`} />
+                                            <QuestionsApartOf>
+                                                x {e.qtagname}
+                                            </QuestionsApartOf>
+                                        </Top>
+                                    </MapReturn>
+                                })
                             }
                         </Grid>
                     </Content>
