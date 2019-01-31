@@ -7,7 +7,12 @@ module.exports = {
   },
   getAllTags: async (req, res, next) => {
     let db = req.app.get("db");
-    let getTags = await db.Tags.alltags([]);
-    res.status(200).send(getTags);
+    let getTags = await Promise.all([
+      db.Tags.alltags([]),
+      db.Tags.all_tags_week([]),
+      db.Tags.all_tags_day([])
+    ]);
+    let [allTags, week, day] = getTags;
+    res.status(200).send(allTags, week, day);
   }
 };
