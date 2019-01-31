@@ -1,5 +1,5 @@
 SELECT
-    count(bounty.bounty_id) / 2 AS featured_total
+    count(bounty.bounty_id) AS featured_total
 FROM
     bounty
 WHERE
