@@ -58,9 +58,11 @@ const SidebarContainer = styled.div`
   min-height: calc(100vh - 50px);
   position: fixed;
   top: 50px;
+  z-index: 1;
 `;
 
 const SidebarLink = styled(StyledLink)`
+position: relative;
   height: 35px;
   width: 155px;
   vertical-align: center;
@@ -74,6 +76,7 @@ const SidebarLink = styled(StyledLink)`
 `;
 
 const SidebarP = styled(P)`
+position: relative;
   vertical-align: center;
   font-size: ${props => props.fontSize || "13px"};
   margin: ${props => props.margin || "0 0 0 0"};

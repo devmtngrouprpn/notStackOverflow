@@ -9,12 +9,10 @@ export default function Tags(props) {
             <Layout>
                 <Content>
                     <Title>Tags</Title>
-                    <span>
+                    <Flex>
                         <TinyTag subject='javascript' />
                         <TinyTag subject='javascript' />
-                    </span>
-                    <span>
-                    </span>
+                    </Flex>
                 </Content>
             </Layout>
         </>
@@ -25,4 +23,7 @@ padding: 24px;
 `
 const Title = styled.div`
 font-size:25px;
+`
+const Flex = styled.div`
+display:flex;
 `
