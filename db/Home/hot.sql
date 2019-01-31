@@ -22,6 +22,6 @@ GROUP BY
     t.tag_name,
     q.question_id
 ORDER BY
-   (now() - q.question_creation_timestamp)
+    (((now() - q.question_creation_timestamp) / q.question_views) * (count(a.question_id) / 2))
 LIMIT 100;
 

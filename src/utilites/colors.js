@@ -2,6 +2,12 @@ export const hoverGray = "red";
 export const offWhite = "#FAFAFB";
 export const darkOffWhite = "#F3F3F3";
 export const headerGrays = "#bbc0c4";
+export const tabButtonGray = "#FBFCFC";
+export const tabButtonDarkGray = "#EBEFF3";
+export const tabButtonBorder = "#adb3b9";
+export const tabButtonDarkBorder = "#76808a";
+export const tabButtonText = "#6a737c";
+export const tabButtonTextDark = "#3b4045";
 export const black = "#242728";
 export const orange = "#F48024";
 export const bronze = "#C38B60";
@@ -30,6 +36,12 @@ export default {
   headerGrays,
   offWhite,
   darkOffWhite,
+  tabButtonBorder,
+  tabButtonDarkBorder,
+  tabButtonDarkGray,
+  tabButtonGray,
+  tabButtonText,
+  tabButtonTextDark,
   black,
   orange,
   bronze,
