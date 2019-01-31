@@ -7,21 +7,16 @@ import {
   LoadingWraper,
   H1,
   blueButton,
-  tabButton,
-  tabButtonDarkGray,
-  tabButtonBorder,
-  tabButtonDarkBorder,
-  tabButtonGray,
-  tabButtonText,
-  tabButtonTextDark
+  TabButton,
+  flex
 } from "./../../utilites/index";
 import { connect } from "react-redux";
 import { update_home } from "./../../ducks/home";
 
 class Home extends Component {
   state = {
-    interesting: [],
-    loading: ""
+    view: "interesting",
+    loading: false
   };
   componentDidMount() {
     this.getQuestions();
@@ -29,26 +24,70 @@ class Home extends Component {
   async getQuestions() {
     this.setState({ loading: true });
     let res = await axios.get(`/api/questions/interesting`);
-    console.log(res.data);
-    await this.setState({ interesting: res.data.interesting });
     this.setState({ loading: false });
+    console.log(res.data);
     this.props.update_home(res.data);
   }
+  handleView = event => {
+    let { name } = event.target;
+    this.setState({ view: name });
+  };
   render() {
-    let questions = this.props;
+    let questions = this.props[this.state.view].map(question => (
+      <HQCard question />
+    ));
 
     return (
       <LoadingWraper text loading={this.state.loading}>
         <Layout>
           <H1>Top Questions</H1>
           <AskButton>Ask Question</AskButton>
-          <TabButton active={false} position="left">
-            Interesting
-          </TabButton>
-          <TabButton active={false}>Interesting</TabButton>
-          <TabButton active={false} position="right">
-            Interesting
-          </TabButton>
+          <div>
+            <TabButton
+              onClick={this.handleView}
+              name="interesting"
+              active={this.state.view === "interesting"}
+              activeNeigbor={this.state.view === "featured"}
+              position="left"
+            >
+              Interesting
+            </TabButton>
+            <TabButton
+              onClick={this.handleView}
+              name="featured"
+              active={this.state.view === "featured"}
+              activeNeigbor={this.state.view === "hot"}
+              position="mid"
+            >
+              Featured
+            </TabButton>
+            <TabButton
+              onClick={this.handleView}
+              name="hot"
+              active={this.state.view === "hot"}
+              activeNeigbor={this.state.view === "week"}
+              position="mid"
+            >
+              Hot
+            </TabButton>
+            <TabButton
+              onClick={this.handleView}
+              name="week"
+              active={this.state.view === "week"}
+              activeNeigbor={this.state.view === "month"}
+              position="mid"
+            >
+              Week
+            </TabButton>
+            <TabButton
+              onClick={this.handleView}
+              name="month"
+              active={this.state.view === "month"}
+              position="right"
+            >
+              Month
+            </TabButton>
+          </div>
         </Layout>
       </LoadingWraper>
     );
@@ -59,20 +98,8 @@ const AskButton = styled.button`
   ${blueButton("10.4px 10.4px 10.4px 10.4px")}
 `;
 
-const TabButton = styled.button`
-  background-color: ${props => (props.active ? tabButtonDarkGray : "#fff")};
-  font-family: Helvetica, san-serif;
-  font-size: 13px;
-  color: ${tabButtonText}
-  padding: 8px 8px 8px 8px;
-  border: 1px solid
-    ${props => (props.active ? tabButtonDarkBorder : tabButtonBorder)};
-
-  :hover {
-    background-color: ${props =>
-      props.active ? tabButtonDarkGray : tabButtonGray};
-    color: ${tabButtonTextDark};
-  }
+const TabBar = styled.div`
+  ${flex()}
 `;
 
 function mapStateToProps(state) {

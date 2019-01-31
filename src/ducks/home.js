@@ -1,9 +1,9 @@
 const initialState = {
-  interesting: {},
-  featured: {},
-  hot: {},
-  week: {},
-  month: {}
+  interesting: [],
+  featured: [],
+  hot: [],
+  week: [],
+  month: []
 };
 
 // --- Action Types --- //
