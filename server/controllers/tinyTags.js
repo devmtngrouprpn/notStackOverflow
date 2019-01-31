@@ -14,5 +14,6 @@ module.exports = {
     ]);
     let [allTags, week, day] = getTags;
     res.status(200).send(allTags, week, day);
+
   }
 };
