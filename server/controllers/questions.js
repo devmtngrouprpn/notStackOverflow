@@ -2,24 +2,19 @@ module.exports = {
   homeStart: async (req, res, next) => {
     let { auth_id } = req.params;
     let db = req.app.get("db");
-    console.log("here", auth_id);
-    // let auth_id = 'user1'
     let getHome = await db.Home.getHome([auth_id]);
-    console.log(getHome);
+    res.status(200).send(getHome);
   },
   questionsInteresting: async (req, res, next) => {
     let db = req.app.get("db");
-    console.log("here");
-    // let auth_id = 'user1'
     let prom = await Promise.all([
       db.Home.interesting([]),
       db.Home.featured([]),
-      db.Home.hot([])
+      db.Home.hot([]),
+      db.Home.week([]),
+      db.Home.month([])
     ]);
-    let [interesting, featured, hot] = prom;
-
-    // console.log(getHome)
-    res.status(200).send({ interesting, featured, hot });
-    console.log("done");
+    let [interesting, featured, hot, week, month] = prom;
+    res.status(200).send({ interesting, featured, hot, week, month });
   }
 };

@@ -68,4 +68,3 @@ export default connect(
   mapPropsToState,
   { update_interesting, update_featured, update_hot, update_week, update_month }
 )(Home);
-
