@@ -46,10 +46,6 @@ app.post("/api/user-data", authorization.checkUser);
 // HOME START
 app.get("/api/home/:auth_id", questions.homeStart);
 app.get("/api/questions/interesting", questions.questionsInteresting);
-// app.get("/api/questions/featured", questions.questionsFeatured);
-// app.get("/api/questions/hot", questions.questionsHot);
-// app.get("/api/questions/week", questions.questionsWeek);
-// app.get("/api/questions/month", questions.questionsMonth);
 // HOME END
 // TAGS START
 app.post("/api/tags/tinytag", tinyTag.getTag)

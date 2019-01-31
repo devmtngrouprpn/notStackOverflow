@@ -2,10 +2,15 @@ import React from "react";
 import { withRouter } from "react-router-dom";
 import styled from "styled-components";
 import { flex, colors, P, StyledLink } from "../../utilites/index.js";
+import axios from 'axios'
 
 function Sidebar({ match }) {
   const route = (match.path.match(/(\w+)$/) || ["home"])[0];
-
+  function getHome() {
+    // let auth_id = 'user1'
+    let res = axios.get(`/api/questions/interesting`);
+    console.log(res);
+  }
   return (
     <SidebarContainer>
       <SidebarLink to="/" active={route === "home"}>
@@ -36,6 +41,7 @@ function Sidebar({ match }) {
       <SidebarLink indent="28px" to="/users" active={route === "users"}>
         <SidebarP>Users</SidebarP>
       </SidebarLink>
+      <button onClick={getHome}>Here Boi</button>
     </SidebarContainer>
   );
 }
