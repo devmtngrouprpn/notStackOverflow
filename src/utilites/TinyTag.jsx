@@ -35,19 +35,35 @@ export default class TinyTag extends Component {
             this.state.bounce.cancel()
         }
         return (
-            <Relative>
+            <Relative
+                onMouseEnter={this.makeCall}
+                onMouseLeave={this.leaving}
+            >
                 <Subject
-                    onMouseEnter={this.makeCall}
-                    onMouseLeave={this.leaving}
                 >{this.props.subject}
                     {
                         this.state.stillWant && this.state.information ?
                             <DropDown
-                            // onMouseEnter={() => { this.setState({ show: true }) }}
-                            // onMouseLeave={() => { this.setState({ show: false }) }}
                             >
+                                <WhiteSquare
+                                    onMouseEnter={this.makeCall}
+                                    onMouseLeave={this.leaving}
+                                />
+                                <TitleSpan>
+                                    <span>
+                                        <svg aria-hidden="true" class="svg-icon va-text-top iconFire" width="18" height="18" viewBox="0 0 18 18"><path d="M7.48.01c.87 2.4.44 3.74-.57 4.77-1.06 1.16-2.76 2.02-3.93 3.7C1.4 10.76 1.13 15.72 6.8 17c-2.38-1.28-2.9-5-.32-7.3-.66 2.24.57 3.67 2.1 3.16 1.5-.52 2.5.58 2.46 1.84-.02.86-.33 1.6-1.22 2A6.17 6.17 0 0 0 15 10.56c0-3.14-2.74-3.56-1.36-6.2-1.64.14-2.2 1.24-2.04 3.03.1 1.2-1.11 2-2.02 1.47-.73-.45-.72-1.31-.07-1.96 1.36-1.36 1.9-4.52-2.03-6.88L7.45 0l.03.01z"></path></svg>
+                                        {' 1'} watchers
+                                    </span>
+                                    <span>
+                                        {' 13'} questions
+                                    </span>
+                                </TitleSpan>
                                 {this.state.information.name} views: {this.state.information.tag_views} desc: {this.state.information.description}
-
+                                <ButtonHolder>
+                                    <WatchButton>SVG Watch Tag</WatchButton>
+                                    {/* <UnWatchButton>SVG UnWatch Tag</UnWatchButton> */}
+                                    <IgnoreButton>SVG Ignore Tag</IgnoreButton>
+                                </ButtonHolder>
                             </DropDown>
                             :
                             <></>
@@ -59,18 +75,50 @@ export default class TinyTag extends Component {
         )
     }
 }
+const WhiteSquare = styled.div`
+position: absolute;
+background: white;
+border-top-left-radius: 2px;
+top: -7px;
+left: 168px;
+height: 12px;
+width: 12px;
+transform: rotate(45deg);
+z-index: 10;
+border-top: 1px solid black;
+border-left: 1px solid black;
+`
+const ButtonHolder = styled.div`
+
+`
+const TitleSpan = styled.div`
+
+`
+const WatchButton = styled.div`
+
+`
+const IgnoreButton = styled.div`
+
+`
 const Relative = styled.div`
 position: relative;
+min-width: 12px;
+max-width: 40px;
+margin: 5px;
 `
-let DropDown = styled(P)`
+let DropDown = styled.div`
+margin: 5px;
+padding: 12px 15px 12px 15px;
+box-shadow: 0px 2px 5px 1px lightgray;
+border-radius: 3px;
 white-space: pre-wrap;
-z-index: 2;
-left: 1px;
-top: 24px;
+z-index: 9;
+right:-140px;           
+top: 30px;
 background:white;
 position:absolute;
-height:200px;
-width:400px;;
+max-height:290px;
+width:348px;;
 border: 1px solid black;
 transition:1s;
 animation: .25s ease-in 0s 1 exist;
@@ -93,6 +141,7 @@ animation: .25s ease-in 0s 1 exist;
 }
 `
 const Subject = styled(P)`
+position:relative;
 white-space: nowrap;
     font-size: 14px;
     border-radius: 3px;
