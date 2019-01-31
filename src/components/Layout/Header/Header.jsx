@@ -70,13 +70,10 @@ const SvgWrapper = styled.div`
     background-color: #eff0f1;
     color: ${black};
     cursor: pointer;
-    opacity: 0.6;
-    /* border-top: 1px solid ${orange}; */
   }
 `;
 const LogoText = styled(P)`
   font-weight: 550;
-
   font-size: 20px;
   font-family: KoHo, san-serif;
   ${flex()}

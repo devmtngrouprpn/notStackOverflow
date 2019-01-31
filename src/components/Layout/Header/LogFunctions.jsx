@@ -11,7 +11,6 @@ class LogFunctions extends Component {
   async componentDidMount() {
     let res = await axios.post("/api/user-data", { type: "login" });
     this.props.addToUser(res.data);
-    console.log(this.props.user);
   }
   login = () => {
     const { REACT_APP_DOMAIN, REACT_APP_CLIENT_ID } = process.env;
@@ -22,7 +21,6 @@ class LogFunctions extends Component {
   logout = async () => {
     let res = await axios.post("/api/user-data", { type: "logout" });
     this.props.destroyUser();
-    console.log(res.data);
   };
   render() {
     return !this.props.user.auth_id ? (

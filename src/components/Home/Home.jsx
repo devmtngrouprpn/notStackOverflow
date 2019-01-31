@@ -1,16 +1,22 @@
 import React, { Component } from "react";
+import axios from "axios";
+import styled from "styled-components";
 import Layout from "../Layout/Layout1.jsx";
 import HQCard from "./../Questions/HQCard";
-import { LoadingWraper } from "./../../utilites/index";
-import axios from "axios";
-import { connect } from "react-redux";
 import {
-  update_interesting,
-  update_featured,
-  update_hot,
-  update_week,
-  update_month
-} from "./../../ducks/home";
+  LoadingWraper,
+  H1,
+  blueButton,
+  tabButton,
+  tabButtonDarkGray,
+  tabButtonBorder,
+  tabButtonDarkBorder,
+  tabButtonGray,
+  tabButtonText,
+  tabButtonTextDark
+} from "./../../utilites/index";
+import { connect } from "react-redux";
+import { update_home } from "./../../ducks/home";
 
 class Home extends Component {
   state = {
@@ -26,46 +32,60 @@ class Home extends Component {
     console.log(res.data);
     await this.setState({ interesting: res.data.interesting });
     this.setState({ loading: false });
-    this.props.update_interesting(res.data.interesting);
-    this.props.update_featured(res.data.featured);
-    this.props.update_hot(res.data.hot);
-    this.props.update_week(res.data.week);
-    this.props.update_month(res.data.month);
+    this.props.update_home(res.data);
   }
   render() {
-    let mappedQuestions = this.state.interesting.map(qInfo => {
-      return (
-        <>
-          <>
-            <p>{qInfo.votes}</p>
-            <p>vote</p>
-          </>
-          <>
-            <p>{qInfo.answers}</p>
-            <p>answer</p>
-          </>
-          <>
-            <p>{qInfo.question_views}</p>
-            <p>views</p>
-          </>
-        </>
-      );
-    });
+    let questions = this.props;
+
     return (
-      <Layout>
-        <LoadingWraper text loading={this.state.loading}>
-          <h1>Home Page</h1>
-          {mappedQuestions}
-        </LoadingWraper>
-      </Layout>
+      <LoadingWraper text loading={this.state.loading}>
+        <Layout>
+          <H1>Top Questions</H1>
+          <AskButton>Ask Question</AskButton>
+          <TabButton active={false} position="left">
+            Interesting
+          </TabButton>
+          <TabButton active={false}>Interesting</TabButton>
+          <TabButton active={false} position="right">
+            Interesting
+          </TabButton>
+        </Layout>
+      </LoadingWraper>
     );
   }
 }
-function mapPropsToState(state) {
-  return { ...state };
+
+const AskButton = styled.button`
+  ${blueButton("10.4px 10.4px 10.4px 10.4px")}
+`;
+
+const TabButton = styled.button`
+  background-color: ${props => (props.active ? tabButtonDarkGray : "#fff")};
+  font-family: Helvetica, san-serif;
+  font-size: 13px;
+  color: ${tabButtonText}
+  padding: 8px 8px 8px 8px;
+  border: 1px solid
+    ${props => (props.active ? tabButtonDarkBorder : tabButtonBorder)};
+
+  :hover {
+    background-color: ${props =>
+      props.active ? tabButtonDarkGray : tabButtonGray};
+    color: ${tabButtonTextDark};
+  }
+`;
+
+function mapStateToProps(state) {
+  let { interesting, featured, hot, week, month } = state.home;
+  return {
+    interesting,
+    featured,
+    hot,
+    week,
+    month
+  };
 }
 export default connect(
-  mapPropsToState,
-  { update_interesting, update_featured, update_hot, update_week, update_month }
+  mapStateToProps,
+  { update_home }
 )(Home);
-

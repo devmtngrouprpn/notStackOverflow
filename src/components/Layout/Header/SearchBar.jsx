@@ -1,11 +1,6 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import {
-  blueButton,
-  inputBorderBlue,
-  P,
-  flex
-} from "../../../utilites/index.js";
+import { blueButton, inputBorderBlue, flex } from "../../../utilites/index.js";
 
 class SearchBar extends Component {
   state = {
