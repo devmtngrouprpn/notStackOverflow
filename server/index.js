@@ -6,6 +6,7 @@ const session = require("express-session");
 const massive = require("massive");
 const authorization = require("./controllers/authorization");
 const questions = require("./controllers/questions");
+const tinyTag = require("./controllers/tinyTags")
 
 const app = express();
 // *** TOPLEVEL MIDDLEWARE *** //
@@ -51,6 +52,7 @@ app.get("/api/questions/interesting", questions.questionsInteresting);
 // app.get("/api/questions/month", questions.questionsMonth);
 // HOME END
 // TAGS START
+app.post("/api/tags/tinytag", tinyTag.getTag)
 // TAGS END
 // USERS START
 // USERS END

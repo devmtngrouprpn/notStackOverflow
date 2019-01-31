@@ -1,6 +1,6 @@
 import React from "react";
 
-function LoadingWraper({ children, loading, text }) {
+function LoadingWraper({ text, children, loading }) {
   return <>{loading ? text : children}</>;
 }
 

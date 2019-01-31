@@ -14,6 +14,7 @@
     "eslint-plugin-react": "^7.12.4",
     "express": "^4.16.4",
     "express-session": "^1.15.6",
+    "lodash": "^4.17.11",
     "massive": "^5.7.4",
     "prettier": "^1.16.1",
     "react": "^16.7.0",
