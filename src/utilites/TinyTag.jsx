@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component } from "react";
 import { P } from "../utilites/globals.js";
 import styled from 'styled-components'
 import { LoadingWraper } from '../utilites/index'
@@ -93,6 +93,26 @@ export default class TinyTag extends Component {
             </>
         )
     }
+    return(
+      <Relative>
+    <Subject onMouseEnter={this.makeCall} onMouseLeave={this.leaving}>
+        {this.props.subject}
+        {this.state.stillWant && this.state.information ? (
+            <DropDown
+            // onMouseEnter={() => { this.setState({ show: true }) }}
+            // onMouseLeave={() => { this.setState({ show: false }) }}
+            >
+                {this.state.information.name} views:{" "}
+                {this.state.information.tag_views} desc:{" "}
+                {this.state.information.description}
+            </DropDown>
+        ) : (
+                <></>
+            )}
+    </Subject>
+      </Relative >
+    );
+  }
 }
 const Desc = styled.div`
 margin-top: 15px;
@@ -159,6 +179,7 @@ margin-top: 15px;
 border-radius: 3px;
 `
 const Relative = styled.div`
+<<<<<<< HEAD
 position: relative;
 min-width: 12px;
 width: min-content;
@@ -189,25 +210,42 @@ width:348px;;
 border: 1px solid black;
 transition:1s;
 animation: .25s ease-in 0s 1 exist;
+=======
+  position: relative;
+`;
+let DropDown = styled(P)`
+  white-space: pre-wrap;
+  z-index: 2;
+  left: 1px;
+  top: 24px;
+  background: white;
+  position: absolute;
+  height: 200px;
+  width: 400px;
+  border: 1px solid black;
+  transition: 1s;
+  animation: 0.25s ease-in 0s 1 exist;
+>>>>>>> master
 
-@keyframes slideInFromLeft {
+  @keyframes slideInFromLeft {
     0% {
-        transform: translateX(-100%);
+      transform: translateX(-100%);
     }
     100% {
-        transform: translateX(0);
+      transform: translateX(0);
     }
-}
-@keyframes exist {
+  }
+  @keyframes exist {
     0% {
-        opacity: 0;
+      opacity: 0;
     }
     100% {
-        opacity: 1;
+      opacity: 1;
     }
-}
-`
+  }
+`;
 const Subject = styled(P)`
+<<<<<<< HEAD
 position:relative;
 white-space: nowrap;
     font-size: 14px;
@@ -221,9 +259,23 @@ white-space: nowrap;
     margin: 2px 2px 2px 0;
     :hover{
       color:  #33658a;
+=======
+  white-space: nowrap;
+  font-size: 14px;
+  border-radius: 3px;
+  padding: 5px 6px 5px 6px;
+  color: #39739d;
+  background-color: #e1ecf4;
+  border-color: #e1ecf4;
+  width: fit-content;
+  transition: 0.25s;
+  margin: 2px 2px 2px 0;
+  :hover {
+    color: #33658a;
+>>>>>>> master
     background-color: #cee0ed;
     border-color: #cee0ed;
-    
-    cursor:pointer;
-    }
-`
+
+    cursor: pointer;
+  }
+`;
