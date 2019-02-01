@@ -31,6 +31,8 @@ export const lightGreen = "#A3D0B1";
 export const darkGreen = "#60BA7D";
 export const buttonBlue = "#0095FF";
 export const svgColor = "#848d95";
+export const oneKViews = "#9b7644";
+export const tenKViews = "#cf7721";
 
 export default {
   featuredBoxBlue,

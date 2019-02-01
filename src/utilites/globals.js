@@ -127,5 +127,6 @@ export default {
   TabButton,
   Page,
   Content,
-  Adds
+  Adds,
+  Hr
 };

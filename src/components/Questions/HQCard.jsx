@@ -1,6 +1,13 @@
 import React from "react";
 import styled from "styled-components";
-import { P, hrGray, flex } from "./../../utilites/index";
+import {
+  P,
+  hrGray,
+  flex,
+  tenKViews,
+  oneKViews,
+  black
+} from "./../../utilites/index";
 
 function HQCard({ question }) {
   console.log(question);
@@ -15,14 +22,25 @@ function HQCard({ question }) {
         <P>votes</P>
       </Container>
       <Container>
-        <P>{question.question_views}</P>
-        <P>views</P>
+        <ViewsP views={question.question_views}>
+          {question.question_views}
+        </ViewsP>
+        <ViewsP views={question.question_views}>views</ViewsP>
       </Container>
       <TagContainer>{/*tags*/}</TagContainer>
       <Hr />
     </>
   );
 }
+
+const ViewsP = styled(P)`
+  color: ${props =>
+    +props.views >= 10000
+      ? tenKViews
+      : +props.views >= 1000
+      ? oneKViews
+      : black};
+`;
 
 const TagContainer = styled.div`
   ${flex()}
