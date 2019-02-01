@@ -3,6 +3,7 @@ import axios from "axios";
 import styled from "styled-components";
 import Layout from "../Layout/Layout1.jsx";
 import HQCard from "./../Questions/HQCard";
+import { Link } from 'react-router-dom'
 import {
   LoadingWraper,
   H1,
@@ -47,7 +48,7 @@ class Home extends Component {
             <Content>
               <HeaderContainer>
                 <H1>Top Questions</H1>
-                <AskButton>Ask Question</AskButton>
+                <Link to='/create-question'><AskButton>Ask Question</AskButton></Link>
               </HeaderContainer>
               <ButtonContainer>
                 <TabButton

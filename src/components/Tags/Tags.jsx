@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Layout from "../Layout/Layout1.jsx";
 import styled from "styled-components";
 import { TinyTag } from "../../utilites/index.js";
+import { SearchBar } from '../../utilites/globals';
 import HQCard from "./../Questions/HQCard";
 import { P, LoadingWraper, TabButton } from "./../../utilites/index";
 import axios from "axios";
@@ -145,6 +146,7 @@ const MapReturn = styled.div`
 `;
 const Title = styled(P)`
   font-size: 25px;
+  margin-bottom: 25px;
 `;
 const Grid = styled.div`
   grid-template-areas: "tag";
