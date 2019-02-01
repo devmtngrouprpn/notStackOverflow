@@ -6,6 +6,9 @@ import Tags from "./components/Tags/Tags.jsx";
 import Users from "./components/Users/Users.jsx";
 import axios from "axios";
 import "./App.css";
+import QuestionsId from "./components/Questions/QuestionsId.jsx";
+import TagsId from "./components/Tags/TagsId.jsx";
+import UsersId from "./components/Users/UsersId.jsx";
 class App extends Component {
   getHome() {
     let auth_id = "user1";
@@ -16,8 +19,11 @@ class App extends Component {
     return (
       <Switch>
         <Route exact path="/" component={Home} />
+        <Route path="/questions/:id" component={QuestionsId} />
         <Route path="/questions" component={Question} />
+        <Route path="/tags/:name" component={TagsId} />
         <Route path="/tags" component={Tags} />
+        <Route path="/users/:id" component={UsersId} />
         <Route path="/users" component={Users} />
       </Switch>
     );

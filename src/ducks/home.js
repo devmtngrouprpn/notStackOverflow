@@ -3,7 +3,8 @@ const initialState = {
   featured: [],
   hot: [],
   week: [],
-  month: []
+  month: [],
+  tfeatured: []
 };
 
 // --- Action Types --- //

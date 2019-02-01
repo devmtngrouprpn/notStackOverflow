@@ -2,15 +2,9 @@ import React from "react";
 import { withRouter } from "react-router-dom";
 import styled from "styled-components";
 import { flex, colors, P, StyledLink } from "../../utilites/index.js";
-import axios from "axios";
 
 function Sidebar({ match }) {
   const route = (match.path.match(/(\w+)$/) || ["home"])[0];
-  function getHome() {
-    // let auth_id = 'user1'
-    let res = axios.get(`/api/questions/interesting`);
-    console.log(res);
-  }
   return (
     <SidebarContainer>
       <SidebarLink to="/" active={route === "home"}>
@@ -67,7 +61,7 @@ position: relative;
   vertical-align: center;
   font-size: 13px;
   font-weight: ${props => (props.active ? "bold" : "400px")};
-  color: ${props => (props.active ? colors.black : "")};
+  color: ${props => (props.active ? colors.black : colors.textDarkGray)};
   padding-left: ${props => props.indent || "0"};
   background: ${props => (props.active ? colors.darkOffWhite : "")};
   border-right: ${props => (props.active ? `solid ${colors.orange} 3px` : "")};
