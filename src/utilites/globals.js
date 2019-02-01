@@ -10,7 +10,8 @@ import {
   tabButtonDarkBorder,
   tabButtonText,
   tabButtonTextDark,
-  hrGray
+  hrGray,
+  inputBorderBlue
 } from "./index.js";
 
 export const Hr = styled.div`
@@ -118,6 +119,32 @@ export const H1 = styled.h1`
   font-size: 27px;
 `;
 
+export const SearchBar = styled.input`
+  border-radius: 3px;
+  border-color: #bbc0c4;
+  border: 1px solid lightgray;
+  background-color: #fff;
+  box-shadow: none;
+  color: #3b4045;
+  flex-basis: 750px;
+  margin-left: 12px;
+  padding: 8px 9px 8px 9px;
+
+  :focus {
+    outline: none;
+    border: 1px solid ${inputBorderBlue};
+    box-shadow: 0 0 0 4px rgba(0, 149, 256, 0.15);
+  }
+
+  :focus + button {
+    display: block;
+  }
+
+  ::placeholder {
+    color: lightgray;
+  }
+`;
+
 export default {
   P,
   Logo,
@@ -128,5 +155,6 @@ export default {
   Page,
   Content,
   Adds,
-  Hr
+  Hr,
+  SearchBar
 };

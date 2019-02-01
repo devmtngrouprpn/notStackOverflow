@@ -27,12 +27,15 @@ export default class QuestionId extends Component {
         <Layout>
           <Box>
             <TopAdds />
-            <TitleBox />
+            <TitleBox>
+              <H1>Question By Id</H1>
+              <AskButton>Ask Question</AskButton>
+            </TitleBox>
             <QuestionPage>
               <Content>
                 <H1>Question Page {this.props.match.params.id}</H1>
               </Content>
-              <Adds style={{ border: "1px red solid", height: "100vh" }} />
+              <Adds />
             </QuestionPage>
           </Box>
         </Layout>
@@ -42,11 +45,13 @@ export default class QuestionId extends Component {
 }
 
 const AskButton = styled.button`
-  ${blueButton("10.4px, 10.4px, 10.4px, 10.4px")}
+  ${blueButton("10.4px 10.4px 10.4px 10.4px")}
 `;
 
 const TitleBox = styled.div`
-  ${flex("row", "flex-start", "flex-start")}
+  ${flex("row", "space-between", "flex-start")}
+  margin: 0 24px;
+  width: 100%;
 `;
 
 const Box = styled.div`
@@ -58,11 +63,10 @@ const TopAdds = styled.div`
   height: 90px;
   width: 100%;
   margin: 24px;
-  border: gray 1px solid;
 `;
 
 const QuestionPage = styled(Page)`
   border-top: 1px solid ${borderGray};
-  margin: 24px;
+  margin: 13px 24px 24px 24px;
   width: 100%;
 `;
