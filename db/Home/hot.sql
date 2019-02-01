@@ -8,7 +8,7 @@ SELECT
     q.question_views,
     use.username,
     use.reputation,
-    t.tag_name,
+    t.tag_name AS tags,
     use.auth_id
 FROM
     question q

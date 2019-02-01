@@ -132,7 +132,7 @@ export const SearchBar = styled.input`
 
   :focus {
     outline: none;
-    border: 1px solid ${inputBorderBlue};
+    border: 1px solid #66bfff;
     box-shadow: 0 0 0 4px rgba(0, 149, 256, 0.15);
   }
 
