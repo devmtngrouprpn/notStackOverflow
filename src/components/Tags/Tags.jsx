@@ -17,9 +17,6 @@ export default class Tags extends Component {
         this.setState({ data: res.data })
         console.log(this.state)
     }
-    getTags = async () => {
-
-    }
     render() {
         return (
             <>
@@ -92,14 +89,15 @@ const Desc = styled(P)`
   font-size: 14px;
 `;
 const MapReturn = styled.div`
+  /* grid-area: content; */
   border-bottom: 1px dotted #e4e6e8;
-  overflow: hidden;
-  height 
+  overflow:visible;
 `;
 const Title = styled(P)`
   font-size: 25px;
 `;
 const Grid = styled.div`
+grid-template-areas: "tag";
   position: relative;
   height: 100%;
   width: 100%;
