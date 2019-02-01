@@ -9,15 +9,14 @@ export default class Tags extends Component {
   constructor() {
     super();
     this.state = {
-      allTags: []
+      data: { allTags: [], day: [], week: [] }
     };
   }
   componentDidMount = async () => {
     let res = await axios.get("/api/tags/alltinytags");
-    this.setState({ allTags: res.data });
-    console.log(res);
+    this.setState({ data: res.data });
+    console.log(this.state);
   };
-  getTags = async () => {};
   render() {
     return (
       <>
@@ -30,13 +29,32 @@ export default class Tags extends Component {
               others to find and answer your question.
             </Desc>
             <Grid>
-              {this.state.allTags.map(e => {
+              {this.state.data.allTags.map(e => {
                 return (
                   <MapReturn>
                     <Top>
                       <TinyTag subject={`${e.name}`} />
-                      <QuestionsApartOf>x {e.qtagname}</QuestionsApartOf>
+                      <QuestionsApartOf>
+                        x {e.questions_with_tag}
+                      </QuestionsApartOf>
                     </Top>
+                    <TagDescription>{e.description}</TagDescription>
+                    <Asked>
+                      <span>
+                        {this.state.data.day.map(f => {
+                          if (f.name === e.name) {
+                            return f.question_tag + " asked today, ";
+                          }
+                        })}
+                      </span>
+                      <span>
+                        {this.state.data.week.map(c => {
+                          if (c.name === e.name) {
+                            return c.question_tag + " asked this week";
+                          }
+                        })}{" "}
+                      </span>
+                    </Asked>
                   </MapReturn>
                 );
               })}
@@ -47,7 +65,23 @@ export default class Tags extends Component {
     );
   }
 }
+const TagDescription = styled(P)`
+  box-sizing: content-box;
+  font-size: 12px;
+  height: 39px;
+  line-height: 14px;
+  overflow: hidden;
+  margin-bottom: 4px;
+  color: #848d95;
+`;
+const Asked = styled(P)`
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-size: 12px;
+`;
 const QuestionsApartOf = styled(P)`
+  font-size: 11px;
+  color: #6a737c;
   position: relative;
   top: 10px;
 `;
@@ -64,11 +98,16 @@ const Content = styled.div`
 const Desc = styled(P)`
   font-size: 14px;
 `;
-const MapReturn = styled.div``;
+const MapReturn = styled.div`
+  /* grid-area: content; */
+  border-bottom: 1px dotted #e4e6e8;
+  overflow: visible;
+`;
 const Title = styled(P)`
   font-size: 25px;
 `;
 const Grid = styled.div`
+  grid-template-areas: "tag";
   position: relative;
   height: 100%;
   width: 100%;
