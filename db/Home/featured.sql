@@ -11,8 +11,7 @@ SELECT
     t.tag_name AS tags,
     b.bounty_value,
     use.auth_id,
-    q.question_views,
-    q.excepted_answer
+    q.question_views
 FROM
     question q
     JOIN users use ON q.user_id = use.auth_id

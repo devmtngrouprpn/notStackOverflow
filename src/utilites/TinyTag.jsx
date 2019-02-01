@@ -195,7 +195,7 @@ const Relative = styled.div`
   position: relative;
   min-width: 12px;
   width: min-content;
-  margin: 5px;
+  margin: 2px;
 `;
 const HoverSpace = styled.div`
   z-index: 2;
