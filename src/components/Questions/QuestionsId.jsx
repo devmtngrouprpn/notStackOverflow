@@ -38,7 +38,9 @@ export default class QuestionId extends Component {
 
 const TopAdds = styled.div`
   height: 90px;
+  width: 100%;
   margin: 24px;
+  border: gray 1px solid;
 `;
 
 const QuestionPage = styled(Page)`
