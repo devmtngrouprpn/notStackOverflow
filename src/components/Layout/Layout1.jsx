@@ -44,6 +44,7 @@ const FooterContainer = styled.div`
 `;
 
 const SidebarContainer = styled.div`
+  position: relative;
   z-index: 1;
   flex-basis: 164px;
   flex-shrink: 0;
@@ -53,11 +54,13 @@ const ChildFlexContainer = styled.div`
   ${flex("row", "flex-start", "flex-start")}
   flex-basis: 1100px;
   flex-shrink: 1;
-  z-index: 0;
+  z-index: 10;
   position: relative;
 `;
 
 const ContentHolder = styled.div`
+  position: relative;
+  z-index: 0;
   grid-area: content;
   ${flex("row", "center", "flex-start")};
   width: 100%;
