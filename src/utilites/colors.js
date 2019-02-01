@@ -33,8 +33,10 @@ export const buttonBlue = "#0095FF";
 export const svgColor = "#848d95";
 export const oneKViews = "#9b7644";
 export const tenKViews = "#cf7721";
+export const questionBoxGray = "#6a737c";
 
 export default {
+  questionBoxGray,
   featuredBoxBlue,
   hrGray,
   svgColor,

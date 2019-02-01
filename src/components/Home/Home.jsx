@@ -48,8 +48,8 @@ class Home extends Component {
     ));
 
     return (
-      <LoadingWraper text loading={this.state.loading}>
-        <Layout>
+      <Layout>
+        <LoadingWraper text loading={this.state.loading}>
           <Page>
             <Content>
               <HeaderContainer>
@@ -107,8 +107,8 @@ class Home extends Component {
             </Content>
             <Adds />
           </Page>
-        </Layout>
-      </LoadingWraper>
+        </LoadingWraper>
+      </Layout>
     );
   }
 }
