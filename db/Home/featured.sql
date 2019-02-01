@@ -34,4 +34,3 @@ GROUP BY
 ORDER BY
     ((((extract(day FROM now() - q.question_creation_timestamp)) / sum(v.up_or_down) / 2) * q.question_views) * (count(a.question_id) / 2) / b.bounty_value)
 LIMIT 100;
-

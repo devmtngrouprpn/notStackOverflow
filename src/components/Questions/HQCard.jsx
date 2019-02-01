@@ -7,7 +7,8 @@ import {
   tenKViews,
   oneKViews,
   black,
-  TinyTag
+  TinyTag,
+  green
 } from "./../../utilites/index";
 
 function HQCard({ question }) {
@@ -15,25 +16,44 @@ function HQCard({ question }) {
   const tags = question.tags.map(tag => <TinyTag subject={tag} />);
   return (
     <>
-      <Container>
-        <P>{question.answers}</P>
-        <P>answers</P>
-      </Container>
-      <Container>
-        <P>{question.votes}</P>
-        <P>votes</P>
-      </Container>
-      <Container>
-        <ViewsP views={question.question_views}>
-          {question.question_views}
-        </ViewsP>
-        <ViewsP views={question.question_views}>views</ViewsP>
-      </Container>
+      <Data>
+        <AnswerBox
+          answers={question.answers}
+          accepted={question.answer_accepted}
+        >
+          <BigP>{question.answers}</BigP>
+          <P>answers</P>
+        </AnswerBox>
+        <Container>
+          <BigP>{question.votes}</BigP>
+          <P>votes</P>
+        </Container>
+        <Container>
+          <ViewsP big={true} views={question.question_views}>
+            {question.question_views}
+          </ViewsP>
+          <ViewsP views={question.question_views}>views</ViewsP>
+        </Container>
+      </Data>
       <TagContainer>{tags}</TagContainer>
       <Hr />
     </>
   );
 }
+
+const Data = styled.div``;
+
+const BigP = styled(P)`
+  font-size: 17px;
+`;
+
+const SmallP = styled;
+
+const AnswerBox = styled.div`
+  border: 1px solid ${green};
+  padding: 6px;
+  color: ${props => (props.answers >= 1 ? green : black)};
+`;
 
 const ViewsP = styled(P)`
   color: ${props =>
@@ -42,6 +62,7 @@ const ViewsP = styled(P)`
       : +props.views >= 1000
       ? oneKViews
       : black};
+  font-size: ${props => (props.big ? "17px" : "11px")};
 `;
 
 const TagContainer = styled.div`
