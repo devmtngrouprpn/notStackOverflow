@@ -6,11 +6,13 @@ import {
   flex,
   tenKViews,
   oneKViews,
-  black
+  black,
+  TinyTag
 } from "./../../utilites/index";
 
 function HQCard({ question }) {
   console.log(question);
+  const tags = question.tags.map(tag => <TinyTag subject={tag} />);
   return (
     <>
       <Container>
@@ -27,7 +29,7 @@ function HQCard({ question }) {
         </ViewsP>
         <ViewsP views={question.question_views}>views</ViewsP>
       </Container>
-      <TagContainer>{/*tags*/}</TagContainer>
+      <TagContainer>{tags}</TagContainer>
       <Hr />
     </>
   );
