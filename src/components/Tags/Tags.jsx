@@ -2,13 +2,15 @@ import React, { Component } from "react";
 import Layout from "../Layout/Layout1.jsx";
 import styled from "styled-components";
 import { TinyTag } from "../../utilites/index.js";
-import { P } from "../../utilites/index";
+import HQCard from "./../Questions/HQCard";
+import { P, LoadingWraper, TabButton } from "./../../utilites/index";
 import axios from "axios";
 
 export default class Tags extends Component {
   constructor() {
     super();
     this.state = {
+      view: "Popular",
       data: { allTags: [], day: [], week: [] }
     };
   }
@@ -16,6 +18,9 @@ export default class Tags extends Component {
     let res = await axios.get("/api/tags/alltinytags");
     this.setState({ data: res.data });
     console.log(this.state);
+  };
+  handleView = name => {
+    this.setState({ view: name });
   };
   render() {
     return (
@@ -28,6 +33,34 @@ export default class Tags extends Component {
               other, similar questions. Using the right tags makes it easier for
               others to find and answer your question.
             </Desc>
+            <SortBar>
+              <input />
+              <ButtonContainer>
+                <TabButton
+                  onClick={() => this.handleView("Popular")}
+                  active={this.state.view === "Popular"}
+                  activeNeigbor={this.state.view === "featured"}
+                  position="left"
+                >
+                  Popular
+                </TabButton>
+                <TabButton
+                  onClick={() => this.handleView("Name")}
+                  active={this.state.view === "Name"}
+                  activeNeigbor={this.state.view === "hot"}
+                  position="mid"
+                >
+                  <FeaturedBox>Name</FeaturedBox>
+                </TabButton>
+                <TabButton
+                  onClick={() => this.handleView("New")}
+                  active={this.state.view === "New"}
+                  position="right"
+                >
+                  New
+                </TabButton>
+              </ButtonContainer>
+            </SortBar>
             <Grid>
               {this.state.data.allTags.map(e => {
                 return (
@@ -65,6 +98,9 @@ export default class Tags extends Component {
     );
   }
 }
+const ButtonContainer = styled.div``;
+const CountBox = styled.div``;
+const FeaturedBox = styled.div``;
 const TagDescription = styled(P)`
   box-sizing: content-box;
   font-size: 12px;
@@ -78,6 +114,10 @@ const Asked = styled(P)`
   margin-top: 10px;
   margin-bottom: 10px;
   font-size: 12px;
+`;
+const SortBar = styled.div`
+  display: flex;
+  justify-content: space space-between;
 `;
 const QuestionsApartOf = styled(P)`
   font-size: 11px;
