@@ -8,7 +8,7 @@ module.exports = {
   // ==========================================================
   questionsInteresting: async (req, res, next) => {
     let db = req.app.get("db");
-    let prom = await Promise.all([
+    let dbResult = await Promise.all([
       db.Home.interesting([]),
       db.Home.featured([]),
       db.Home.hot([]),
@@ -16,7 +16,7 @@ module.exports = {
       db.Home.month([]),
       db.Home.tfeatured([])
     ]);
-    let results = prom.map((list, i) => {
+    let results = dbResult.map((list, i) => {
       let idArr = [];
       if (i === 0) {
         // console.log("list", list, i);
@@ -54,7 +54,7 @@ module.exports = {
   worldQuestions: async (req, res, next) => {
     let db = req.app.get("db");
     console.log("world");
-    let promise = await Promise.all([
+    let dbResult = await Promise.all([
       db.World.newest([]),
       db.World.featured([]),
       db.World.frequent([]),
@@ -65,7 +65,7 @@ module.exports = {
     ]);
 
     console.log("world");
-    let results = promise.map((list, i) => {
+    let results = dbResult.map((list, i) => {
       let idArr = [];
       if (i === 0) {
         // console.log("list", list, i);
@@ -100,5 +100,13 @@ module.exports = {
       .send({ newest, featured, frequent, votes, active, unanswered });
   },
   // ==========================================================
-  askQuestions: async (req, res, next) => {}
+  askQuestions: async (req, res, next) => {
+    let { userId, content, title } = req.body;
+    let db = req.app.get("db");
+    console.log(userId, content, title);
+    let dbResult = await Promise.all([
+      db.user_input.new_question([userId, content, title])
+    ]);
+    console.log(dbResult);
+  }
 };
