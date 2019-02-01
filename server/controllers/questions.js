@@ -28,7 +28,7 @@ module.exports = {
       db.World.frequent([]),
       db.World.votes([]),
       db.World.active([]),
-      db.World.unanswered([])
+      db.World.unanswered.unanswered([])
     ]);
     let [newest, featured, frequent, votes, active, unanswered] = promise;
     res
