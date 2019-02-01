@@ -7,7 +7,9 @@ import {
   Content,
   LoadingWraper,
   H1,
-  borderGray
+  borderGray,
+  flex,
+  blueButton
 } from "../../utilites/index.js";
 
 export default class QuestionId extends Component {
@@ -23,18 +25,34 @@ export default class QuestionId extends Component {
     return (
       <LoadingWraper loading={this.state.loading}>
         <Layout>
-          <TopAdds />
-          <QuestionPage>
-            <Content>
-              <H1>Question Page {this.props.match.params.id}</H1>
-            </Content>
-            <Adds />
-          </QuestionPage>
+          <Box>
+            <TopAdds />
+            <TitleBox />
+            <QuestionPage>
+              <Content>
+                <H1>Question Page {this.props.match.params.id}</H1>
+              </Content>
+              <Adds style={{ border: "1px red solid", height: "100vh" }} />
+            </QuestionPage>
+          </Box>
         </Layout>
       </LoadingWraper>
     );
   }
 }
+
+const AskButton = styled.button`
+  ${blueButton("10.4px, 10.4px, 10.4px, 10.4px")}
+`;
+
+const TitleBox = styled.div`
+  ${flex("row", "flex-start", "flex-start")}
+`;
+
+const Box = styled.div`
+  ${flex("column", "flex-start", "flex-start")}
+  flex-basis: 1100px;
+`;
 
 const TopAdds = styled.div`
   height: 90px;
@@ -46,4 +64,5 @@ const TopAdds = styled.div`
 const QuestionPage = styled(Page)`
   border-top: 1px solid ${borderGray};
   margin: 24px;
+  width: 100%;
 `;
