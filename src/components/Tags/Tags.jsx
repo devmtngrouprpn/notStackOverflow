@@ -104,14 +104,14 @@ const FeaturedBox = styled.div`
 
 `;
 const TagDescription = styled(P)`
-    box-sizing: content-box;
-    font-size: 12px;
-    height: 39px;
-    line-height: 14px;
-    overflow: hidden;
-    margin-bottom: 4px;
-    color: #848d95;
-`
+  box-sizing: content-box;
+  font-size: 12px;
+  height: 39px;
+  line-height: 14px;
+  overflow: hidden;
+  margin-bottom: 4px;
+  color: #848d95;
+`;
 const Asked = styled(P)`
 margin-top: 10px;
 margin-bottom: 10px;
@@ -122,8 +122,8 @@ display: flex;
 justify-content: space space-between;
 `
 const QuestionsApartOf = styled(P)`
-font-size: 11px;
-    color: #6a737c;
+  font-size: 11px;
+  color: #6a737c;
   position: relative;
   top: 10px;
 `;
@@ -143,13 +143,13 @@ const Desc = styled(P)`
 const MapReturn = styled.div`
   /* grid-area: content; */
   border-bottom: 1px dotted #e4e6e8;
-  overflow:visible;
+  overflow: visible;
 `;
 const Title = styled(P)`
   font-size: 25px;
 `;
 const Grid = styled.div`
-grid-template-areas: "tag";
+  grid-template-areas: "tag";
   position: relative;
   height: 100%;
   width: 100%;
