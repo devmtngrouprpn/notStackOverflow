@@ -8,6 +8,7 @@ export const tabButtonBorder = "#adb3b9";
 export const tabButtonDarkBorder = "#76808a";
 export const tabButtonText = "#6a737c";
 export const tabButtonTextDark = "#3b4045";
+export const hrGray = "#eff0f1";
 export const featuredBoxBlue = "#0077dd";
 export const black = "#242728";
 export const orange = "#F48024";
@@ -33,6 +34,7 @@ export const svgColor = "#848d95";
 
 export default {
   featuredBoxBlue,
+  hrGray,
   svgColor,
   buttonBlue,
   headerGrays,

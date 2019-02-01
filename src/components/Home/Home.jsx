@@ -9,7 +9,11 @@ import {
   blueButton,
   TabButton,
   flex,
-  featuredBoxBlue
+  featuredBoxBlue,
+  Page,
+  Adds,
+  Content,
+  borderGray
 } from "./../../utilites/index";
 import { connect } from "react-redux";
 import { update_home } from "./../../ducks/home";
@@ -91,7 +95,7 @@ class Home extends Component {
                   Month
                 </TabButton>
               </ButtonContainer>
-              <Questions />
+              <Questions>{questions}</Questions>
             </Content>
             <Adds />
           </Page>
@@ -101,21 +105,8 @@ class Home extends Component {
   }
 }
 
-const Page = styled.div`
-  ${flex("row", "flex-start", "flex-start")}
-  flex-basis: 1100px;
-`;
-
-const Content = styled.div`
-  flex-basis: 775px;
-`;
-
-const Questions = styled.div``;
-
-const Adds = styled.div`
-  flex-basis: 324px;
-  flex-shrink: 0;
-  min-height: calc(100vh - 50px);
+const Questions = styled.div`
+  border-top: 1px solid ${borderGray};
 `;
 
 const HeaderContainer = styled.div`

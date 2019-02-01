@@ -1,37 +1,39 @@
 import React from "react";
 import styled from "styled-components";
-import { P } from "./../../utilites/index";
+import { P, hrGray, flex } from "./../../utilites/index";
 
-function HQCard(props) {
+function HQCard({ question }) {
+  console.log(question);
   return (
     <>
-      <hr />
-      <Card>
-          <InfoBox>
-              <P>3</P>
-              <P>Votes</P>
-          </InfoBox>
-          <InfoBox>
-              <P>3</P>
-              <P>Answers</P>
-          </InfoBox>
-          <InfoBox>
-              <P>32</P>
-              <P>Views</P>
-          </InfoBox>
-
-      </Card>
+      <Container>
+        <P>{question.answers}</P>
+        <P>answers</P>
+      </Container>
+      <Container>
+        <P>{question.votes}</P>
+        <P>votes</P>
+      </Container>
+      <Container>
+        <P>{question.question_views}</P>
+        <P>views</P>
+      </Container>
+      <TagContainer>{/*tags*/}</TagContainer>
+      <Hr />
     </>
   );
 }
 
-export default HQCard;
-
-const Card = styled.div`
-  border: solid black;
-  display: flex;
+const TagContainer = styled.div`
+  ${flex()}
 `;
-const InfoBox = styled.div `
-    display: flex;
-    flex-direction: column;
-`
+
+const Container = styled.div`
+  ${flex("column")}
+`;
+
+const Hr = styled.div`
+  border: 0.5px solid ${hrGray};
+`;
+
+export default HQCard;
