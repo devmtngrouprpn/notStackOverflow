@@ -7,9 +7,21 @@ import LogFunctions from "./LogFunctions";
 import UserDisplay from "./UserDisplay.jsx";
 
 function Header(props) {
+  // state = {
+  //   show: false
+  // }
   return (
     <FlexBox>
       <Holder>
+        {props.hamburger ? <Hamburger>
+          <svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20">
+            <path d="M 2 5 L 2 7 L 22 7 L 22 5 L 2 5 z M 2 11 L 2 13 L 22 13 L 22 11 L 2 11 z M 2 17 L 2 19 L 22 19 L 22 17 L 2 17 z" font-weight="400" font-family="sans-serif" white-space="normal" overflow="visible" />
+          </svg>
+          <Menu>
+            Stuff
+          </Menu>
+        </Hamburger> :
+          <></>}
         <Container>
           <HeaderLogo
             src="http://lh3.googleusercontent.com/6AMietCWSXysmPDEiIEzXoJP2HzXYNbDHx83l42JqnX350YlyBGmwk7ithVCTIM2fbM=w300"
@@ -49,6 +61,16 @@ function Header(props) {
     </FlexBox>
   );
 }
+const Menu = styled.div`
+display: none
+`
+const Hamburger = styled.div`
+padding-right: 10px;
+/* margin-right: 10px; */
+border-right: solid .5px lightgray;
+height: 100%;
+${flex()}
+`
 const UserDisplayer = styled(UserDisplay)`
   height: 100%;
 `;

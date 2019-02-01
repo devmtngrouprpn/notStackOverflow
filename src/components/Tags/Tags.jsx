@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Layout from "../Layout/Layout1.jsx";
 import styled from "styled-components";
 import { TinyTag } from "../../utilites/index.js";
+import { SearchBar } from '../../utilites/globals';
 import HQCard from "./../Questions/HQCard";
 import {
     P,
@@ -34,7 +35,7 @@ export default class Tags extends Component {
                         <Title>Tags</Title>
                         <Desc>A tag is a keyword or label that categorizes your question with other, similar questions. Using the right tags makes it easier for others to find and answer your question.</Desc>
                         <SortBar>
-                            <input />
+                            <SearchBox placeholder='Filter by tag name' />
                             <ButtonContainer>
                                 <TabButton
                                     onClick={() => this.handleView("Popular")}
@@ -94,6 +95,19 @@ export default class Tags extends Component {
         )
     }
 }
+const SearchBox = styled(SearchBar)`
+flex-basis: initial;
+    -webkit-appearance: none;
+    margin: 0;
+    padding: .6em .7em;
+    border: 1px solid #bbc0c4;
+    border-radius: 3px;
+    box-shadow: 0 0 0 rgba(255,255,255,0);
+    font-size: 13px;
+    font-family: inherit;
+    line-height: 1.15384615;
+    width: 230px;
+`
 const ButtonContainer = styled.div`
 
 `;
@@ -118,8 +132,9 @@ margin-bottom: 10px;
 font-size: 12px;
 `
 const SortBar = styled.div`
+margin: 20px 0 20px 0;
 display: flex;
-justify-content: space space-between;
+justify-content: space-between;
 `
 const QuestionsApartOf = styled(P)`
   font-size: 11px;
@@ -147,6 +162,7 @@ const MapReturn = styled.div`
 `;
 const Title = styled(P)`
   font-size: 25px;
+  margin-bottom: 25px;
 `;
 const Grid = styled.div`
   grid-template-areas: "tag";
