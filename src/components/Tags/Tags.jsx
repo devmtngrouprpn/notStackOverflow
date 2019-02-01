@@ -14,7 +14,7 @@ export default class Tags extends Component {
   }
   componentDidMount = async () => {
     let res = await axios.get("/api/tags/alltinytags");
-    this.setState({ allTags: res.data });
+    this.setState({ allTags: res.data.allTags });
     console.log(res.data);
   };
   getTags = async () => {};
@@ -30,18 +30,16 @@ export default class Tags extends Component {
               others to find and answer your question.
             </Desc>
             <Grid>
-              {
-                // this.state.allTags.map((e) => {
-                //     return <MapReturn>
-                //         <Top>
-                //             <TinyTag subject={`${e.name}`} />
-                //             <QuestionsApartOf>
-                //                 x {e.qtagname}
-                //             </QuestionsApartOf>
-                //         </Top>
-                //     </MapReturn>
-                // })
-              }
+              {this.state.allTags.map(e => {
+                return (
+                  <MapReturn>
+                    <Top>
+                      <TinyTag subject={`${e.name}`} />
+                      <QuestionsApartOf>x {e.qtagname}</QuestionsApartOf>
+                    </Top>
+                  </MapReturn>
+                );
+              })}
             </Grid>
           </Content>
         </Layout>
