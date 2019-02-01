@@ -9,8 +9,7 @@ SELECT
     use.username,
     use.reputation,
     t.tag_name AS tags,
-    use.auth_id,
-    q.excepted_answer
+    use.auth_id
 FROM
     question q
     JOIN users use ON q.user_id = use.auth_id

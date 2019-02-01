@@ -11,8 +11,7 @@ SELECT
     t.tag_name AS tags,
     b.bounty_value,
     use.auth_id,
-    q.question_views,
-    q.excepted_answer
+    q.question_views
 FROM
     question q
     JOIN users use ON q.user_id = use.auth_id
@@ -34,4 +33,3 @@ GROUP BY
 ORDER BY
     ((((extract(day FROM now() - q.question_creation_timestamp)) / sum(v.up_or_down) / 2) * q.question_views) * (count(a.question_id) / 2) / b.bounty_value)
 LIMIT 100;
-
