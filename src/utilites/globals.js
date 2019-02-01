@@ -9,8 +9,29 @@ import {
   tabButtonBorder,
   tabButtonDarkBorder,
   tabButtonText,
-  tabButtonTextDark
-} from "./colors.js";
+  tabButtonTextDark,
+  hrGray
+} from "./index.js";
+
+export const Hr = styled.div`
+  border: 0.5px solid ${hrGray};
+`;
+
+export const Page = styled.div`
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-basis: 1100px;
+`;
+
+export const Content = styled.div`
+  flex-basis: 775px;
+`;
+
+export const Adds = styled.div`
+  flex-basis: 324px;
+  flex-shrink: 0;
+`;
 
 export const Logo = styled.img`
   transform: scaleX(-1) rotate(126deg);
@@ -103,5 +124,9 @@ export default {
   H1,
   StyledLink,
   blueButton,
-  TabButton
+  TabButton,
+  Page,
+  Content,
+  Adds,
+  Hr
 };

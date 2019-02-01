@@ -8,6 +8,8 @@ export const tabButtonBorder = "#adb3b9";
 export const tabButtonDarkBorder = "#76808a";
 export const tabButtonText = "#6a737c";
 export const tabButtonTextDark = "#3b4045";
+export const hrGray = "#eff0f1";
+export const featuredBoxBlue = "#0077dd";
 export const black = "#242728";
 export const orange = "#F48024";
 export const bronze = "#C38B60";
@@ -29,8 +31,12 @@ export const lightGreen = "#A3D0B1";
 export const darkGreen = "#60BA7D";
 export const buttonBlue = "#0095FF";
 export const svgColor = "#848d95";
+export const oneKViews = "#9b7644";
+export const tenKViews = "#cf7721";
 
 export default {
+  featuredBoxBlue,
+  hrGray,
   svgColor,
   buttonBlue,
   headerGrays,
