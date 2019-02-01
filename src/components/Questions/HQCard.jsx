@@ -27,7 +27,7 @@ function HQCard({ question }) {
         </ViewsP>
         <ViewsP views={question.question_views}>views</ViewsP>
       </Container>
-      <TagContainer>{/*tags*/}</TagContainer>
+      <TagContainer />
       <Hr />
     </>
   );

@@ -28,9 +28,9 @@ class Home extends Component {
   }
   async getQuestions() {
     let res = await axios.get(`/api/questions/interesting`);
+    this.props.update_home(res.data);
     this.setState({ loading: false });
     console.log(res.data);
-    this.props.update_home(res.data);
   }
   handleView = name => {
     this.setState({ view: name });
