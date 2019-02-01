@@ -24,6 +24,7 @@ function Layout(props) {
 }
 
 const Grid = styled.div`
+  width: 100vw;
   height: 100vh;
   display: grid;
   grid-template-rows: 50px 1fr 272px;
@@ -49,6 +50,7 @@ const SidebarContainer = styled.div`
 `;
 
 const ChildFlexContainer = styled.div`
+  ${flex("row", "flex-start", "flex-start")}
   flex-basis: 1100px;
   flex-shrink: 1;
   z-index: 0;
@@ -58,6 +60,7 @@ const ChildFlexContainer = styled.div`
 const ContentHolder = styled.div`
   grid-area: content;
   ${flex("row", "center", "flex-start")};
+  width: 100%;
 `;
 const HeaderHolder = styled.div`
   width: 100%;
