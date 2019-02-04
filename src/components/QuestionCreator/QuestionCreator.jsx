@@ -89,7 +89,7 @@ class QuestionCreator extends Component {
                                             <TinyTag x={true} subject={e} />
                                         </BadTag>
                                     })}</HiddenTags>
-                                    <SearchBox value={this.state.typingTag} onChange={(value) => this.grabRelated(value)} />
+                                    <TagBox value={this.state.typingTag} onChange={(value) => this.grabRelated(value)} />
                                 </DualBox>
                                 <Suggestions>{this.state.tagsForMapping.map((e) => {
                                     return <TinyTagHolder
@@ -206,7 +206,7 @@ class QuestionCreator extends Component {
                                             <TinyTag subject={e} />
                                         </BadTag>
                                     })}</HiddenTags>
-                                    <SearchBox value={this.state.typingTag} onChange={(value) => this.grabRelated(value)} />
+                                    <TagBox value={this.state.typingTag} onChange={(value) => this.grabRelated(value)} />
                                 </DualBox>
                                 <Suggestions>{this.state.tagsForMapping.map((e) => {
                                     return <TinyTagHolder
@@ -257,12 +257,32 @@ const BadTag = styled.div`
 width: fit-content;
 height: fit-content;
 `
+const TagBox = styled(SearchBar)`
+border-top-left-radius:0;
+border-bottom-left-radius: 0;
+max-height: 50px;
+margin-left:0;
+border-left:none;
+width: available;
+:focus{
+    box-shadow:none;
+    outline:none;
+    border:none;
+
+}
+`
 const DualBox = styled.div`
 flex-wrap: nowrap;
 display:flex;
 max-height: 40px;
 width: 100%;
 display: flex;
+border-radius: 3px;
+:focus-within{
+   outline: none;
+    border: 1px solid #66bfff;
+    box-shadow: 0 0 0 4px rgba(0, 149, 256, 0.15);
+}
 `
 const HiddenTags = styled.div`
 display:flex;
@@ -273,6 +293,11 @@ margin-right: 0;
 border-right: none;
 border-top-right-radius:0;
 border-bottom-right-radius: 0;
+:focus{
+    border-right: none;
+    box-shadow:none;
+    outline:none;
+}
 `
 const SearchBoxNotForTags = styled(SearchBar)`
 max-height: 50px;
@@ -358,6 +383,13 @@ const Option = styled(P)`
 cursor:pointer;
 margin: 10px;
 color: #07C;
+padding:8px 10px 8px 10px;
+:hover{
+    border-radius:50px;
+    /* box-shadow: inset 0 1px 0 #66bfff; */
+    padding: 8px 10px 8px 10px;
+    background:#E1F0FC;
+}
 `
 const CurrentStep = styled(P)`
 ${ flex()}
