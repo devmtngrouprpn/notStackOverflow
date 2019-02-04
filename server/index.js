@@ -57,7 +57,6 @@ app.get("/api/tags/alltinytags", tinyTag.getAllTags);
 // TAGS END
 // USERS START
 app.get("/api/users/allusers", users.getUsers);
-
 // USERS END
 
 // *** IM LISTENING! *** //
