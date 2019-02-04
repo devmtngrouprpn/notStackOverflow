@@ -2,21 +2,16 @@ import React, { Component } from "react";
 import axios from 'axios'
 import styled from "styled-components";
 import { TinyTag } from "../../utilites/index.js";
-import quillsheet from './quilsheet.css'
 import stringSimilarity from 'string-similarity'
 import Quill from './Quil'
 // import { SearchBar } from '../../utilites/globals';
-import HQCard from "./../Questions/HQCard";
 import Layout2 from '../Layout/Layout2'
 import {
     flex,
     SearchBar,
     P,
     blueButton,
-    LoadingWraper,
-    TabButton,
 } from "./../../utilites/index";
-import reducer from "../../ducks/global.js";
 
 export default class Tags extends Component {
     constructor() {
