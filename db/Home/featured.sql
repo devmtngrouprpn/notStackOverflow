@@ -24,6 +24,7 @@ FROM
     JOIN users use ON q.user_id = use.auth_id
     LEFT JOIN answer a ON q.question_id = a.question_id
     JOIN vote v ON use.auth_id = v.user_id
+        AND v.source_type = 'question'
     JOIN question_tag t ON q.question_id = t.question_id
     LEFT JOIN bounty b ON q.question_id = b.question_id
 WHERE

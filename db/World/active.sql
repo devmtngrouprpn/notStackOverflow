@@ -15,13 +15,14 @@ SELECT
     use.auth_id,
     use.picture,
     sum(v.up_or_down) / 2 AS votes,
-    (count(a.question_id) / 2) AS answers,
+    (count(a.question_id)) AS answers,
     t.tag_name
 FROM
     question q
     JOIN users use ON q.user_id = use.auth_id
     LEFT JOIN answer a ON q.question_id = a.question_id
     JOIN vote v ON use.auth_id = v.user_id
+        AND v.source_type = 'question'
     JOIN question_tag t ON q.question_id = t.question_id
 WHERE (
     CASE WHEN ((extract(day FROM now() - q.question_last_edit))) >= 7 THEN
