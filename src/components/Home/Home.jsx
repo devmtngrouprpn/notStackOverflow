@@ -36,11 +36,17 @@ class Home extends Component {
     this.setState({ view: name });
   };
   pushitrealgood() {
-    let userId = "user1";
-    let content =
-      "<p>werertk;'erwkt</p><p>lrtj;wer</p><p>leng9\\rere</p><p>erqwer</p><p><br></p><p>rtret<em>rtrtr</em></p>";
-    let title = "i am a title";
-    axios.post("/api/questions/ask", { userId, content, title });
+    let userId = `user1`;
+    let content = `<p>werertk;'erwkt</p><p>lrtj;wer</p><p>leng9\\rere</p><p>erqwer</p><p><br></p><p>rtret<em>rtrtr</em></p>`;
+    let title = `i am' a title`;
+    let tags = ["javascript", "react"];
+    let res = axios.post("/api/questions/ask", {
+      userId,
+      content,
+      title,
+      tags
+    });
+    console.log(res.data);
   }
   render() {
     let questions = this.props[this.state.view].map(question => (

@@ -18,9 +18,8 @@ module.exports = {
     ]);
     let results = dbResult.map((list, i) => {
       let idArr = [];
-      if (i === 0) {
-        // console.log("list", list, i);
-      }
+      // let title = list[i].question_title.replace(/^'/, "");
+      // console.log(title);
       const newList = list.map(item => {
         if (!idArr.includes(item.question_id)) {
           idArr.push(item.question_id);
@@ -101,12 +100,17 @@ module.exports = {
   },
   // ==========================================================
   askQuestions: async (req, res, next) => {
-    let { userId, content, title } = req.body;
+    let { userId, content, title, tags } = req.body;
     let db = req.app.get("db");
-    console.log(userId, content, title);
+    console.log(title);
     let dbResult = await Promise.all([
       db.user_input.new_question([userId, content, title])
     ]);
-    console.log(dbResult);
+    let question_id = dbResult[0][0].question_id;
+    console.log(question_id, dbResult[0][0]);
+    tags.forEach(tag => {
+      db.user_input.new_question_tag([tag, question_id]);
+    });
+    res.status(200).send({ message: "Your Question Was Uploaded" });
   }
 };
