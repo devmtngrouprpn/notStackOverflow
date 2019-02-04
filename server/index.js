@@ -7,7 +7,7 @@ const massive = require("massive");
 const authorization = require("./controllers/authorization");
 const questions = require("./controllers/questions");
 const tinyTag = require("./controllers/tinyTags");
-const users = require('./controllers/users')
+const users = require("./controllers/users");
 
 const app = express();
 // *** TOPLEVEL MIDDLEWARE *** //
@@ -49,6 +49,7 @@ app.get("/api/home/:auth_id", questions.homeStart);
 app.get("/api/questions/interesting", questions.questionsInteresting);
 app.get("/api/questions/world", questions.worldQuestions);
 app.post("/api/questions/ask", questions.askQuestions);
+// app.get("/api/questions/totals", questions.worldQuestionTotal);
 // HOME END
 // TAGS START
 app.post("/api/tags/tinytag", tinyTag.getTag);
