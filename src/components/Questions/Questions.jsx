@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Layout from "../Layout/Layout1.jsx";
 import HQCard from "./../Questions/HQCard";
@@ -14,15 +13,15 @@ import {
   Content,
   LoadingWraper,
   TabButton,
-  colors,
-  H1
+  H1,
+  StyledLink
 } from "./../../utilites/index";
 import { connect } from "react-redux";
-// import { update_questions } from "../../ducks/questions";
+import { update_questions } from "../../ducks/questions";
 
 class Questions extends Component {
   state = {
-    view: "interesting",
+    view: "newest",
     loading: true
   };
 
@@ -31,12 +30,10 @@ class Questions extends Component {
   };
 
   getQuestions = async () => {
-    console.log("mounting...");
     let res = await axios.get(`/api/questions/world`);
-    // console.log(typeof this.props.update_questions);
-    // this.props.update_questions(res.data);
-    this.setState({ loading: false });
     console.log(res.data);
+    this.props.update_questions(res.data);
+    this.setState({ loading: false });
   };
 
   handleView = name => {
@@ -54,64 +51,110 @@ class Questions extends Component {
           <Page>
             <Content>
               <HeaderContainer>
-                <H1>All Questions</H1>
-                <Link to="/create-question">
+                <H1>
+                  {this.state.view.includes("unanswered")
+                    ? "Unanswered Questions"
+                    : "All Questions"}
+                </H1>
+                <StyledLink to="/create-question">
                   <AskButton>Ask Question</AskButton>
-                </Link>
+                </StyledLink>
               </HeaderContainer>
               <ButtonContainer>
-                <TabButton
-                  onClick={() => this.handleView("newest")}
-                  active={this.state.view === "newest"}
-                  activeNeigbor={this.state.view === "featured"}
-                  position="left"
-                >
-                  Newest
-                </TabButton>
-                <TabButton
-                  onClick={() => this.handleView("featured")}
-                  active={this.state.view === "featured"}
-                  activeNeigbor={this.state.view === "frequent"}
-                  position="mid"
-                >
-                  <FeaturedBox>
-                    <CountBox>{this.props.t}</CountBox>
-                    Featured
-                  </FeaturedBox>
-                </TabButton>
-                <TabButton
-                  onClick={() => this.handleView("frequent")}
-                  active={this.state.view === "frequent"}
-                  activeNeigbor={this.state.view === "votes"}
-                  position="mid"
-                >
-                  <FeaturedBox>Frequent</FeaturedBox>
-                </TabButton>
-                <TabButton
-                  onClick={() => this.handleView("votes")}
-                  active={this.state.view === "votes"}
-                  activeNeigbor={this.state.view === "active"}
-                  position="mid"
-                >
-                  <FeaturedBox>Votes</FeaturedBox>
-                </TabButton>
-                <TabButton
-                  onClick={() => this.handleView("active")}
-                  active={this.state.view === "active"}
-                  activeNeigbor={this.state.view === "unanswered"}
-                  position="mid"
-                >
-                  <FeaturedBox>Active</FeaturedBox>
-                </TabButton>
-                <TabButton
-                  onClick={() => this.handleView("unanswrd")}
-                  active={this.state.view === "unanswrd"}
-                  position="right"
-                >
-                  Unanswered
-                </TabButton>
+                {!this.state.view.includes("unanswered") ? (
+                  <>
+                    <TabButton
+                      onClick={() => this.handleView("newest")}
+                      active={this.state.view === "newest"}
+                      activeNeigbor={this.state.view === "featured"}
+                      position="left"
+                    >
+                      Newest
+                    </TabButton>
+                    <TabButton
+                      onClick={() => this.handleView("featured")}
+                      active={this.state.view === "featured"}
+                      activeNeigbor={this.state.view === "frequent"}
+                      position="mid"
+                    >
+                      <FeaturedBox>
+                        <CountBox>{this.props.t}</CountBox>
+                        Featured
+                      </FeaturedBox>
+                    </TabButton>
+                    <TabButton
+                      onClick={() => this.handleView("frequent")}
+                      active={this.state.view === "frequent"}
+                      activeNeigbor={this.state.view === "votes"}
+                      position="mid"
+                    >
+                      <FeaturedBox>Frequent</FeaturedBox>
+                    </TabButton>
+                    <TabButton
+                      onClick={() => this.handleView("votes")}
+                      active={this.state.view === "votes"}
+                      activeNeigbor={this.state.view === "active"}
+                      position="mid"
+                    >
+                      <FeaturedBox>Votes</FeaturedBox>
+                    </TabButton>
+                    <TabButton
+                      onClick={() => this.handleView("active")}
+                      active={this.state.view === "active"}
+                      position="mid"
+                    >
+                      <FeaturedBox>Active</FeaturedBox>
+                    </TabButton>
+                    <TabButton
+                      onClick={() => this.handleView("unansweredMyTags")}
+                      position="right"
+                    >
+                      unanswered
+                    </TabButton>
+                  </>
+                ) : (
+                  <>
+                    <TabButton
+                      onClick={() => this.handleView("unansweredMyTags")}
+                      active={this.state.view === "unansweredMyTags"}
+                      activeNeigbor={this.state.view === "unansweredNewest"}
+                      position="left"
+                    >
+                      My Tags
+                    </TabButton>
+                    <TabButton
+                      onClick={() => this.handleView("unansweredNewest")}
+                      active={this.state.view === "unansweredNewest"}
+                      activeNeigbor={this.state.view === "unansweredVotes"}
+                      position="mid"
+                    >
+                      Newest
+                    </TabButton>
+                    <TabButton
+                      onClick={() => this.handleView("unansweredVotes")}
+                      active={this.state.view === "unansweredVotes"}
+                      activeNeigbor={this.state.view === "unansweredNoAnswers"}
+                      position="mid"
+                    >
+                      Votes
+                    </TabButton>
+                    <TabButton
+                      onClick={() => this.handleView("unansweredNoAnswers")}
+                      active={this.state.view === "unansweredNoAnswers"}
+                      position="mid"
+                    >
+                      No Answers
+                    </TabButton>
+                    <TabButton
+                      onClick={() => this.handleView("newest")}
+                      position="right"
+                    >
+                      all questions
+                    </TabButton>
+                  </>
+                )}
               </ButtonContainer>
-              <Question>questions</Question>
+              <QuestionBox>{questions}</QuestionBox>
             </Content>
             <Adds style={{ border: "1px red solid" }} />
           </Page>
@@ -120,7 +163,11 @@ class Questions extends Component {
     );
   }
 }
-const Question = styled.div``
+
+const QuestionBox = styled.div`
+  border-top: 1px solid ${borderGray};
+`;
+
 const HeaderContainer = styled.div`
   ${flex("row", "space-between", "flex-start")}
   margin: 24px;
@@ -182,5 +229,5 @@ function mapStateToProps(state) {
 }
 export default connect(
   mapStateToProps,
-  {}
+  { update_questions }
 )(Questions);

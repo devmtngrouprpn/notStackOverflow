@@ -10,8 +10,7 @@ import {
   tabButtonDarkBorder,
   tabButtonText,
   tabButtonTextDark,
-  hrGray,
-  inputBorderBlue
+  hrGray
 } from "./index.js";
 
 export const Hr = styled.div`
@@ -91,7 +90,7 @@ export const blueButton = (padding = "8px 10px 8px 10px") =>
     padding: ${padding}
     outline: none;
     font-size: 13px;
-    border: 1px solid #07c
+    border: 1px solid #07c;
     white-space: nowrap;
     :hover{
         color: rgba(255,255,255,0.9);
@@ -130,7 +129,6 @@ box-sizing:border-box;
   flex-basis: 750px;
   margin-left: 12px;
   padding: 8px 9px 8px 9px;
-
   :focus {
     box-sizing:border-box;
 
@@ -139,11 +137,9 @@ box-sizing:border-box;
     box-shadow: 0 0 0 4px rgba(0, 149, 256, 0.15);
     border-radius: 3px;
   }
-
   :focus + button {
     display: block;
   }
-
   ::placeholder {
     color: lightgray;
   }
