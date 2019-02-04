@@ -34,7 +34,6 @@ class QuestionCreator extends Component {
         this.setState({ tags: res.data.allTags })
         let array = this.state.tags.map((e) => { return e.name })
         this.setState({ tagNames: array })
-        console.log(this.props)
     };
     submitQuestion = async () => {
         let res = await axios.post("/api/questions/ask", { userId: this.props.global.user.auth_id, content: this.state.descPayload, title: this.state.titlePayload, tags: this.state.tagsPayload })
@@ -50,7 +49,6 @@ class QuestionCreator extends Component {
         if (this.state.status === value) {
             return `color:blue`
         }
-
     }
     grabRelated = (value) => {
         this.setState({ typingTag: value.target.value })
@@ -90,13 +88,13 @@ class QuestionCreator extends Component {
                                             <TinyTag subject={e} />
                                         </BadTag>
                                     })}</HiddenTags>
-                                    <SearchBox onChange={(value) => this.grabRelated(value)} />
+                                    <SearchBox value={this.state.typingTag} onChange={(value) => this.grabRelated(value)} />
                                 </DualBox>
                                 <Suggestions>{this.state.tagsForMapping.map((e) => {
                                     return <TinyTagHolder
                                         onClick={() => {
                                             if (!this.state.tagsPayload.includes(e.target)) {
-                                                this.setState({ tagsPayload: [...this.state.tagsPayload, e.target], tagsForMapping: [] })
+                                                this.setState({ tagsPayload: [...this.state.tagsPayload, e.target], tagsForMapping: [], typingTag: '' })
                                             }
                                         }
                                         }
@@ -205,13 +203,13 @@ class QuestionCreator extends Component {
                                             <TinyTag subject={e} />
                                         </BadTag>
                                     })}</HiddenTags>
-                                    <SearchBox onChange={(value) => this.grabRelated(value)} />
+                                    <SearchBox value={this.state.typingTag} onChange={(value) => this.grabRelated(value)} />
                                 </DualBox>
                                 <Suggestions>{this.state.tagsForMapping.map((e) => {
                                     return <TinyTagHolder
                                         onClick={() => {
                                             if (!this.state.tagsPayload.includes(e.target)) {
-                                                this.setState({ tagsPayload: [...this.state.tagsPayload, e.target] })
+                                                this.setState({ tagsPayload: [...this.state.tagsPayload, e.target], typingTag: '' })
                                             }
                                         }
                                         }

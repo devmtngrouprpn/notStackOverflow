@@ -51,8 +51,8 @@ export default class TinyTag extends Component {
                 onMouseLeave={this.leaving}
               />
             ) : (
-              <></>
-            )}
+                <></>
+              )}
             {this.state.stillWant && this.state.information ? (
               <HoverSpace
                 onMouseEnter={this.makeCall}
@@ -88,7 +88,7 @@ export default class TinyTag extends Component {
                   </TitleSpan>
                   <Desc>
                     {this.state.information.description}{" "}
-                    <Link to={`/${this.state.information}`}>View Tag</Link>
+                    <Link to={`/tags/${this.state.information.tag_name}`}>View Tag</Link>
                   </Desc>
                   <ButtonHolder>
                     <WatchButton>
@@ -120,8 +120,8 @@ export default class TinyTag extends Component {
                 </DropDown>
               </HoverSpace>
             ) : (
-              <></>
-            )}
+                <></>
+              )}
           </Subject>
         </Relative>
       </>
