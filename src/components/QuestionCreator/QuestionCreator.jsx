@@ -27,6 +27,7 @@ class QuestionCreator extends Component {
             tagsPayload: [],
             descPayload: '',
             titlePayload: '',
+            toggle: false
         };
     };
     componentDidMount = async () => {
@@ -85,7 +86,7 @@ class QuestionCreator extends Component {
                                         return <BadTag onClick={
                                             () => { this.removeTag(e) }
                                         }>
-                                            <TinyTag subject={e} />
+                                            <TinyTag x={true} subject={e} />
                                         </BadTag>
                                     })}</HiddenTags>
                                     <SearchBox value={this.state.typingTag} onChange={(value) => this.grabRelated(value)} />
@@ -105,6 +106,8 @@ class QuestionCreator extends Component {
                                     </TinyTagHolder>
                                 })}</Suggestions>
                                 <PageTurner>
+
+                                    <RedButton onClick={() => { this.setState({ status: 'tags', tagsPayload: [], titlePayload: '', descPayload: '', }) }}>Start Over</RedButton>
                                     <Button onClick={() => { this.setState({ status: 'title' }) }}>Next Step</Button>
                                 </PageTurner>
                             </Container>
@@ -193,7 +196,7 @@ class QuestionCreator extends Component {
                                 </Tutorial>
                                 <TagBar>Title</TagBar>
                                 <SearchBoxNotForTags value={this.state.titlePayload} onChange={e => this.setState({ titlePayload: e.target.value })} />
-                                <TextSpot dataStore={this.handleChange} text={this.state.descPayload} />
+                                <TextSpot dataStore={this.handleChange} reset={this.state.toggle} text={this.state.descPayload} />
                                 <TagBar>Tags</TagBar>
                                 <DualBox>
                                     <HiddenTags>{this.state.tagsPayload.map((e) => {
@@ -215,12 +218,12 @@ class QuestionCreator extends Component {
                                         }
                                     >
                                         <TinyTag
-                                            subject={e.target}
+                                            subject={e.target} x={true}
                                         />
                                     </TinyTagHolder>
                                 })}</Suggestions>
                                 <PageTurner>
-                                    <Button onClick={() => { this.setState({ status: 'desc' }) }}>Previous Step</Button>
+                                    <RedButton onClick={async () => { await this.setState({ tagsPayload: [], titlePayload: '', descPayload: '', status: 'tags' }); this.setState({ descPayload: '' }) }}>Discard</RedButton>
                                     <Button onClick={this.submitQuestion}>Submit Question</Button>
                                 </PageTurner>
                             </Container>
@@ -230,10 +233,25 @@ class QuestionCreator extends Component {
         }
     }
 }
+const RedButton = styled.button`
+${blueButton()};
+color: #9c1724;
+height: fit-content;
+background: none;
+border: none;
+box-shadow: none;
+cursor: pointer;
+:hover{
+    background:#FDF3F4;
+    box-shadow: none;
+    color: #9c1724;
+}
+`
 const PageTurner = styled.div`
 width: 100%;
 display:flex;
 justify-content:flex-end;
+align-items: center;
 `
 const BadTag = styled.div`
 width: fit-content;
@@ -290,7 +308,8 @@ width: 100%;
 const Button = styled.button`
 margin: 10px;
 float: right;
-${blueButton()}
+${blueButton()};
+cursor: pointer;
 `
 const Head = styled(P)`
 width:100%;
@@ -325,6 +344,7 @@ ${blueButton()};
 width: fit-content;
 height: fit-content;
 border-radius: 50px;
+cursor: pointer;
 `
 const TagBar = styled(P)`
 width: 100%;
@@ -334,11 +354,12 @@ position: relative;
 padding: 10px;
 `
 
-const Option = styled.div`
+const Option = styled(P)`
+cursor:pointer;
 margin: 10px;
-color: blue;
+color: #07C;
 `
-const CurrentStep = styled.div`
+const CurrentStep = styled(P)`
 ${ flex()}
 margin: 20px;
 
