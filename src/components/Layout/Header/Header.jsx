@@ -62,7 +62,7 @@ function Header(props) {
   );
 }
 const Menu = styled.div`
-display: none
+display: none;
 `
 const Hamburger = styled.div`
 padding-right: 10px;

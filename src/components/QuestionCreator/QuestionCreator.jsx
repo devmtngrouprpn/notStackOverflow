@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { TinyTag } from "../../utilites/index.js";
 import stringSimilarity from 'string-similarity'
 import Quill from './Quil'
+import { connect } from 'react-redux'
 // import { SearchBar } from '../../utilites/globals';
 import Layout2 from '../Layout/Layout2'
 import {
@@ -13,7 +14,7 @@ import {
     blueButton,
 } from "./../../utilites/index";
 
-export default class Tags extends Component {
+class QuestionCreator extends Component {
     constructor() {
         super();
         this.state = {
@@ -33,9 +34,10 @@ export default class Tags extends Component {
         this.setState({ tags: res.data.allTags })
         let array = this.state.tags.map((e) => { return e.name })
         this.setState({ tagNames: array })
+        console.log(this.props)
     };
-    submitQuestion = () => {
-        axios.post()
+    submitQuestion = async () => {
+        let res = await axios.post("/api/questions/ask", { userId: this.props.global.user.auth_id, content: this.state.descPayload, title: this.state.titlePayload, tags: this.state.tagsPayload })
     }
     handleChange = (defaultValue) => {
         this.setState({ descPayload: defaultValue })
@@ -53,8 +55,9 @@ export default class Tags extends Component {
     grabRelated = (value) => {
         this.setState({ typingTag: value.target.value })
         let object = stringSimilarity.findBestMatch(value.target.value, this.state.tagNames)
-        object = object.ratings.slice(0, 6)
-        object = object.sort((a, b) => { return a.rating - b.rating }).reverse().filter(a => a.rating > 0)
+        console.log(object)
+        object = object.ratings.sort((a, b) => { return a.rating * 100 - b.rating * 100 }).reverse().filter(a => a.rating > 0)
+        object = object.slice(0, 6)
         this.setState({ tagsForMapping: object })
     }
     render() {
@@ -288,7 +291,6 @@ width: 100%;
 `
 const Button = styled.button`
 margin: 10px;
-margin:
 float: right;
 ${blueButton()}
 `
@@ -368,4 +370,9 @@ ${ flex()};
 position:relative;
 `
 
+function mapStateToProps(reduxStore) {
+    return { ...reduxStore };
+}
+
+export default connect(mapStateToProps)(QuestionCreator);
 

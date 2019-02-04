@@ -12,6 +12,4 @@ GROUP BY
     t.tag_name
 ORDER BY
     count(qt.tag_name)
-    DESC
-LIMIT 28;
-
+    DESC;

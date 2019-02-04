@@ -101,11 +101,12 @@ module.exports = {
   // ==========================================================
   askQuestions: async (req, res, next) => {
     let { userId, content, title, tags } = req.body;
+    console.log(req.body)
     let db = req.app.get("db");
-    console.log(title);
     let dbResult = await Promise.all([
       db.user_input.new_question([userId, content, title])
-    ]);
+    ]).catch(err => { console.log(err) });
+    console.log('first db');
     let question_id = dbResult[0][0].question_id;
     console.log(question_id, dbResult[0][0]);
     tags.forEach(tag => {

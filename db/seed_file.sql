@@ -25,7 +25,7 @@ CREATE TABLE "user" (
 
 CREATE TABLE "question" (
 	"question_id" serial NOT NULL,
-	"user_id" integer NOT NULL,
+	"user_id" text NOT NULL,
 	"tags" text[] NOT NULL,
 	"question_views" integer NOT NULL,
 	"question_last_edit" TIMESTAMP NOT NULL,
