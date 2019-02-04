@@ -92,26 +92,47 @@ module.exports = {
       }
       return newList.filter(item => item);
     });
+    let dbTotal = await Promise.all([
+      db.World.totals.featured_total([]),
+      db.World.totals.frequent_total([]),
+      db.World.totals.question_total([]),
+      console.log("I got hit")
+    ]);
+    // console.log(dbResult);
+    let [featuredTotal, frequentTotal, allTotal] = dbTotal;
+    console.log(featuredTotal[0]);
 
     let [newest, featured, frequent, votes, active, unanswered] = results;
-    res
-      .status(200)
-      .send({ newest, featured, frequent, votes, active, unanswered });
+    res.status(200).send({
+      newest,
+      featured,
+      frequent,
+      votes,
+      active,
+      unanswered,
+      featuredTotal,
+      frequentTotal,
+      allTotal
+    });
   },
   // ==========================================================
   askQuestions: async (req, res, next) => {
     let { userId, content, title, tags } = req.body;
-    console.log(req.body)
+    console.log(userId);
+    console.log(req.body);
     let db = req.app.get("db");
     let dbResult = await Promise.all([
       db.user_input.new_question([userId, content, title])
-    ]).catch(err => { console.log(err) });
-    console.log('first db');
+    ]).catch(err => {
+      console.log(err);
+    });
+    console.log("first db");
     let question_id = dbResult[0][0].question_id;
     console.log(question_id, dbResult[0][0]);
     tags.forEach(tag => {
       db.user_input.new_question_tag([tag, question_id]);
     });
+
     res.status(200).send({ message: "Your Question Was Uploaded" });
   }
 };

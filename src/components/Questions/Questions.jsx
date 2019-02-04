@@ -41,9 +41,9 @@ class Questions extends Component {
   };
 
   render() {
-    let questions = this.props[this.state.view].map(question => (
-      <HQCard question={question} />
-    ));
+    // let questions = this.props[this.state.view].map(question => (
+    //   <HQCard question={question} />
+    // ));
 
     return (
       <Layout>
