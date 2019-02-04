@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ReactQuill from 'react-quill';
+import styled from 'styled-components'
 import axios from 'axios'
 import 'react-quill/dist/quill.snow.css';
 class Quill extends React.Component {
@@ -31,6 +32,9 @@ class Quill extends React.Component {
         }
         this.handleChange = this.handleChange.bind(this)
     }
+    componentDidMount = () => {
+        this.setState({ text: this.props.text })
+    }
     handleChange(value) {
         this.setState({ text: value })
         this.props.dataStore(this.state.text)
@@ -40,7 +44,7 @@ class Quill extends React.Component {
 
         return (<>
 
-            <ReactQuill theme={'snow'}
+            <ReactQuillStyled theme={'snow'}
 
                 value={this.state.text}
                 onChange={this.handleChange}
@@ -54,3 +58,7 @@ class Quill extends React.Component {
     }
 }
 export default Quill
+
+const ReactQuillStyled = styled(ReactQuill)`
+width: 100%;
+`
