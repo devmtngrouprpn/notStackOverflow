@@ -34,7 +34,9 @@ export default class Tags extends Component {
         let array = this.state.tags.map((e) => { return e.name })
         this.setState({ tagNames: array })
     };
-    submitQuestion = () => { }
+    submitQuestion = () => {
+        axios.post()
+    }
     handleChange = (defaultValue) => {
         this.setState({ descPayload: defaultValue })
     }
