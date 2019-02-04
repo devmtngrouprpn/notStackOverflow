@@ -35,7 +35,7 @@ export default class Tags extends Component {
               others to find and answer your question.
             </Desc>
             <SortBar>
-              <input />
+              <SearchBox placeholder='Filter by tag name' />
               <ButtonContainer>
                 <TabButton
                   onClick={() => this.handleView("Popular")}
@@ -99,6 +99,17 @@ export default class Tags extends Component {
     );
   }
 }
+const SearchBox = styled(SearchBar)`
+  border-radius: 3px;
+    border-color: #bbc0c4;
+    border: 1px solid lightgray;
+    background-color: #fff;
+    box-shadow: none;
+    color: #3b4045;
+    padding: 8px 9px 8px 9px;
+    margin-left:0;
+    max-width: 180px;
+`
 const ButtonContainer = styled.div``;
 const CountBox = styled.div``;
 const FeaturedBox = styled.div``;
@@ -117,8 +128,10 @@ const Asked = styled(P)`
   font-size: 12px;
 `;
 const SortBar = styled.div`
+margin-top:25px;
+margin-bottom:25px;
   display: flex;
-  justify-content: space space-between;
+  justify-content: space-between;
 `;
 const QuestionsApartOf = styled(P)`
   font-size: 11px;

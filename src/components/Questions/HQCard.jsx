@@ -58,7 +58,7 @@ function HQCard({ question }) {
             <AskedLink to={`/questions/${question.question_id}`}>
               asked in the past
             </AskedLink>
-            <StyledCardLink user={true} to={`/users/${question.auth_id}`}>
+            <StyledCardLink user={true} to={`/users/${question.username}`}>
               <P>{question.username}</P>
             </StyledCardLink>{" "}
             <RepP>
@@ -156,8 +156,8 @@ const ViewsP = styled(P)`
     +props.views >= 10000
       ? tenKViews
       : +props.views >= 1000
-      ? oneKViews
-      : questionBoxGray};
+        ? oneKViews
+        : questionBoxGray};
   font-size: ${props => (props.big ? "17px" : "11px")};
 `;
 

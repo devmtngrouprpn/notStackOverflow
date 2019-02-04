@@ -3,6 +3,7 @@ import styled from "styled-components";
 import SearchBar from "./SearchBar.jsx";
 import { flex, orange, offWhite, svgColor } from "../../../utilites/index.js";
 import { P, Logo, black } from "../../../utilites/index.js";
+import { Link } from 'react-router-dom';
 import LogFunctions from "./LogFunctions";
 import UserDisplay from "./UserDisplay.jsx";
 
@@ -22,7 +23,7 @@ function Header(props) {
           </Menu>
         </Hamburger> :
           <></>}
-        <Container>
+        <TitleLink to='/'><Container>
           <HeaderLogo
             src="http://lh3.googleusercontent.com/6AMietCWSXysmPDEiIEzXoJP2HzXYNbDHx83l42JqnX350YlyBGmwk7ithVCTIM2fbM=w300"
             alt="not stackoverflow logo"
@@ -31,7 +32,7 @@ function Header(props) {
             not<Bold>stack</Bold>overflow
           </LogoText>
         </Container>
-
+        </TitleLink>
         <SearchBar />
         <IconWrapper>
           <UserDisplayer />
@@ -61,8 +62,12 @@ function Header(props) {
     </FlexBox>
   );
 }
+const TitleLink = styled(Link)`
+text-decoration: none;
+color: inherit;
+`
 const Menu = styled.div`
-display: none
+display: none;
 `
 const Hamburger = styled.div`
 padding-right: 10px;
@@ -95,6 +100,7 @@ const SvgWrapper = styled.div`
   }
 `;
 const LogoText = styled(P)`
+text-decoration-line:none;
   font-weight: 550;
   font-size: 20px;
   font-family: KoHo, san-serif;
