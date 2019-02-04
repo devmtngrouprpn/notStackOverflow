@@ -4,12 +4,19 @@ SELECT
     v.source_type,
     (count(a.question_id) / 2) AS answers,
     q.question_title,
-    (now() - q.question_creation_timestamp) AS time,
     q.question_views,
     use.username,
     use.reputation,
     t.tag_name AS tags,
-    use.auth_id
+    use.auth_id,
+    use.picture,
+    (extract(epoch FROM (now() - q.question_creation_timestamp)::interval)) AS question_creation,
+    q.question_creation_timestamp AS question_created,
+    (extract(epoch FROM (now() - q.question_last_edit)::interval)) AS question_edit,
+    q.question_last_edit AS question_edit_time,
+    CASE WHEN a.answer_accepted = TRUE THEN
+        TRUE
+    END AS accepted
 FROM
     question q
     JOIN users use ON q.user_id = use.auth_id
@@ -22,7 +29,8 @@ GROUP BY
     use.reputation,
     t.tag_name,
     q.question_id,
-    use.auth_id
+    use.auth_id,
+    a.answer_accepted
 ORDER BY
     (now() - q.question_creation_timestamp)
 LIMIT 100;

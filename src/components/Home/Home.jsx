@@ -36,6 +36,19 @@ class Home extends Component {
   handleView = name => {
     this.setState({ view: name });
   };
+  pushitrealgood() {
+    let userId = `user1`;
+    let content = `<p>werertk;'erwkt</p><p>lrtj;wer</p><p>leng9\\rere</p><p>erqwer</p><p><br></p><p>rtret<em>rtrtr</em></p>`;
+    let title = `i am' a title`;
+    let tags = ["javascript", "react"];
+    let res = axios.post("/api/questions/ask", {
+      userId,
+      content,
+      title,
+      tags
+    });
+    console.log(res.data);
+  }
   render() {
     let questions = this.props[this.state.view].map(question => (
       <HQCard question={question} />
@@ -97,6 +110,7 @@ class Home extends Component {
                 </TabButton>
               </ButtonContainer>
               <Questions>{questions}</Questions>
+              <button onClick={this.pushitrealgood}>Push for Test</button>
             </Content>
             <Adds />
           </Page>
