@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import styled from "styled-components";
 import Layout from "../Layout/Layout1.jsx";
-import HQCard from "./../Questions/HQCard";
+import VQCard from "./../Questions/VQCard";
 import {
   flex,
   featuredBoxBlue,
@@ -41,9 +41,9 @@ class Questions extends Component {
   };
 
   render() {
-    // let questions = this.props[this.state.view].map(question => (
-    //   <HQCard question={question} />
-    // ));
+    let questions = this.props[this.state.view].map(question => (
+      <VQCard question={question} />
+    ));
 
     return (
       <Layout>

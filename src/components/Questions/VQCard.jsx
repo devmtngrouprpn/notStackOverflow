@@ -25,6 +25,7 @@ function HQCard({ question }) {
           <Container to={`/questions/${question.question_id}`}>
             <BigP>{question.votes}</BigP>
             <SmallP>vote{question.votes != 1 ? "s" : ""}</SmallP>
+            {/* <p>Hello</p> */}
           </Container>
           <AnswerBox
             answers={question.answers}
@@ -53,6 +54,7 @@ function HQCard({ question }) {
               {question.question_title}
             </StyledCardLink>
           </QuestionH1>
+          <QuestionH3>{question.content}</QuestionH3>
           <TagContainer>{tags}</TagContainer>
           <NameP>
             <AskedLink to={`/questions/${question.question_id}`}>
@@ -78,6 +80,18 @@ const QuestionH1 = styled(H1)`
   font-size: 16px;
   margin-bottom: 5.25px;
 `;
+const QuestionH3 = styled(H1)`
+  font-size: 16px;
+  margin-bottom: 5.25px;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+  padding: 0;
+  padding-bottom: 5px;
+  margin: 0;
+  color: #3b4045;
+  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+`;
 
 const RepP = styled(P)`
   font-weight: 700;
@@ -88,6 +102,7 @@ const RightContainer = styled.div`
   ${flex("column", "flex-start", "flex-start")}
   flex-basis: 100%;
   position: relative;
+  margin: 0;
 `;
 
 const AskedLink = styled(StyledLink)`
@@ -104,6 +119,8 @@ const NameP = styled(P)`
   position: absolute;
   font-size: 12px;
   bottom: 10px;
+  width: 200px;
+  line-height: 18px;
   ${flex()}
 `;
 
@@ -125,8 +142,14 @@ const Card = styled.div`
 `;
 
 const Data = styled.div`
-  ${flex("row", "flex-start", "flex-start")}
+  ${flex("column", "flex-start", "flex-start")}
   margin-right: 16px;
+  width: 58px;
+  float: none;
+  margin-left: 8px;
+  flex-shrink: 0;
+  color: #6a737c;
+  font-size: 11px;
 `;
 const BigP = styled(P)`
   color: ${props => (props.answers ? "inherit" : questionBoxGray)};
