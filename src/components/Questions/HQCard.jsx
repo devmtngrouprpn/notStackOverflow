@@ -61,7 +61,7 @@ function HQCard({ question }) {
               <P>{question.username}</P>
             </StyledCardLink>{" "}
             <RepP>
-              {question.reputation > 1000
+              {question.reputation > 10000
                 ? `${(question.reputation / 1000).toFixed(1)}k`
                 : question.reputation}
             </RepP>

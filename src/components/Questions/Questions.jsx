@@ -41,9 +41,9 @@ class Questions extends Component {
   };
 
   render() {
-    // let questions = this.props[this.state.view].map(question => (
-    //   <HQCard question={question} />
-    // ));
+    let questions = this.props[this.state.view].map(question => (
+      <HQCard question={question} />
+    ));
 
     return (
       <Layout>
@@ -133,14 +133,14 @@ class Questions extends Component {
                     <TabButton
                       onClick={() => this.handleView("unansweredVotes")}
                       active={this.state.view === "unansweredVotes"}
-                      activeNeigbor={this.state.view === "unansweredNoAnswers"}
+                      activeNeigbor={this.state.view === "unansweredNoAnswer"}
                       position="mid"
                     >
                       Votes
                     </TabButton>
                     <TabButton
-                      onClick={() => this.handleView("unansweredNoAnswers")}
-                      active={this.state.view === "unansweredNoAnswers"}
+                      onClick={() => this.handleView("unansweredNoAnswer")}
+                      active={this.state.view === "unansweredNoAnswer"}
                       position="mid"
                     >
                       No Answers
