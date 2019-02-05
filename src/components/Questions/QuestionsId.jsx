@@ -11,14 +11,19 @@ import {
   flex,
   blueButton
 } from "../../utilites/index.js";
+import axios from "axios";
 
 export default class QuestionId extends Component {
   state = {
-    loading: false
+    loading: true,
+    question: {}
   };
 
-  componentDidMount = () => {
-    // call for data useing props.match.params.id as the query
+  componentDidMount = async () => {
+    const res = await axios.get(
+      `/api/questions/indv?id=${this.props.match.params.id}`
+    );
+    this.setState({ loading: false, question: res.data });
   };
 
   render() {
@@ -28,7 +33,7 @@ export default class QuestionId extends Component {
           <Box>
             <TopAdds />
             <TitleBox>
-              <H1>Question By Id</H1>
+              <H1>{this.state.question.question_title}</H1>
               <AskButton>Ask Question</AskButton>
             </TitleBox>
             <QuestionPage>
