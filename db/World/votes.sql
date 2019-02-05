@@ -28,7 +28,6 @@ FROM
 GROUP BY
     v.source_type,
     use.username,
-    use.reputation,
     t.tag_name,
     q.question_id,
     use.auth_id,
