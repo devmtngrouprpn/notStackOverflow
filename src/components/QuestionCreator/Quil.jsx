@@ -41,7 +41,7 @@ class Quill extends React.Component {
     }
 
     render() {
-
+        if (this.props.reset) { this.setState({ text: '' }) }
         return (<>
 
             <ReactQuillStyled theme={'snow'}

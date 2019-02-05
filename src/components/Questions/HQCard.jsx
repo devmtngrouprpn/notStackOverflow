@@ -16,7 +16,6 @@ import {
 } from "./../../utilites/index";
 
 function HQCard({ question }) {
-  console.log(question);
   const tags = question.tags.map(tag => <TinyTag subject={tag} />);
   return (
     <>
@@ -156,8 +155,8 @@ const ViewsP = styled(P)`
     +props.views >= 10000
       ? tenKViews
       : +props.views >= 1000
-        ? oneKViews
-        : questionBoxGray};
+      ? oneKViews
+      : questionBoxGray};
   font-size: ${props => (props.big ? "17px" : "11px")};
 `;
 

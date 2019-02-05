@@ -27,6 +27,7 @@ class QuestionCreator extends Component {
             tagsPayload: [],
             descPayload: '',
             titlePayload: '',
+            toggle: false
         };
     };
     componentDidMount = async () => {
@@ -85,10 +86,10 @@ class QuestionCreator extends Component {
                                         return <BadTag onClick={
                                             () => { this.removeTag(e) }
                                         }>
-                                            <TinyTag subject={e} />
+                                            <TinyTag x={true} subject={e} />
                                         </BadTag>
                                     })}</HiddenTags>
-                                    <SearchBox value={this.state.typingTag} onChange={(value) => this.grabRelated(value)} />
+                                    <TagBox value={this.state.typingTag} onChange={(value) => this.grabRelated(value)} />
                                 </DualBox>
                                 <Suggestions>{this.state.tagsForMapping.map((e) => {
                                     return <TinyTagHolder
@@ -105,6 +106,8 @@ class QuestionCreator extends Component {
                                     </TinyTagHolder>
                                 })}</Suggestions>
                                 <PageTurner>
+
+                                    <RedButton onClick={() => { this.setState({ status: 'tags', tagsPayload: [], titlePayload: '', descPayload: '', }) }}>Start Over</RedButton>
                                     <Button onClick={() => { this.setState({ status: 'title' }) }}>Next Step</Button>
                                 </PageTurner>
                             </Container>
@@ -193,7 +196,7 @@ class QuestionCreator extends Component {
                                 </Tutorial>
                                 <TagBar>Title</TagBar>
                                 <SearchBoxNotForTags value={this.state.titlePayload} onChange={e => this.setState({ titlePayload: e.target.value })} />
-                                <TextSpot dataStore={this.handleChange} text={this.state.descPayload} />
+                                <TextSpot dataStore={this.handleChange} reset={this.state.toggle} text={this.state.descPayload} />
                                 <TagBar>Tags</TagBar>
                                 <DualBox>
                                     <HiddenTags>{this.state.tagsPayload.map((e) => {
@@ -203,7 +206,7 @@ class QuestionCreator extends Component {
                                             <TinyTag subject={e} />
                                         </BadTag>
                                     })}</HiddenTags>
-                                    <SearchBox value={this.state.typingTag} onChange={(value) => this.grabRelated(value)} />
+                                    <TagBox value={this.state.typingTag} onChange={(value) => this.grabRelated(value)} />
                                 </DualBox>
                                 <Suggestions>{this.state.tagsForMapping.map((e) => {
                                     return <TinyTagHolder
@@ -215,12 +218,12 @@ class QuestionCreator extends Component {
                                         }
                                     >
                                         <TinyTag
-                                            subject={e.target}
+                                            subject={e.target} x={true}
                                         />
                                     </TinyTagHolder>
                                 })}</Suggestions>
                                 <PageTurner>
-                                    <Button onClick={() => { this.setState({ status: 'desc' }) }}>Previous Step</Button>
+                                    <RedButton onClick={async () => { await this.setState({ tagsPayload: [], titlePayload: '', descPayload: '', status: 'tags' }); this.setState({ descPayload: '' }) }}>Discard</RedButton>
                                     <Button onClick={this.submitQuestion}>Submit Question</Button>
                                 </PageTurner>
                             </Container>
@@ -230,14 +233,43 @@ class QuestionCreator extends Component {
         }
     }
 }
+const RedButton = styled.button`
+${blueButton()};
+color: #9c1724;
+height: fit-content;
+background: none;
+border: none;
+box-shadow: none;
+cursor: pointer;
+:hover{
+    background:#FDF3F4;
+    box-shadow: none;
+    color: #9c1724;
+}
+`
 const PageTurner = styled.div`
 width: 100%;
 display:flex;
 justify-content:flex-end;
+align-items: center;
 `
 const BadTag = styled.div`
 width: fit-content;
 height: fit-content;
+`
+const TagBox = styled(SearchBar)`
+border-top-left-radius:0;
+border-bottom-left-radius: 0;
+max-height: 50px;
+margin-left:0;
+border-left:none;
+width: available;
+:focus{
+    box-shadow:none;
+    outline:none;
+    border:none;
+
+}
 `
 const DualBox = styled.div`
 flex-wrap: nowrap;
@@ -245,6 +277,12 @@ display:flex;
 max-height: 40px;
 width: 100%;
 display: flex;
+border-radius: 3px;
+:focus-within{
+   outline: none;
+    border: 1px solid #66bfff;
+    box-shadow: 0 0 0 4px rgba(0, 149, 256, 0.15);
+}
 `
 const HiddenTags = styled.div`
 display:flex;
@@ -255,6 +293,11 @@ margin-right: 0;
 border-right: none;
 border-top-right-radius:0;
 border-bottom-right-radius: 0;
+:focus{
+    border-right: none;
+    box-shadow:none;
+    outline:none;
+}
 `
 const SearchBoxNotForTags = styled(SearchBar)`
 max-height: 50px;
@@ -290,7 +333,8 @@ width: 100%;
 const Button = styled.button`
 margin: 10px;
 float: right;
-${blueButton()}
+${blueButton()};
+cursor: pointer;
 `
 const Head = styled(P)`
 width:100%;
@@ -325,6 +369,7 @@ ${blueButton()};
 width: fit-content;
 height: fit-content;
 border-radius: 50px;
+cursor: pointer;
 `
 const TagBar = styled(P)`
 width: 100%;
@@ -334,11 +379,19 @@ position: relative;
 padding: 10px;
 `
 
-const Option = styled.div`
+const Option = styled(P)`
+cursor:pointer;
 margin: 10px;
-color: blue;
+color: #07C;
+padding:8px 10px 8px 10px;
+:hover{
+    border-radius:50px;
+    /* box-shadow: inset 0 1px 0 #66bfff; */
+    padding: 8px 10px 8px 10px;
+    background:#E1F0FC;
+}
 `
-const CurrentStep = styled.div`
+const CurrentStep = styled(P)`
 ${ flex()}
 margin: 20px;
 

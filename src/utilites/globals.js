@@ -10,8 +10,7 @@ import {
   tabButtonDarkBorder,
   tabButtonText,
   tabButtonTextDark,
-  hrGray,
-  inputBorderBlue
+  hrGray
 } from "./index.js";
 
 export const Hr = styled.div`
@@ -59,7 +58,7 @@ export const TabButton = styled.button`
   border-right: ${props => (props.activeNeigbor ? "none" : "")};
   :hover {
     background-color: ${props =>
-      props.active ? tabButtonDarkGray : tabButtonGray};
+    props.active ? tabButtonDarkGray : tabButtonGray};
     color: ${tabButtonTextDark};
   }
   :focus {
@@ -78,7 +77,7 @@ export const tabButton = (padding = "8px 8px 8px 8px") =>
     props.active ? tabButtonDarkBorder : tabButtonBorder};
   :hover {
     background-color: ${props =>
-      props.active ? tabButtonDarkGray : tabButtonGray};
+    props.active ? tabButtonDarkGray : tabButtonGray};
   }
 `;
 
@@ -91,7 +90,7 @@ export const blueButton = (padding = "8px 10px 8px 10px") =>
     padding: ${padding}
     outline: none;
     font-size: 13px;
-    border: 1px solid #07c
+    border: 1px solid #07c;
     white-space: nowrap;
     :hover{
         color: rgba(255,255,255,0.9);
@@ -120,6 +119,7 @@ export const H1 = styled.h1`
 `;
 
 export const SearchBar = styled.input`
+box-sizing:border-box;
   border-radius: 3px;
   border-color: #bbc0c4;
   border: 1px solid lightgray;
@@ -129,17 +129,17 @@ export const SearchBar = styled.input`
   flex-basis: 750px;
   margin-left: 12px;
   padding: 8px 9px 8px 9px;
-
   :focus {
-    outline: none;
-    border: 1px solid #66bfff;
-    box-shadow: 0 0 0 4px rgba(0, 149, 256, 0.15);
-  }
+    box-sizing:border-box;
 
+    outline: none;
+    /* border: 1px solid #66bfff; */
+    box-shadow: 0 0 0 4px rgba(0, 149, 256, 0.15);
+    border-radius: 3px;
+  }
   :focus + button {
     display: block;
   }
-
   ::placeholder {
     color: lightgray;
   }

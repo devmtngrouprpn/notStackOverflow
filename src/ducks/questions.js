@@ -1,10 +1,13 @@
 const initialState = {
-  newest: {},
-  featured: {},
-  frequent: {},
-  votes: {},
-  active: {},
-  unanswered: {}
+  newest: [],
+  featured: [],
+  frequent: [],
+  votes: [],
+  active: [],
+  unansweredNewest: [],
+  unansweredMyTags: [],
+  unansweredVotes: [],
+  unansweredNoAnswer: []
 };
 
 // --- Action Types --- //
@@ -22,7 +25,7 @@ export default function(state = initialState, action) {
 
 // --- Action Creators --- //
 
-export function update_home(data) {
+export function update_questions(data) {
   return {
     type: UPDATE,
     payload: data
