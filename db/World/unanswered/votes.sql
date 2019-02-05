@@ -32,7 +32,8 @@ GROUP BY
     q.question_id,
     use.auth_id,
     a.answer_accepted
+HAVING (count(a.question_id)) = 0
 ORDER BY
-    (now() - q.question_creation_timestamp)
+    votes DESC
 LIMIT 100;
 

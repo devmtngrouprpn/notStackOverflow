@@ -16,7 +16,7 @@ SELECT
     use.picture,
     sum(v.up_or_down) / 2 AS votes,
     (count(a.question_id)) AS answers,
-    t.tag_name
+    t.tag_name AS tags
 FROM
     question q
     JOIN users use ON q.user_id = use.auth_id

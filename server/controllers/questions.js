@@ -52,23 +52,17 @@ module.exports = {
   // ==========================================================
   worldQuestions: async (req, res, next) => {
     let db = req.app.get("db");
-    console.log("world");
     let dbResult = await Promise.all([
       db.World.newest([]),
       db.World.featured([]),
       db.World.frequent([]),
       db.World.votes([]),
-      db.World.active([]),
-      // db.World.unanswered.unanswered([])
-      Promise.all([db.World.totals.all([])])
+      db.World.active([])
     ]);
-
-    console.log("world");
     let results = dbResult.map((list, i) => {
       let idArr = [];
-      if (i === 0) {
-        // console.log("list", list, i);
-      }
+      // let title = list[i].question_title.replace(/^'/, "");
+      // console.log(title);
       const newList = list.map(item => {
         if (!idArr.includes(item.question_id)) {
           idArr.push(item.question_id);
@@ -99,9 +93,11 @@ module.exports = {
       console.log("I got hit")
     ]);
     // console.log(dbResult);
-    let [featuredTotal, frequentTotal, allTotal] = dbTotal;
-    console.log(featuredTotal[0]);
-
+    let [featuredT, frequentT, allT] = dbTotal;
+    // console.log(featuredTotal[0]);
+    let featuredTotal = featuredT[0];
+    let frequentTotal = frequentT[0];
+    let allTotal = allT[0];
     let [newest, featured, frequent, votes, active, unanswered] = results;
     res.status(200).send({
       newest,

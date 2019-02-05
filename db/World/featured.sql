@@ -16,7 +16,7 @@ SELECT
     use.username,
     use.reputation,
     use.picture,
-    t.tag_name,
+    t.tag_name AS tags,
     b.bounty_value,
     use.auth_id,
     q.question_views

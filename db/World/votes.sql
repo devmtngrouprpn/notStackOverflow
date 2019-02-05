@@ -9,7 +9,7 @@ SELECT
     use.picture,
     sum(v.up_or_down) / 2 AS votes,
     (count(a.question_id) / 2) AS answers,
-    t.tag_name,
+    t.tag_name AS tags,
     (extract(epoch FROM (now() - q.question_creation_timestamp)::interval)) AS question_creation,
     q.question_creation_timestamp AS question_created,
     (extract(epoch FROM (now() - q.question_last_edit)::interval)) AS question_edit,
