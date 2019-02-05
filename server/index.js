@@ -58,6 +58,9 @@ app.get("/api/tags/alltinytags", tinyTag.getAllTags);
 // USERS START
 app.get("/api/users/allusers", users.getUsers);
 // USERS END
+// QUESTIONS START
+app.get("/api/questions/indv", questions.questionById);
+// QUESTIONS END
 
 // *** IM LISTENING! *** //
 

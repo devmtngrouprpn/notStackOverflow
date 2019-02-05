@@ -1,5 +1,6 @@
 module.exports = {
   authCallback: async (request, response) => {
+    console.log("it called back");
     const {
       REACT_APP_DOMAIN,
       REACT_APP_CLIENT_ID,
@@ -24,10 +25,15 @@ module.exports = {
     );
     const db = request.app.get("db");
     const { name, picture, sub, nickname, location } = userResponse.data;
+    console.log(sub);
     const foundUser = await db.get_user([sub]);
+    console.log(foundUser);
     if (foundUser) {
+      console.log("found user");
       request.session.user = foundUser[0];
     } else if (name) {
+      console.log("it happened");
+      console.log("passed the init rep");
       const createdUser = await db.create_user([
         sub,
         name,
@@ -35,9 +41,12 @@ module.exports = {
         nickname,
         location
       ]);
+      await db.init_rep([sub]);
       request.session.user = createdUser[0];
     } else {
-      res.send("please log in");
+      console.log("not logged in");
+      response.send("please log in");
+      return;
     }
     response.redirect("http://localhost:3000");
   },

@@ -130,5 +130,13 @@ module.exports = {
     });
 
     res.status(200).send({ message: "Your Question Was Uploaded" });
+  },
+  // ==========================================================
+  questionById: async (req, res) => {
+    const id = req.query.id;
+    const db = req.app.get("db");
+    const question = await db.questions.get_question_by_id([id]);
+    console.log(question);
+    // let answers = await Promise.all(question[0].answers.map(id => db.questions.)
   }
 };

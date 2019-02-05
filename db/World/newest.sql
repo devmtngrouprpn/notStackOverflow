@@ -4,7 +4,7 @@ SELECT
     substring(q.question_content, 0, 200) AS content,
     q.question_views,
     use.username,
-    use.reputation,
+    sum(r.amount) as reputation,
     use.auth_id,
     use.picture,
     sum(v.up_or_down) / 2 AS votes,
@@ -20,6 +20,7 @@ SELECT
 FROM
     question q
     JOIN users use ON q.user_id = use.auth_id
+    JOIN reputation AS r ON r.user_id = use.auth_id
     LEFT JOIN answer a ON q.question_id = a.question_id
     JOIN vote v ON use.auth_id = v.user_id
         AND v.source_type = 'question'

@@ -6,7 +6,7 @@ SELECT
     q.question_title,
     q.question_views,
     use.username,
-    use.reputation,
+    sum(r.amount) as reputation,
     t.tag_name AS tags,
     b.bounty_value,
     use.auth_id,
@@ -22,6 +22,7 @@ SELECT
 FROM
     question q
     JOIN users use ON q.user_id = use.auth_id
+    JOIN reputation AS r ON r.user_id = use.auth_id
     LEFT JOIN answer a ON q.question_id = a.question_id
     JOIN vote v ON use.auth_id = v.user_id
         AND v.source_type = 'question'
