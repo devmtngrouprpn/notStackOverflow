@@ -12,17 +12,22 @@ import {
   questionBoxGray,
   H1,
   StyledLink,
-  textLightGray
+  featuredBoxBlue
 } from "./../../utilites/index";
 
 function HQCard({ question }) {
-  const tags = question.tags.map(tag => <TinyTag subject={tag} />);
+  let tags;
+  if (question.tags) {
+    tags = question.tags.map(tag => <TinyTag subject={tag} />);
+  } else {
+    tags = [];
+  }
   return (
     <>
       <Card>
         <Data>
           <Container to={`/questions/${question.question_id}`}>
-            <BigP>{question.votes}</BigP>
+            <BigP>{question.votes || 0}</BigP>
             <SmallP>vote{question.votes != 1 ? "s" : ""}</SmallP>
           </Container>
           <AnswerBox
@@ -49,7 +54,14 @@ function HQCard({ question }) {
         <RightContainer>
           <QuestionH1>
             <StyledCardLink to={`/questions/${question.question_id}`}>
-              {question.question_title}
+              <BountyValue>
+                {question.bounty_value ? (
+                  <CountBox>+{question.bounty_value}</CountBox>
+                ) : (
+                  ""
+                )}
+                {question.question_title}
+              </BountyValue>
             </StyledCardLink>
           </QuestionH1>
           <TagContainer>{tags}</TagContainer>
@@ -57,11 +69,11 @@ function HQCard({ question }) {
             <AskedLink to={`/questions/${question.question_id}`}>
               asked in the past
             </AskedLink>
-            <StyledCardLink user={true} to={`/users/${question.username}`}>
+            <StyledCardLink user={true} to={`/users/${question.user_id}`}>
               <P>{question.username}</P>
             </StyledCardLink>{" "}
             <RepP>
-              {question.reputation > 1000
+              {question.reputation > 10000
                 ? `${(question.reputation / 1000).toFixed(1)}k`
                 : question.reputation}
             </RepP>
@@ -72,6 +84,24 @@ function HQCard({ question }) {
     </>
   );
 }
+
+const BountyValue = styled.div`
+  ${flex()}
+  height: 15px;
+`;
+
+const CountBox = styled.div`
+  padding: 2px 5px 2.5px 5px;
+  background-color: ${featuredBoxBlue};
+  color: #fff;
+  font-size: 10px;
+  line-height: 10px;
+  border-radius: 3px;
+  margin-right: 5px;
+  margin-left: -2px;
+  position: relative;
+  top: 1px;
+`;
 
 const QuestionH1 = styled(H1)`
   font-size: 16px;

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import styled from "styled-components";
 import Layout from "../Layout/Layout1.jsx";
-import HQCard from "./../Questions/HQCard";
+import VQCard from "./../Questions/VQCard";
 import {
   flex,
   featuredBoxBlue,
@@ -42,7 +42,11 @@ class Questions extends Component {
 
   render() {
     let questions = this.props[this.state.view].map(question => (
+<<<<<<< HEAD
       <HQCard question={question} />
+=======
+      <VQCard question={question} />
+>>>>>>> 193831e34eace723c579071bb39ef8f3fff53cde
     ));
 
     return (
@@ -130,6 +134,7 @@ class Questions extends Component {
                       >
                         Newest
                     </TabButton>
+<<<<<<< HEAD
                       <TabButton
                         onClick={() => this.handleView("unansweredVotes")}
                         active={this.state.view === "unansweredVotes"}
@@ -144,6 +149,22 @@ class Questions extends Component {
                         position="mid"
                       >
                         No Answers
+=======
+                    <TabButton
+                      onClick={() => this.handleView("unansweredVotes")}
+                      active={this.state.view === "unansweredVotes"}
+                      activeNeigbor={this.state.view === "unansweredNoAnswer"}
+                      position="mid"
+                    >
+                      Votes
+                    </TabButton>
+                    <TabButton
+                      onClick={() => this.handleView("unansweredNoAnswer")}
+                      active={this.state.view === "unansweredNoAnswer"}
+                      position="mid"
+                    >
+                      No Answers
+>>>>>>> 193831e34eace723c579071bb39ef8f3fff53cde
                     </TabButton>
                       <TabButton
                         onClick={() => this.handleView("newest")}

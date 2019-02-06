@@ -16,6 +16,12 @@ import {
 } from "./../../utilites/index";
 
 function HQCard({ question }) {
+  var today = new Date();
+  var date =
+    today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
+  var time =
+    today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+  var dateTime = date + " " + time;
   console.log(question);
   const tags = question.tags.map(tag => <TinyTag subject={tag} />);
   return (
@@ -25,6 +31,7 @@ function HQCard({ question }) {
           <Container to={`/questions/${question.question_id}`}>
             <BigP>{question.votes}</BigP>
             <SmallP>vote{question.votes != 1 ? "s" : ""}</SmallP>
+            {/* <p>Hello</p> */}
           </Container>
           <AnswerBox
             answers={question.answers}
@@ -37,37 +44,54 @@ function HQCard({ question }) {
             </SmallP>
           </AnswerBox>
           <Container to={`/questions/${question.question_id}`}>
-            <ViewsP big={true} views={question.question_views}>
+            {/* <ViewsP big={true} views={question.question_views}>
               {question.question_views > 1000
                 ? `${(question.question_views / 1000).toFixed(0)}k`
                 : question.question_views}
-            </ViewsP>
-            <ViewsP views={question.question_views}>
+            </ViewsP> */}
+            <ViewsP views={question.question_views} big={true}>
+              {question.question_views > 1000
+                ? `${(question.question_views / 1000).toFixed(0)}k`
+                : question.question_views}{" "}
               view{question.question_views != 1 ? "s" : ""}
             </ViewsP>
           </Container>
         </Data>
         <RightContainer>
-          <QuestionH1>
-            <StyledCardLink to={`/questions/${question.question_id}`}>
-              {question.question_title}
-            </StyledCardLink>
-          </QuestionH1>
-          <TagContainer>{tags}</TagContainer>
+          <BiggerBox>
+            <QuestionH1>
+              <StyledCardLink to={`/questions/${question.question_id}`}>
+                {question.question_title}
+              </StyledCardLink>
+            </QuestionH1>
+            <QuestionH3>{question.content.substr(0, 150)}</QuestionH3>
+            <TagContainer>{tags}</TagContainer>
+            <br />
+          </BiggerBox>
+          <SmallerBox />
           <NameP>
             <AskedLink to={`/questions/${question.question_id}`}>
-              asked in the past
+              asked in the past {dateTime - question.question_creation}
             </AskedLink>
-            <StyledCardLink user={true} to={`/users/${question.username}`}>
-              <P>{question.username}</P>
-            </StyledCardLink>{" "}
-            <RepP>
-              {question.reputation > 1000
-                ? `${(question.reputation / 1000).toFixed(1)}k`
-                : question.reputation}
-            </RepP>
+            {dateTime}
+            <UserInfo>
+              <ProPic src={question.picture} alt="" />
+              <UserName>
+                <StyledCardLink user={true} to={`/users/${question.username}`}>
+                  <P>{question.username}</P>
+                </StyledCardLink>{" "}
+                <UserBadges>
+                  <RepP>
+                    {question.reputation > 1000
+                      ? `${(question.reputation / 1000).toFixed(1)}k`
+                      : question.reputation}
+                  </RepP>
+                </UserBadges>
+              </UserName>
+            </UserInfo>
           </NameP>
         </RightContainer>
+        hello
       </Card>
       <Hr />
     </>
@@ -78,6 +102,18 @@ const QuestionH1 = styled(H1)`
   font-size: 16px;
   margin-bottom: 5.25px;
 `;
+const QuestionH3 = styled(P)`
+  font-size: 100%;
+  margin-bottom: 5.25px;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+  padding: 0;
+  padding-bottom: 5px;
+  margin: 0;
+  color: #777f87;
+  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+`;
 
 const RepP = styled(P)`
   font-weight: 700;
@@ -85,9 +121,10 @@ const RepP = styled(P)`
 `;
 
 const RightContainer = styled.div`
-  ${flex("column", "flex-start", "flex-start")}
   flex-basis: 100%;
   position: relative;
+  margin: 0;
+  height: 100%;
 `;
 
 const AskedLink = styled(StyledLink)`
@@ -100,11 +137,43 @@ const AskedLink = styled(StyledLink)`
 `;
 
 const NameP = styled(P)`
-  align-self: flex-end;
-  position: absolute;
-  font-size: 12px;
-  bottom: 10px;
-  ${flex()}
+  box-sizing: border-box;
+  padding: 5px 6px 7px 7px;
+  width: 200px;
+  float: right;
+`;
+
+const ProPic = styled.img`
+  border-radius: 1px;
+  width: 32px;
+  height: 32px;
+  margin: 0;
+`;
+
+const UserInfo = styled(P)`
+  display: flex;
+  flex-direction: row;
+`;
+
+const SmallerBox = styled.div`
+  /* ${flex("column", "flex-start", "flex-start")} */
+
+`;
+
+const BiggerBox = styled.div`
+  ${flex("column", "flex-start", "flex-start")}
+  flex-basis: 100%;
+  position: relative;
+  margin: 0;
+`;
+const UserName = styled(P)`
+  display: flex;
+  flex-direction: column;
+`;
+
+const UserBadges = styled(P)`
+  display: flex;
+  flex-direction: row;
 `;
 
 const StyledCardLink = styled(StyledLink)`
@@ -121,22 +190,29 @@ const StyledCardLink = styled(StyledLink)`
 
 const Card = styled.div`
   padding: 12px 8px;
+  height: auto;
   ${flex("row", "flex-start", "flex-start")}
 `;
 
 const Data = styled.div`
-  ${flex("row", "flex-start", "flex-start")}
+  ${flex("column", "flex-start", "flex-start")}
   margin-right: 16px;
+  width: 58px;
+  float: none;
+  margin-left: 8px;
+  flex-shrink: 0;
+  color: #6a737c;
+  font-size: 11px;
 `;
 const BigP = styled(P)`
   color: ${props => (props.answers ? "inherit" : questionBoxGray)};
-  font-size: 17px;
+  font-size: 20px;
 `;
 
 const SmallP = styled.div`
   color: ${props => (props.answers ? "inherit" : questionBoxGray)};
 
-  font-size: 11px;
+  font-size: 12px;
 `;
 
 const AnswerBox = styled(StyledLink)`
@@ -158,7 +234,9 @@ const ViewsP = styled(P)`
       : +props.views >= 1000
       ? oneKViews
       : questionBoxGray};
-  font-size: ${props => (props.big ? "17px" : "11px")};
+  font-size: ${props => (props.big ? "13px" : "11px")};
+  ${flex("row")}
+  padding: 0;
 `;
 
 const TagContainer = styled.div`

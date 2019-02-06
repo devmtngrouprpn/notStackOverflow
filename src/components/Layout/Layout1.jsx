@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Header from "./Header/Header.jsx";
 import Sidebar from "./Sidebar1.jsx";
+import Footer from "./Footer";
 import { flex, black } from "../../utilites/index.js";
 
 function Layout(props) {
@@ -18,7 +19,9 @@ function Layout(props) {
         <ChildFlexContainer>{props.children}</ChildFlexContainer>
       </ContentHolder>
 
-      <FooterContainer />
+      <FooterContainer>
+        <Footer />
+      </FooterContainer>
     </Grid>
   );
 }
