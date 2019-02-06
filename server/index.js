@@ -27,18 +27,7 @@ massive(DB_CONNECTION_STRING).then(db => {
   app.set("db", db);
   console.log("database connected");
 });
-// app.use((req, res, next) => {
-//     if (DEV === 'true') {
-//         if (!req.session.user) {
-//             req.session.user = {};
-//             next();
-//         } else {
-//             next();
-//         }
-//     } else {
-//         next();
-//     }
-// });
+
 // *** ENDPOINTS *** //
 
 app.get("/auth/callback", authorization.authCallback);
@@ -49,7 +38,6 @@ app.get("/api/home/:auth_id", questions.homeStart);
 app.get("/api/questions/interesting", questions.questionsInteresting);
 app.get("/api/questions/world", questions.worldQuestions);
 app.post("/api/questions/ask", questions.askQuestions);
-// app.get("/api/questions/totals", questions.worldQuestionTotal);
 // HOME END
 // TAGS START
 app.post("/api/tags/tinytag", tinyTag.getTag);

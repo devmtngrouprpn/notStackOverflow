@@ -1,8 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 import Header from "./Header/Header.jsx";
-import Sidebar from "./Sidebar1.jsx";
 import { flex, black } from "../../utilites/index.js";
+import Footer from "./Footer";
+
 
 function Layout2(props) {
   return (
@@ -13,7 +14,9 @@ function Layout2(props) {
       <ContentHolder>
         <ChildFlexContainer>{props.children}</ChildFlexContainer>
       </ContentHolder>
-      <FooterContainer />
+      <FooterContainer>
+        <Footer />
+      </FooterContainer>
     </Grid>
   );
 }
