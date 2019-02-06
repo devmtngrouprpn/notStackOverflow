@@ -35,11 +35,9 @@ class Questions extends Component {
     this.props.update_questions(res.data);
     this.setState({ loading: false });
   };
-
   handleView = name => {
     this.setState({ view: name });
   };
-
   render() {
     let questions = this.props[this.state.view].map(question => (
       <VQCard question={question} />

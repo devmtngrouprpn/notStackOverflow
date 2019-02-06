@@ -12,7 +12,8 @@ export default class Tags extends Component {
     super();
     this.state = {
       view: "Popular",
-      data: { allTags: [], day: [], week: [] }
+      data: { allTags: [], day: [], week: [] },
+      searching: '',
     };
   }
   componentDidMount = async () => {
@@ -48,7 +49,7 @@ export default class Tags extends Component {
                 <TabButton
                   onClick={() => this.handleView("Name")}
                   active={this.state.view === "Name"}
-                  activeNeigbor={this.state.view === "hot"}
+                  activeNeigbor={this.state.view === "New"}
                   position="mid"
                 >
                   <FeaturedBox>Name</FeaturedBox>
