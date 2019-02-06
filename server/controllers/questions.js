@@ -73,7 +73,12 @@ module.exports = {
       db.user_input.new_question_tag([tag, question_id]);
     });
 
-    res.status(200).send({ message: "Your Question Was Uploaded" });
+    res
+      .status(200)
+      .send({
+        message: "Your Question Was Uploaded",
+        question_id: question_id
+      });
   },
   // ==========================================================
   questionById: async (req, res) => {
