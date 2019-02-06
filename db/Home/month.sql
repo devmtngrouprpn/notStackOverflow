@@ -1,6 +1,6 @@
 SELECT
 	(
-	select array_agg(tag_name) 
+	select array_agg(tag_name)
 	from question_tag
 	where question_id = q.question_id
 	) as tags,
@@ -20,7 +20,7 @@ SELECT
 	where source_id = q.question_id AND source_type = 'question'
 	) as votes,
 	(
-	select 
+	select
 		bool_or(
 		CASE 
 			WHEN answer_accepted = TRUE 
@@ -38,17 +38,27 @@ SELECT
 	question_title,
 	question_views,
 	question_creation_timestamp,
-	question_id,
-	question_last_edit
+	(
+	select max(edit_date)
+	from edit
+	where source_id = q.question_id
+		AND source_type = 'question'
+	) as last_edit,
+	question_id
 FROM question AS q
 	JOIN users AS u ON u.auth_id = q.user_id
-WHERE now() - question_creation_timestamp < interval '1 month'
-ORDER BY ((
+WHERE now() - question_creation_timestamp < interval
+'1 month'
+ORDER BY
+((
 	select count(answer_id)
-	from answer
-	where question_id = q.question_id
-	) * 100 + (
+from answer
+where question_id = q.question_id
+	)
+* 100 +
+(
 	select count(value)
-	from vote
-	where source_id = q.question_id AND source_type = 'question'
-	) * 20 + question_views) desc;
+from vote
+where source_id = q.question_id AND source_type = 'question'
+	)
+* 20 + question_views) desc;

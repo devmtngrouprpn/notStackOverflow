@@ -6,6 +6,7 @@ SELECT
 	) as reputation,
 	username,
 	a.user_id,
+    answer_accepted
 	(
 	select e.edit_id
 	from edit as e
