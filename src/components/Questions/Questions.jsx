@@ -41,9 +41,9 @@ class Questions extends Component {
   };
 
   render() {
-    // let questions = this.props[this.state.view].map(question => (
-    //   <HQCard question={question} />
-    // ));
+    let questions = this.props[this.state.view].map(question => (
+      <HQCard question={question} />
+    ));
 
     return (
       <Layout>
@@ -113,46 +113,46 @@ class Questions extends Component {
                     </TabButton>
                   </>
                 ) : (
-                  <>
-                    <TabButton
-                      onClick={() => this.handleView("unansweredMyTags")}
-                      active={this.state.view === "unansweredMyTags"}
-                      activeNeigbor={this.state.view === "unansweredNewest"}
-                      position="left"
-                    >
-                      My Tags
+                    <>
+                      <TabButton
+                        onClick={() => this.handleView("unansweredMyTags")}
+                        active={this.state.view === "unansweredMyTags"}
+                        activeNeigbor={this.state.view === "unansweredNewest"}
+                        position="left"
+                      >
+                        My Tags
                     </TabButton>
-                    <TabButton
-                      onClick={() => this.handleView("unansweredNewest")}
-                      active={this.state.view === "unansweredNewest"}
-                      activeNeigbor={this.state.view === "unansweredVotes"}
-                      position="mid"
-                    >
-                      Newest
+                      <TabButton
+                        onClick={() => this.handleView("unansweredNewest")}
+                        active={this.state.view === "unansweredNewest"}
+                        activeNeigbor={this.state.view === "unansweredVotes"}
+                        position="mid"
+                      >
+                        Newest
                     </TabButton>
-                    <TabButton
-                      onClick={() => this.handleView("unansweredVotes")}
-                      active={this.state.view === "unansweredVotes"}
-                      activeNeigbor={this.state.view === "unansweredNoAnswers"}
-                      position="mid"
-                    >
-                      Votes
+                      <TabButton
+                        onClick={() => this.handleView("unansweredVotes")}
+                        active={this.state.view === "unansweredVotes"}
+                        activeNeigbor={this.state.view === "unansweredNoAnswers"}
+                        position="mid"
+                      >
+                        Votes
                     </TabButton>
-                    <TabButton
-                      onClick={() => this.handleView("unansweredNoAnswers")}
-                      active={this.state.view === "unansweredNoAnswers"}
-                      position="mid"
-                    >
-                      No Answers
+                      <TabButton
+                        onClick={() => this.handleView("unansweredNoAnswers")}
+                        active={this.state.view === "unansweredNoAnswers"}
+                        position="mid"
+                      >
+                        No Answers
                     </TabButton>
-                    <TabButton
-                      onClick={() => this.handleView("newest")}
-                      position="right"
-                    >
-                      all questions
+                      <TabButton
+                        onClick={() => this.handleView("newest")}
+                        position="right"
+                      >
+                        all questions
                     </TabButton>
-                  </>
-                )}
+                    </>
+                  )}
               </ButtonContainer>
               <QuestionBox>{questions}</QuestionBox>
             </Content>

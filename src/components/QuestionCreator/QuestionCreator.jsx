@@ -8,11 +8,13 @@ import { connect } from 'react-redux'
 // import { SearchBar } from '../../utilites/globals';
 import Layout2 from '../Layout/Layout2'
 import {
+    LoadingWraper,
     flex,
     SearchBar,
     P,
     blueButton,
 } from "./../../utilites/index";
+import { type } from "os";
 
 class QuestionCreator extends Component {
     constructor() {
@@ -27,14 +29,16 @@ class QuestionCreator extends Component {
             tagsPayload: [],
             descPayload: '',
             titlePayload: '',
-            toggle: false
+            toggle: false,
+            loading: true
         };
     };
     componentDidMount = async () => {
         let res = await axios.get('/api/tags/alltinytags');
         this.setState({ tags: res.data.allTags })
         let array = this.state.tags.map((e) => { return e.name })
-        this.setState({ tagNames: array })
+        this.setState({ tagNames: array, loading: false })
+
     };
     submitQuestion = async () => {
         let res = await axios.post("/api/questions/ask", { userId: this.props.global.user.auth_id, content: this.state.descPayload, title: this.state.titlePayload, tags: this.state.tagsPayload })
@@ -51,9 +55,11 @@ class QuestionCreator extends Component {
             return `color:blue`
         }
     }
-    grabRelated = (value) => {
-        this.setState({ typingTag: value.target.value })
-        let object = stringSimilarity.findBestMatch(value.target.value, this.state.tagNames)
+    grabRelated = (e) => {
+        this.setState({ typingTag: e.target.value })
+        console.log(e.target.value, typeof e.target.value)
+        console.log(Array.isArray(this.state.tagNames))
+        let object = stringSimilarity.findBestMatch(e.target.value, this.state.tagNames)
         console.log(object)
         object = object.ratings.sort((a, b) => { return a.rating * 100 - b.rating * 100 }).reverse().filter(a => a.rating > 0)
         object = object.slice(0, 6)
@@ -64,54 +70,56 @@ class QuestionCreator extends Component {
             return (
                 <>
                     <Layout2>
-                        <Page>
-                            <Container>
-                                <CurrentStep>
-                                    <Active onClick={() => this.setState({ status: 'tags' })}>Tags</Active>
-                                    <Option onClick={() => this.setState({ status: 'title' })}>Title</Option>
-                                    <Option onClick={() => this.setState({ status: 'desc' })}>Description</Option>
-                                    <Option onClick={() => this.setState({ status: 'review' })}>Review</Option>
-                                </CurrentStep>
-                                <Head>What languages, technologies, and/or frameworks is your question about?</Head>
-                                <Help>Tags help the right people find and answer your question.</Help>
-                                <Tutorial>
-                                    <Identify>Identify your tags by completing the sentence, “My question is about…”</Identify>
-                                    <Example>For example:</Example>
-                                    <P><svg aria-hidden="true" width="18" height="18" viewBox="0 0 18 18"><Check d="M16 4.41L14.59 3 6 11.59 2.41 8 1 9.41l5 5z"></Check></svg>Include tags that are crucial to your question only,</P>
-                                    <P><svg aria-hidden="true" width="18" height="18" viewBox="0 0 18 18"><X d="M15 4.41L13.59 3 9 7.59 4.41 3 3 4.41 7.59 9 3 13.59 4.41 15 9 10.41 13.59 15 15 13.59 10.41 9z"></X></svg>Only include version numbers, like c#-4.0, when absolutely necessary</P>
-                                </Tutorial>
-                                <TagBar>Tags</TagBar>
-                                <DualBox>
-                                    <HiddenTags>{this.state.tagsPayload.map((e) => {
-                                        return <BadTag onClick={
-                                            () => { this.removeTag(e) }
-                                        }>
-                                            <TinyTag x={true} subject={e} />
-                                        </BadTag>
-                                    })}</HiddenTags>
-                                    <TagBox value={this.state.typingTag} onChange={(value) => this.grabRelated(value)} />
-                                </DualBox>
-                                <Suggestions>{this.state.tagsForMapping.map((e) => {
-                                    return <TinyTagHolder
-                                        onClick={() => {
-                                            if (!this.state.tagsPayload.includes(e.target)) {
-                                                this.setState({ tagsPayload: [...this.state.tagsPayload, e.target], tagsForMapping: [], typingTag: '' })
+                        <LoadingWraper loading={this.state.loading}>
+                            <Page>
+                                <Container>
+                                    <CurrentStep>
+                                        <Active onClick={() => this.setState({ status: 'tags' })}>Tags</Active>
+                                        <Option onClick={() => this.setState({ status: 'title' })}>Title</Option>
+                                        <Option onClick={() => this.setState({ status: 'desc' })}>Description</Option>
+                                        <Option onClick={() => this.setState({ status: 'review' })}>Review</Option>
+                                    </CurrentStep>
+                                    <Head>What languages, technologies, and/or frameworks is your question about?</Head>
+                                    <Help>Tags help the right people find and answer your question.</Help>
+                                    <Tutorial>
+                                        <Identify>Identify your tags by completing the sentence, “My question is about…”</Identify>
+                                        <Example>For example:</Example>
+                                        <P><svg aria-hidden="true" width="18" height="18" viewBox="0 0 18 18"><Check d="M16 4.41L14.59 3 6 11.59 2.41 8 1 9.41l5 5z"></Check></svg>Include tags that are crucial to your question only,</P>
+                                        <P><svg aria-hidden="true" width="18" height="18" viewBox="0 0 18 18"><X d="M15 4.41L13.59 3 9 7.59 4.41 3 3 4.41 7.59 9 3 13.59 4.41 15 9 10.41 13.59 15 15 13.59 10.41 9z"></X></svg>Only include version numbers, like c#-4.0, when absolutely necessary</P>
+                                    </Tutorial>
+                                    <TagBar>Tags</TagBar>
+                                    <DualBox>
+                                        <HiddenTags>{this.state.tagsPayload.map((e) => {
+                                            return <BadTag onClick={
+                                                () => { this.removeTag(e) }
+                                            }>
+                                                <TinyTag x={true} subject={e} />
+                                            </BadTag>
+                                        })}</HiddenTags>
+                                        <TagBox value={this.state.typingTag} onChange={(value) => this.grabRelated(value)} />
+                                    </DualBox>
+                                    <Suggestions>{this.state.tagsForMapping.map((e) => {
+                                        return <TinyTagHolder
+                                            onClick={() => {
+                                                if (!this.state.tagsPayload.includes(e.target)) {
+                                                    this.setState({ tagsPayload: [...this.state.tagsPayload, e.target], tagsForMapping: [], typingTag: '' })
+                                                }
                                             }
-                                        }
-                                        }
-                                    >
-                                        <TinyTag
-                                            subject={e.target}
-                                        />
-                                    </TinyTagHolder>
-                                })}</Suggestions>
-                                <PageTurner>
+                                            }
+                                        >
+                                            <TinyTag
+                                                subject={e.target}
+                                            />
+                                        </TinyTagHolder>
+                                    })}</Suggestions>
+                                    <PageTurner>
 
-                                    <RedButton onClick={() => { this.setState({ status: 'tags', tagsPayload: [], titlePayload: '', descPayload: '', }) }}>Start Over</RedButton>
-                                    <Button onClick={() => { this.setState({ status: 'title' }) }}>Next Step</Button>
-                                </PageTurner>
-                            </Container>
-                        </Page>
+                                        <RedButton onClick={() => { this.setState({ status: 'tags', tagsPayload: [], titlePayload: '', descPayload: '', }) }}>Start Over</RedButton>
+                                        <Button onClick={() => { this.setState({ status: 'title' }) }}>Next Step</Button>
+                                    </PageTurner>
+                                </Container>
+                            </Page>
+                        </LoadingWraper>
                     </Layout2>
                 </>
             )
@@ -268,6 +276,7 @@ width: available;
     box-shadow:none;
     outline:none;
     border:none;
+    /* border-color: transparent; */
 
 }
 `
@@ -280,7 +289,10 @@ display: flex;
 border-radius: 3px;
 :focus-within{
    outline: none;
-    border: 1px solid #66bfff;
+   /* border: 1px solid #66bfff; */
+   border:none;
+    border-color: transparent;
+
     box-shadow: 0 0 0 4px rgba(0, 149, 256, 0.15);
 }
 `
@@ -291,12 +303,20 @@ border: 1px solid lightgray;
 border-radius:3px;
 margin-right: 0;
 border-right: none;
-border-top-right-radius:0;
 border-bottom-right-radius: 0;
+border-top-right-radius:0;
+border-top-left-radius: 3px;
+border-top-right-radius: 3px;
 :focus{
-    border-right: none;
+   /* border-color: transparent; */
     box-shadow:none;
+    border-top-right-radius:0;
     outline:none;
+    border: 1px solid lightgray;
+
+}
+:active{
+    border:none;
 }
 `
 const SearchBoxNotForTags = styled(SearchBar)`
