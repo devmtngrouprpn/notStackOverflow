@@ -1,6 +1,6 @@
 SELECT
-    count(bounty.bounty_id) AS featured_total
+    count(bounty_id) AS featured_total
 FROM
     bounty
 WHERE
-    bounty.bounty_active = TRUE
+    bounty_active = TRUE and AGE(now(), bounty_creation_timestamp) < interval '7 days'
