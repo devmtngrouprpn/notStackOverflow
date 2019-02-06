@@ -60,7 +60,7 @@ module.exports = {
   askQuestions: async (req, res, next) => {
     let { userId, content, title, tags } = req.body;
     console.log(userId);
-    console.log(req.body);
+    // console.log(req.body);
     let db = req.app.get("db");
     let dbResult = await Promise.all([
       db.user_input.new_question([userId, content, title])
@@ -74,7 +74,12 @@ module.exports = {
       db.user_input.new_question_tag([tag, question_id]);
     });
 
-    res.status(200).send({ message: "Your Question Was Uploaded" });
+    res
+      .status(200)
+      .send({
+        message: "Your Question Was Uploaded",
+        question_id: question_id
+      });
   },
   // ==========================================================
   questionById: async (req, res) => {
