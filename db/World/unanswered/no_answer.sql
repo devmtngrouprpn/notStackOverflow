@@ -7,14 +7,13 @@ SELECT
     use.reputation,
     use.auth_id,
     use.picture,
-    count(v.up_or_down) AS votes,
+    sum(v.up_or_down) / 2 AS votes,
     (count(a.question_id) / 2) AS answers,
     t.tag_name AS tags,
     (extract(epoch FROM (now() - q.question_creation_timestamp)::interval)) AS question_creation,
     q.question_creation_timestamp AS question_created,
     (extract(epoch FROM (now() - q.question_last_edit)::interval)) AS question_edit,
     q.question_last_edit AS question_edit_time,
-    a.answer_accepted,
     CASE WHEN a.answer_accepted = TRUE THEN
         TRUE
     END AS accepted
@@ -25,17 +24,6 @@ FROM
     JOIN vote v ON use.auth_id = v.user_id
         AND v.source_type = 'question'
     JOIN question_tag t ON q.question_id = t.question_id
-WHERE (tag_name = $1
-    OR tag_name = $2
-    OR tag_name = $3
-    OR tag_name = $4
-    OR tag_name = $5
-    OR tag_name = $6
-    OR tag_name = $7
-    OR tag_name = $8
-    OR tag_name = $9
-    OR tag_name = $10
-    OR tag_name = $11)
 GROUP BY
     v.source_type,
     use.username,
@@ -44,8 +32,8 @@ GROUP BY
     q.question_id,
     use.auth_id,
     a.answer_accepted
-HAVING (count(a.question_id) / 2) = 0
+HAVING (count(a.question_id)) = 0
 ORDER BY
-    ((q.question_views / count(v.up_or_down)) / extract(epoch FROM (now() - q.question_creation_timestamp)))
+    q.question_views DESC
 LIMIT 100;
 

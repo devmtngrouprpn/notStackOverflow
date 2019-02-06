@@ -24,46 +24,13 @@ module.exports = {
   // ==========================================================
   worldQuestions: async (req, res, next) => {
     let db = req.app.get("db");
-    console.log("world");
     let dbResult = await Promise.all([
       db.World.newest([]),
       db.World.featured([]),
       db.World.frequent([]),
       db.World.votes([]),
-      db.World.active([]),
-      // db.World.unanswered.unanswered([])
-      Promise.all([db.World.totals.all([])])
+      db.World.active([])
     ]);
-
-    console.log("world");
-    let results = dbResult.map((list, i) => {
-      let idArr = [];
-      if (i === 0) {
-        // console.log("list", list, i);
-      }
-      const newList = list.map(item => {
-        if (!idArr.includes(item.question_id)) {
-          idArr.push(item.question_id);
-          let newItem = { ...item, tags: [item.tags] };
-          list.forEach(item2 => {
-            if (
-              item.question_id === item2.question_id &&
-              !newItem.tags.includes(item2.tags)
-            ) {
-              newItem.tags.push(item2.tags);
-            }
-          });
-          if (i === 0) {
-            // console.log("newItem", newItem);
-          }
-          return newItem;
-        }
-      });
-      if (i === 0) {
-        // console.log("newList", newList);
-      }
-      return newList.filter(item => item);
-    });
     let dbTotal = await Promise.all([
       db.World.totals.featured_total([]),
       db.World.totals.frequent_total([]),
@@ -71,10 +38,12 @@ module.exports = {
       console.log("I got hit")
     ]);
     // console.log(dbResult);
-    let [featuredTotal, frequentTotal, allTotal] = dbTotal;
-    console.log(featuredTotal[0]);
-
-    let [newest, featured, frequent, votes, active, unanswered] = results;
+    let [featuredT, frequentT, allT] = dbTotal;
+    // console.log(featuredTotal[0]);
+    let featuredTotal = featuredT[0];
+    let frequentTotal = frequentT[0];
+    let allTotal = allT[0];
+    let [newest, featured, frequent, votes, active, unanswered] = dbResult;
     res.status(200).send({
       newest,
       featured,

@@ -58,7 +58,7 @@ export const TabButton = styled.button`
   border-right: ${props => (props.activeNeigbor ? "none" : "")};
   :hover {
     background-color: ${props =>
-    props.active ? tabButtonDarkGray : tabButtonGray};
+      props.active ? tabButtonDarkGray : tabButtonGray};
     color: ${tabButtonTextDark};
   }
   :focus {
@@ -77,7 +77,7 @@ export const tabButton = (padding = "8px 8px 8px 8px") =>
     props.active ? tabButtonDarkBorder : tabButtonBorder};
   :hover {
     background-color: ${props =>
-    props.active ? tabButtonDarkGray : tabButtonGray};
+      props.active ? tabButtonDarkGray : tabButtonGray};
   }
 `;
 
@@ -111,15 +111,20 @@ export const StyledLink = styled(Link)`
 
 export const P = styled.p`
   font-family: Helvetica, sans-serif;
+  font-size: 0.85em;
 `;
 
 export const H1 = styled.h1`
   font-family: Helvetica, sans-serif;
   font-size: 27px;
 `;
+export const H2 = styled.h2`
+  font-family: Helvetica, sans-serif;
+  font-size: 0.9.5em;
+`;
 
 export const SearchBar = styled.input`
-box-sizing:border-box;
+  box-sizing: border-box;
   border-radius: 3px;
   border-color: #bbc0c4;
   border: 1px solid lightgray;
@@ -130,7 +135,7 @@ box-sizing:border-box;
   margin-left: 12px;
   padding: 8px 9px 8px 9px;
   :focus {
-    box-sizing:border-box;
+    box-sizing: border-box;
 
     outline: none;
     /* border: 1px solid #66bfff; */
@@ -149,6 +154,7 @@ export default {
   P,
   Logo,
   H1,
+  H2,
   StyledLink,
   blueButton,
   TabButton,
