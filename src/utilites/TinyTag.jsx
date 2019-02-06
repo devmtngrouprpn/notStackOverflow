@@ -4,9 +4,9 @@ import styled from "styled-components";
 import { LoadingWraper } from "../utilites/index";
 import axios from "axios";
 import { debounce } from "lodash";
-import { Link } from "react-router-dom";
+import { Link, Redirect, withRouter } from "react-router-dom";
 
-export default class TinyTag extends Component {
+class TinyTag extends Component {
   constructor() {
     super();
     this.state = {
@@ -19,12 +19,17 @@ export default class TinyTag extends Component {
       stilWant: false
     };
   }
+  clickable = () => {
+    if (!this.props.notClickable) {
+      console.log('woah  there cowboy')
+      this.props.history.push(`/tags/${this.state.information.tag_name}`)
+    }
+  }
   runCall = async () => {
     if (!this.state.information) {
       let res = await axios.post("/api/tags/tinytag", {
         subject: this.props.subject
       });
-      console.log(res.data);
       this.setState({ information: res.data });
     }
   };
@@ -39,11 +44,15 @@ export default class TinyTag extends Component {
     if (!this.state.hovering) {
       this.state.bounce.cancel();
     }
-    let regex;
     return (
       <>
-        <Relative onMouseEnter={this.makeCall} onMouseLeave={this.leaving}>
-          <Subject to={`/${this.state.information.subject}`}>
+        <Relative
+          onMouseEnter={this.makeCall} onMouseLeave={this.leaving}
+
+        >
+          <Subject to={`/${this.state.information.subject}`}
+            onClick={this.clickable}
+          >
             {this.props.subject}
             {this.props.x ?
               <SVG width="12" height="12" viewBox="0 0 14 14"><Path d="M12 3.41L10.59 2 7 5.59 3.41 2 2 3.41 5.59 7 2 10.59 3.41 12 7 8.41 10.59 12 12 10.59 8.41 7z"></Path></SVG>
@@ -81,7 +90,7 @@ export default class TinyTag extends Component {
                     </Watcher>
                     <Question>
                       {
-                        (regex = this.state.information.questions.replace(
+                        (this.state.information.questions.replace(
                           /[{()}]/g,
                           ""
                         ))
@@ -277,3 +286,5 @@ const Subject = styled(P)`
     cursor: pointer;
   }
 `;
+
+export default withRouter(TinyTag)

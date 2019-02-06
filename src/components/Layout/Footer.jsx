@@ -125,7 +125,7 @@ const SiteFooterLink = styled(StyledLink)`
     text-decoration: none;
   }
 `;
-const SiteFooterTitle = styled(H2)`
+const SiteFooterTitle = styled(H1)`
   text-transform: uppercase;
   font-weight: bold;
   margin-bottom: 12px;
