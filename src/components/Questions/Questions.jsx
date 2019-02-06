@@ -42,11 +42,7 @@ class Questions extends Component {
 
   render() {
     let questions = this.props[this.state.view].map(question => (
-<<<<<<< HEAD
       <VQCard question={question} />
-=======
-      <HQCard question={question} />
->>>>>>> master
     ));
 
     return (
