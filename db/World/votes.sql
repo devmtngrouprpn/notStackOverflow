@@ -7,34 +7,40 @@ SELECT
         WHERE
             user_id = q.user_id) AS reputation, (
             SELECT
-                sum(value)
+                array_agg(tag_name)
             FROM
-                vote
+                question_tag
             WHERE
-                source_id = q.question_id
-                AND source_type = 'question') AS votes, (
+                question_id = q.question_id) AS tags, (
                 SELECT
-                    count(answer_id)
+                    sum(value)
                 FROM
-                    answer
+                    vote
                 WHERE
-                    question_id = q.question_id) AS answers, (
+                    source_id = q.question_id
+                    AND source_type = 'question') AS votes, (
                     SELECT
-                        bool_or(
-                            CASE WHEN answer_accepted = TRUE THEN
-                                TRUE
-                            WHEN answer_accepted = FALSE THEN
-                                FALSE
-                            END)
+                        count(answer_id)
                     FROM
                         answer
                     WHERE
-                        question_id = q.question_id) AS answer_accepted, u.username, u.picture, substring(regexp_replace(q.question_content, '<[^<]+>', '', 'g'), '^[^\n\r]{0,200}\M') || ' ...' AS content, question_title, question_views, question_creation_timestamp, question_last_edit, q.user_id, (extract(epoch FROM (now() - q.question_creation_timestamp)::interval)) AS question_creation, q.question_creation_timestamp AS question_created, (extract(epoch FROM (now() - q.question_last_edit)::interval)) AS question_edit, q.question_last_edit AS question_edit_time
-                FROM
-                    question AS q
-                    JOIN users AS u ON u.auth_id = q.user_id
-                    LEFT JOIN answer a ON a.question_id = q.question_id
-                ORDER BY
-                    votes
-                LIMIT 100;
+                        question_id = q.question_id) AS answers, (
+                        SELECT
+                            bool_or(
+                                CASE WHEN answer_accepted = TRUE THEN
+                                    TRUE
+                                WHEN answer_accepted = FALSE THEN
+                                    FALSE
+                                END)
+                        FROM
+                            answer
+                        WHERE
+                            question_id = q.question_id) AS answer_accepted, u.username, u.picture, substring(regexp_replace(q.question_content, '<[^<]+>', '', 'g'), '^[^\n\r]{0,200}\M') || ' ...' AS content, question_title, question_views, question_creation_timestamp, question_last_edit, q.user_id, (extract(epoch FROM (now() - q.question_creation_timestamp)::interval)) AS question_creation, q.question_creation_timestamp AS question_created, (extract(epoch FROM (now() - q.question_last_edit)::interval)) AS question_edit, q.question_last_edit AS question_edit_time
+                    FROM
+                        question AS q
+                        JOIN users AS u ON u.auth_id = q.user_id
+                        LEFT JOIN answer a ON a.question_id = q.question_id
+                    ORDER BY
+                        votes
+                    LIMIT 100;
 
