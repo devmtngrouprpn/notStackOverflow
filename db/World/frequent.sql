@@ -4,7 +4,7 @@ SELECT
     substring(q.question_content, 0, 200) AS content,
     q.question_views AS views,
     use.username,
-    sum(r.amount) as reputation,
+    sum(r.amount) / 3 as reputation,
     use.auth_id,
     use.picture,
     sum(v.up_or_down) / 2 AS votes,
