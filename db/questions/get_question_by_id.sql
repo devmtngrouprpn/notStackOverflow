@@ -1,5 +1,5 @@
 SELECT
-q.*,
+	q.*,
 	(
 	select sum(amount)
 	from reputation

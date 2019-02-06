@@ -73,19 +73,17 @@ module.exports = {
       db.user_input.new_question_tag([tag, question_id]);
     });
 
-    res
-      .status(200)
-      .send({
-        message: "Your Question Was Uploaded",
-        question_id: question_id
-      });
+    res.status(200).send({
+      message: "Your Question Was Uploaded",
+      question_id: question_id
+    });
   },
   // ==========================================================
   questionById: async (req, res) => {
     const id = req.query.id;
     const db = req.app.get("db");
     const question = await db.questions.get_question_by_id([id]);
-    res.status(200).send(question);
+    res.status(200).send(question[0]);
   },
   answerById: async (req, res) => {
     const id = req.query.id;
