@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import Layout from "../Layout/Layout1.jsx";
+import Quill from '../QuestionCreator/Quil'
 import {
   Page,
   Adds,
@@ -16,7 +17,7 @@ import axios from "axios";
 export default class QuestionId extends Component {
   state = {
     loading: true,
-    question: {}
+    question: []
   };
 
   componentDidMount = async () => {
@@ -39,7 +40,14 @@ export default class QuestionId extends Component {
             </TitleBox>
             <QuestionPage>
               <Content>
-                <H1>Question Page {this.props.match.params.id}</H1>
+                <Section>
+                  <ArrowColumn stars={} votes={this.state.question.votes} />
+
+                </Section>
+
+
+
+
               </Content>
               <Adds />
             </QuestionPage>
@@ -49,7 +57,9 @@ export default class QuestionId extends Component {
     );
   }
 }
-
+const Section = styled.div`
+display: flex;
+`
 const AskButton = styled.button`
   ${blueButton("10.4px 10.4px 10.4px 10.4px")}
 `;
