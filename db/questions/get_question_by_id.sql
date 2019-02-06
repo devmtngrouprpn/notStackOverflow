@@ -1,4 +1,5 @@
-SELECT 
+SELECT
+
 	(
 	select sum(amount)
 	from reputation
@@ -12,7 +13,7 @@ SELECT
 	where source_id = q.question_id
 		AND source_type = 'question'
 	order by edit_date desc
-	limit 1
+	LIMIT 1
 	) as last_edit,
 	(
 	select array_agg(answer_id)
@@ -37,5 +38,5 @@ SELECT
 		AND source_type = 'question'
 	) as comments
 FROM question as q
-    JOIN users AS u ON q.user_id = u.auth_id
+	JOIN users AS u ON q.user_id = u.auth_id
 WHERE question_id = $1
