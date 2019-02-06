@@ -42,6 +42,7 @@ SELECT
 	q.user_id
 FROM question AS q
 	JOIN users AS u ON u.auth_id = q.user_id
+WHERE now() - question_creation_timestamp < interval '1 day'
 ORDER BY ((
 	select count(answer_id)
 	from answer
