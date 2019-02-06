@@ -39,6 +39,7 @@ SELECT
 	question_views,
 	question_creation_timestamp,
 	question_last_edit,
+    q.question_id,
     q.user_id,
 	bounty_value
 FROM question AS q

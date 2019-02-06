@@ -28,8 +28,8 @@ export default class QuestionId extends Component {
 
   render() {
     return (
-      <LoadingWraper loading={this.state.loading}>
-        <Layout>
+      <Layout>
+        <LoadingWraper loading={this.state.loading}>
           <Box>
             <TopAdds />
             <TitleBox>
@@ -43,8 +43,8 @@ export default class QuestionId extends Component {
               <Adds />
             </QuestionPage>
           </Box>
-        </Layout>
-      </LoadingWraper>
+        </LoadingWraper>
+      </Layout>
     );
   }
 }

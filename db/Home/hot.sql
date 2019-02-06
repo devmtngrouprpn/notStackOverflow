@@ -39,6 +39,7 @@ SELECT
 	question_views,
 	question_creation_timestamp,
 	question_last_edit,
+	question_id,
 	q.user_id
 FROM question AS q
 	JOIN users AS u ON u.auth_id = q.user_id
@@ -48,7 +49,7 @@ ORDER BY ((
 	from answer
 	where question_id = q.question_id
 	) * 100 + (
-	select sum(value)
+	select count(value)
 	from vote
 	where source_id = q.question_id AND source_type = 'question'
-	) * 20 + question_views) / extract(minute FROM now() - question_creation_timestamp) desc;
+	) * 20 + question_views) desc;
