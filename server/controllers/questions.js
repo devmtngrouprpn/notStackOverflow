@@ -61,15 +61,12 @@ module.exports = {
   // ==========================================================
   askQuestions: async (req, res, next) => {
     let { userId, content, title, tags } = req.body;
-    console.log(userId);
-    // console.log(req.body);
     let db = req.app.get("db");
     let dbResult = await Promise.all([
       db.user_input.new_question([userId, content, title])
     ]).catch(err => {
       console.log(err);
     });
-    console.log("first db");
     let question_id = dbResult[0][0].question_id;
     console.log(question_id, dbResult[0][0]);
     tags.forEach(tag => {
@@ -89,5 +86,11 @@ module.exports = {
     const db = req.app.get("db");
     const question = await db.questions.get_question_by_id([id]);
     res.status(200).send(question);
+  },
+  answerById: async (req, res) => {
+    const id = req.query.id;
+    const db = req.app.get("db");
+    const answer = await db.questions.get_answer_by_id([id]);
+    res.status(200).send(answer);
   }
 };
