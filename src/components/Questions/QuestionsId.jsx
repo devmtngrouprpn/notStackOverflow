@@ -23,7 +23,8 @@ export default class QuestionId extends Component {
     const res = await axios.get(
       `/api/questions/indv?id=${this.props.match.params.id}`
     );
-    this.setState({ loading: false, question: res.data });
+    console.log(res.data);
+    this.setState({ loading: false, question: res.data[0] });
   };
 
   render() {
@@ -56,22 +57,23 @@ const AskButton = styled.button`
 const TitleBox = styled.div`
   ${flex("row", "space-between", "flex-start")}
   margin: 0 24px;
-  width: 100%;
+  width: calc(100% - 48px);
 `;
 
 const Box = styled.div`
   ${flex("column", "flex-start", "flex-start")}
   flex-basis: 1100px;
+  overflow: hidden;
 `;
 
 const TopAdds = styled.div`
   height: 90px;
-  width: 100%;
+  width: calc(100% - 48px);
   margin: 24px;
 `;
 
 const QuestionPage = styled(Page)`
   border-top: 1px solid ${borderGray};
   margin: 13px 24px 24px 24px;
-  width: 100%;
+  width: calc(100% - 48px);
 `;

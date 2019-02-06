@@ -1,8 +1,41 @@
-SELECT q.*, u.username, sum(r.amount) as reputation, array_agg(a.answer_id) as answers, array_agg(DISTINCT qt.tag_name) as tags 
+SELECT 
+	(
+	select sum(amount)
+	from reputation
+	where user_id = q.user_id
+	) as reputation,
+	username,
+	q.user_id,
+	(
+	select e.edit_id
+	from edit as e
+	where source_id = q.question_id
+		AND source_type = 'question'
+	order by edit_date desc
+	limit 1
+	) as last_edit,
+	(
+	select array_agg(answer_id)
+	from answer
+	where question_id = q.question_id
+	) as answers,
+	(
+	select sum(value)
+	from vote
+	where source_id = q.question_id
+		AND source_type = 'question'
+	) as votes,
+	(
+	select array_agg(tag_name)
+	from question_tag
+	where question_id = q.question_id
+	) as tags,
+	(
+	select array_agg(comment_id)
+	from comment
+	where source_id = q.question_id
+		AND source_type = 'question'
+	) as comments
 FROM question as q
-    left JOIN answer AS a ON q.question_id = a.question_id
-    left JOIN users AS u ON q.user_id = u.auth_id
-    left JOIN reputation AS r ON r.user_id = u.auth_id
-    left JOIN question_tag AS qt ON q.question_id = qt.question_id
-	WHERE q.question_id = 8
-    GROUP BY q.question_id, u.auth_id;
+    JOIN users AS u ON q.user_id = u.auth_id
+WHERE question_id = $1
