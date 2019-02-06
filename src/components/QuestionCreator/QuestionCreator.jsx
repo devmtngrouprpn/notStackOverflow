@@ -41,7 +41,10 @@ class QuestionCreator extends Component {
 
     };
     submitQuestion = async () => {
-        let res = await axios.post("/api/questions/ask", { userId: this.props.global.user.auth_id, content: this.state.descPayload, title: this.state.titlePayload, tags: this.state.tagsPayload })
+        if (this.state.descPayload.length >= 1 & this.state.titlePayload.length >= 1 & this.state.tagsPayload.length >= 1) {
+            let res = await axios.post("/api/questions/ask", { userId: this.props.global.user.auth_id, content: this.state.descPayload, title: this.state.titlePayload, tags: this.state.tagsPayload })
+            this.props.history.push(`/questions/${res.data.question_id}`)
+        } else alert('Please fill in all fields')
     }
     handleChange = (defaultValue) => {
         this.setState({ descPayload: defaultValue })
@@ -233,7 +236,7 @@ class QuestionCreator extends Component {
                                 })}</Suggestions>
                                 <PageTurner>
                                     <RedButton onClick={async () => { await this.setState({ tagsPayload: [], titlePayload: '', descPayload: '', status: 'tags' }); this.setState({ descPayload: '' }) }}>Discard</RedButton>
-                                    {this.state.descPayload.length >= 1 & this.state.titlePayload.length >= 1 & this.state.tagsPayload.length >= 1 ? <Button onClick={this.submitQuestion}>Submit Question</Button> : <GrayButton>Submit Question</GrayButton>}
+                                    <Button onClick={this.submitQuestion}>Submit Question</Button>
                                 </PageTurner>
                             </Container>
                         </Page>
