@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import axios from 'axios'
+import axios from "axios";
 import styled from "styled-components";
 import { TinyTag } from "../../utilites/index.js";
-import stringSimilarity from 'string-similarity'
-import Quill from './Quil'
-import { connect } from 'react-redux'
+import stringSimilarity from "string-similarity";
+import Quill from "./Quil";
+import { connect } from "react-redux";
 // import { SearchBar } from '../../utilites/globals';
 import Layout2 from '../Layout/Layout2'
 import {
@@ -41,7 +41,10 @@ class QuestionCreator extends Component {
 
     };
     submitQuestion = async () => {
-        let res = await axios.post("/api/questions/ask", { userId: this.props.global.user.auth_id, content: this.state.descPayload, title: this.state.titlePayload, tags: this.state.tagsPayload })
+        if (this.state.descPayload.length >= 1 & this.state.titlePayload.length >= 1 & this.state.tagsPayload.length >= 1) {
+            let res = await axios.post("/api/questions/ask", { userId: this.props.global.user.auth_id, content: this.state.descPayload, title: this.state.titlePayload, tags: this.state.tagsPayload })
+            this.props.history.push(`/questions/${res.data.question_id}`)
+        } else alert('Please fill in all fields')
     }
     handleChange = (defaultValue) => {
         this.setState({ descPayload: defaultValue })
@@ -233,7 +236,7 @@ class QuestionCreator extends Component {
                                 })}</Suggestions>
                                 <PageTurner>
                                     <RedButton onClick={async () => { await this.setState({ tagsPayload: [], titlePayload: '', descPayload: '', status: 'tags' }); this.setState({ descPayload: '' }) }}>Discard</RedButton>
-                                    {this.state.descPayload.length >= 1 & this.state.titlePayload.length >= 1 & this.state.tagsPayload.length >= 1 ? <Button onClick={this.submitQuestion}>Submit Question</Button> : <GrayButton>Submit Question</GrayButton>}
+                                    <Button onClick={this.submitQuestion}>Submit Question</Button>
                                 </PageTurner>
                             </Container>
                         </Page>
@@ -243,29 +246,29 @@ class QuestionCreator extends Component {
     }
 }
 const RedButton = styled.button`
-${blueButton()};
-color: #9c1724;
-height: fit-content;
-background: none;
-border: none;
-box-shadow: none;
-cursor: pointer;
-:hover{
-    background:#FDF3F4;
+  ${blueButton()};
+  color: #9c1724;
+  height: fit-content;
+  background: none;
+  border: none;
+  box-shadow: none;
+  cursor: pointer;
+  :hover {
+    background: #fdf3f4;
     box-shadow: none;
     color: #9c1724;
-}
-`
+  }
+`;
 const PageTurner = styled.div`
-width: 100%;
-display:flex;
-justify-content:flex-end;
-align-items: center;
-`
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+`;
 const BadTag = styled.div`
-width: fit-content;
-height: fit-content;
-`
+  width: fit-content;
+  height: fit-content;
+`;
 const TagBox = styled(SearchBar)`
 border-top-left-radius:0;
 border-bottom-left-radius: 0;
@@ -295,8 +298,8 @@ border-radius: 3px;
     border-color: transparent;
 
     box-shadow: 0 0 0 4px rgba(0, 149, 256, 0.15);
-}
-`
+  }
+`;
 const HiddenTags = styled.div`
 display:flex;
 max-height: 50px;
@@ -321,36 +324,36 @@ border-top-right-radius: 3px;
 }
 `
 const SearchBoxNotForTags = styled(SearchBar)`
-max-height: 50px;
-margin-left:0;
-width: 100%;
-margin-bottom: 20px;
-`
+  max-height: 50px;
+  margin-left: 0;
+  width: 100%;
+  margin-bottom: 20px;
+`;
 const SearchBox = styled(SearchBar)`
-border-top-left-radius:0;
-border-bottom-left-radius: 0;
-max-height: 50px;
-margin-left:0;
-border-left:none;
-width: available;
-`
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  max-height: 50px;
+  margin-left: 0;
+  border-left: none;
+  width: available;
+`;
 const TinyTagHolder = styled.div`
-height:30px;
-width:fit-content;
-`
+  height: 30px;
+  width: fit-content;
+`;
 const Suggestions = styled.div`
-padding: 20px;
-display:flex;
-position:relative;
-border-radius: 3px;
-left: 6px;
-box-sizing:border-box;
-width:100%;
-/* height: 200px; */
-`
+  padding: 20px;
+  display: flex;
+  position: relative;
+  border-radius: 3px;
+  left: 6px;
+  box-sizing: border-box;
+  width: 100%;
+  /* height: 200px; */
+`;
 const TextSpot = styled(Quill)`
-width: 100%;
-`
+  width: 100%;
+`;
 const Button = styled.button`
 margin: 10px;
 float: right;
@@ -370,93 +373,91 @@ font-size: 13px;
 white-space: nowrap;
  `
 const Head = styled(P)`
-width:100%;
-text-align:left;
-font-weight: bold;
-font-size: 30px;
-`
+  width: 100%;
+  text-align: left;
+  font-weight: bold;
+  font-size: 30px;
+`;
 const Help = styled(P)`
-margin: 15px;
-text-align: left;
-width:100%;
-margin-bottom: 30px;
-`
+  margin: 15px;
+  text-align: left;
+  width: 100%;
+  margin-bottom: 30px;
+`;
 const X = styled.path`
-fill:red;
-`
+  fill: red;
+`;
 const Identify = styled(P)`
-text-align: left;
-width: 100%;
-font-weight: bold;
-`
+  text-align: left;
+  width: 100%;
+  font-weight: bold;
+`;
 const Check = styled.path`
-fill:green;
-`
+  fill: green;
+`;
 const Example = styled(P)`
-font-size: 14px;
-margin: 15px;
-`
+  font-size: 14px;
+  margin: 15px;
+`;
 const Active = styled(P)`
-margin: 10px;
-${blueButton()};
-width: fit-content;
-height: fit-content;
-border-radius: 50px;
-cursor: pointer;
-`
+  margin: 10px;
+  ${blueButton()};
+  width: fit-content;
+  height: fit-content;
+  border-radius: 50px;
+  cursor: pointer;
+`;
 const TagBar = styled(P)`
-width: 100%;
-font-weight: bold;
-text-align:left;
-position: relative;
-padding: 10px;
-`
+  width: 100%;
+  font-weight: bold;
+  text-align: left;
+  position: relative;
+  padding: 10px;
+`;
 
 const Option = styled(P)`
-cursor:pointer;
-margin: 10px;
-color: #07C;
-padding:8px 10px 8px 10px;
-:hover{
-    border-radius:50px;
+  cursor: pointer;
+  margin: 10px;
+  color: #07c;
+  padding: 8px 10px 8px 10px;
+  :hover {
+    border-radius: 50px;
     /* box-shadow: inset 0 1px 0 #66bfff; */
     padding: 8px 10px 8px 10px;
-    background:#E1F0FC;
-}
-`
+    background: #e1f0fc;
+  }
+`;
 const CurrentStep = styled(P)`
-${ flex()}
-margin: 20px;
-
-`
+  ${flex()}
+  margin: 20px;
+`;
 const Tutorial = styled.div`
-text-align: left;
-border: 1px #d6d9dc solid;
-border-radius: 3px;
-margin-bottom: 24px;
-padding: 24px;
-background-color: #fafafb ;
-`
+  text-align: left;
+  border: 1px #d6d9dc solid;
+  border-radius: 3px;
+  margin-bottom: 24px;
+  padding: 24px;
+  background-color: #fafafb;
+`;
 const Container = styled.div`
-text-align: left;
-width:620px;
-display: flex;
-flex-flow: column;
-justify-content: center;
-align-items: center;
-`
+  text-align: left;
+  width: 620px;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+`;
 const Page = styled.div`
-margin: 10px;
-text-align: left;
-width: 100%;
-height: 100%;
-${ flex()};
-position:relative;
-`
+  margin: 10px;
+  text-align: left;
+  width: 100%;
+  height: 100%;
+  ${flex()};
+  position: relative;
+`;
 
 function mapStateToProps(reduxStore) {
     return { ...reduxStore };
 }
 
 export default connect(mapStateToProps)(QuestionCreator);
-  

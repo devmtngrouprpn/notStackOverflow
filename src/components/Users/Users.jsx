@@ -6,6 +6,7 @@ import { SearchBar } from '../../utilites/globals';
 
 
 import {
+  flex,
   P,
   H1,
   StyledLink,
@@ -17,6 +18,7 @@ class User extends Component {
   constructor() {
     super()
     this.state = {
+      view: "reputation",
       users: []
     }
   }
@@ -25,6 +27,9 @@ class User extends Component {
     console.log(res.data)
     this.setState({ users: res.data })
   }
+  handleView = name => {
+    this.setState({ view: name });
+  };
   render() {
     return (
       <>
@@ -35,27 +40,43 @@ class User extends Component {
               <SearchBox placeholder='Filter by user' />
               <ButtonContainer>
                 <TabButton
-                  onClick={() => this.handleView("Popular")}
-                  active={this.state.view === "Popular"}
-                  activeNeigbor={this.state.view === "featured"}
+                  onClick={() => this.handleView("reputation")}
+                  active={this.state.view === "reputation"}
+                  activeNeigbor={this.state.view === "new users"}
                   position="left"
                 >
-                  Popular
+                  repuation
                 </TabButton>
                 <TabButton
-                  onClick={() => this.handleView("Name")}
-                  active={this.state.view === "Name"}
-                  activeNeigbor={this.state.view === "hot"}
+                  onClick={() => this.handleView("new users")}
+                  active={this.state.view === "new users"}
+                  activeNeigbor={this.state.view === "voters"}
                   position="mid"
                 >
-                  <FeaturedBox>Name</FeaturedBox>
+                  new users
                 </TabButton>
                 <TabButton
-                  onClick={() => this.handleView("New")}
-                  active={this.state.view === "New"}
+                  onClick={() => this.handleView("voters")}
+                  active={this.state.view === "voters"}
+                  activeNeigbor={this.state.view === "editors"}
+                  position="mid"
+                >
+                  voters
+                </TabButton>
+                <TabButton
+                  onClick={() => this.handleView("editors")}
+                  active={this.state.view === "editors"}
+                  activeNeigbor={this.state.view === "moderators"}
+                  position="mid"
+                >
+                  editors
+                </TabButton>
+                <TabButton
+                  onClick={() => this.handleView("moderators")}
+                  active={this.state.view === "moderators"}
                   position="right"
                 >
-                  New
+                  moderators
                 </TabButton>
               </ButtonContainer>
             </InfoBar>
@@ -63,14 +84,17 @@ class User extends Component {
               {this.state.users.map((user) => {
 
                 return <UserContainer>
-                  <Image src={`${user.picture}`} alt='image' />
-                  <div>
-                    <StyledCardLink to={`/users/${user.username}`}>
-                      <P>{user.username}</P>
-                    </StyledCardLink>
-                    <Repuation>{user.reputation}</Repuation>
-                    <WatchedTags>{`${user.tags_watching[0] ? user.tags_watching : ''}`}</WatchedTags>
-                  </div>
+                  <Flex>
+                    <Image src={`${user.picture}`} alt='image' />
+                    <UserInfo>
+                      <StyledCardLink to={`/users/${user.username}`}>
+                        <P>{user.username}</P>
+                      </StyledCardLink>
+                      <Location>Candada,North America</Location>
+                      <Repuation>2000</Repuation>
+                    </UserInfo>
+                  </Flex>
+                  <WatchedTags>{`${user.tags_watching[0] ? user.tags_watching : ''}`}</WatchedTags>
                 </UserContainer>
               })}
             </Grid>
@@ -81,16 +105,30 @@ class User extends Component {
   }
 
 }
+const Location = styled.div`
+font-size: 15px;
+margin: 2px 0 2px 0;
+color: #6a737c;
+`
+const Flex = styled.div`
+display: flex;
+
+`
+const UserInfo = styled.div`
+margin-left: 8px;
+`
 const StyledCardLink = styled(StyledLink)`
   color: #07c;
-  font-size: ${props => (props.user ? "12px" : "")};
-  margin-right: ${props => (props.user ? "5px" : "")};
+  display: inline-block;
+    font-size: 18px;
+  /* margin-right: ${props => (props.user ? "5px" : "")}; */
   :hover {
     color: #3af;
   }
   :visited {
     color: ${props => (props.user ? "" : "#005999")};
   }
+  margin-bottom: 3px;
 `;
 const SearchBox = styled(SearchBar)`
   border-radius: 3px;
@@ -117,31 +155,43 @@ flex-wrap: nowrap;
 const FeaturedBox = styled.div``;
 const Image = styled.img`
     width: 48px;
+    box-shadow: 2px 2px 4px rgba(12,13,14,0.5);
+    border-collapse: separate;
     height: 48px;
 `
 const WatchedTags = styled.div`
-
+    color: #6a737c;
+    margin-left:56px;
+    font-size: 14px;
 `
 const Repuation = styled.div`
-
+margin-top: 6px;
+margin-bottom: 7px;
+    color: #6a737c;
+font-size: 14px;
+font-weight: bold;
+margin-right:2px;
+color: #6a737c;
 `
 const Username = styled.div`
 
 `
 const UserContainer = styled.div`
-display:flex;
+/* display:flex; */
+padding:5px 6px 7px 7px;
 `
 const UsersH1 = styled(H1)`
 
 `
 const Grid = styled.div`
 display: grid;
-grid-gap: 8px;
+grid-row-gap: 8px;
+grid-column-gap: 10px;
 grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
 `
 const Content = styled(P)`
     max-width: 1100px;
-    width: calc(100% - 164px);
+    width: 100%;
     background-color: #FFF;
     border-radius: 0;
     border: 1px solid #d6d9dc;

@@ -22,7 +22,24 @@ function HQCard({ question }) {
   var time =
     today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
   var dateTime = date + " " + time;
-  console.log(question);
+  var currentDate = new Date(dateTime);
+  var qMade = new Date(question.question_created);
+  Date.daysBetween = function(date1, date2) {
+    //Get 1 day in milliseconds
+    // var one_day = 1000 * 60 * 60 * 24;
+
+    // Convert both dates to milliseconds
+    var date1_ms = date1.getTime();
+    var date2_ms = date2.getTime();
+
+    // Calculate the difference in milliseconds
+    var difference_ms = date2_ms - date1_ms;
+
+    // Convert back to days and return
+    return Math.round(difference_ms);
+  };
+  let difference = Date.daysBetween(qMade, currentDate);
+  // console.log(question);
   const tags = question.tags.map(tag => <TinyTag subject={tag} />);
   return (
     <>
@@ -71,9 +88,19 @@ function HQCard({ question }) {
           <SmallerBox />
           <NameP>
             <AskedLink to={`/questions/${question.question_id}`}>
-              asked in the past {dateTime - question.question_creation}
+              asked{" "}
+              {difference >= 1000 && difference <= 60000
+                ? `${(difference / 1000).toFixed(0)} secs ago`
+                : difference >= 60000 && difference <= 3600000
+                ? `${(difference / 60000).toFixed(0)} min ago`
+                : difference >= 3600000 && difference <= 86400000
+                ? `${(difference / 3600000).toFixed(0)} hours ago`
+                : difference >= 86400000 && difference <= 604800000
+                ? `${(difference / 86400000).toFixed(0)} days ago`
+                : question.question_created.split("T")[0]}{" "}
             </AskedLink>
-            {dateTime}
+            <br />
+            {question.question_created}
             <UserInfo>
               <ProPic src={question.picture} alt="" />
               <UserName>
@@ -91,7 +118,6 @@ function HQCard({ question }) {
             </UserInfo>
           </NameP>
         </RightContainer>
-        hello
       </Card>
       <Hr />
     </>
