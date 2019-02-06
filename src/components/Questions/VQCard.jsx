@@ -37,7 +37,7 @@ function HQCard({ question }) {
     // Convert both dates to milliseconds
     var date1_ms = date1.getTime();
     var date2_ms = date2.getTime();
-    console.log(date1_ms);
+    // console.log(date1_ms);
     // Calculate the difference in milliseconds
     var difference_ms = date1_ms - date2_ms;
 
@@ -103,7 +103,7 @@ function HQCard({ question }) {
                 ? `${(difference / 3600000).toFixed(0)} hours ago`
                 : difference >= 86400000 && difference <= 604800000
                 ? `${(difference / 86400000).toFixed(0)} days ago`
-                : question.question_created.split("T")[0]}{" "}
+                : question.question_creation_timestamp.split("T")[0]}{" "}
             </AskedLink>
             <br />
             {difference}
