@@ -35,7 +35,7 @@ SELECT
                         FROM
                             answer
                         WHERE
-                            question_id = q.question_id) AS answer_accepted, u.username, u.picture, substring(regexp_replace(q.question_content, '<[^<]+>', '', 'g'), '^[^\n\r]{0,200}\M') || ' ...' AS content, question_title, question_views, question_creation_timestamp, question_last_edit, q.user_id, bounty_value
+                            question_id = q.question_id) AS answer_accepted, u.username, u.picture, substring(regexp_replace(q.question_content, '<[^<]+>', '', 'g'), '^[^\n\r]{0,200}\M') || ' ...' AS content, question_title, question_views, question_creation_timestamp, question_last_edit, q.question_id, q.user_id, bounty_value
                     FROM
                         question AS q
                         JOIN users AS u ON u.auth_id = q.user_id

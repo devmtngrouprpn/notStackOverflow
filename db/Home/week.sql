@@ -38,7 +38,17 @@ SELECT
 	question_title,
 	question_views,
 	question_creation_timestamp,
+	question_id,
 	question_last_edit
 FROM question AS q
-	JOIN users AS u ON u.auth_id = q.user_id;
-
+	JOIN users AS u ON u.auth_id = q.user_id
+	WHERE now() - question_creation_timestamp < interval '1 week'
+ORDER BY ((
+	select count(answer_id)
+	from answer
+	where question_id = q.question_id
+	) * 100 + (
+	select count(value)
+	from vote
+	where source_id = q.question_id AND source_type = 'question'
+	) * 20 + question_views) desc;

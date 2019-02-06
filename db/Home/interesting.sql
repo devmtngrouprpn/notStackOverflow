@@ -38,6 +38,7 @@ SELECT
 	question_title,
 	question_views,
 	question_creation_timestamp,
+	question_id,
 	q.user_id,
 	question_last_edit
 FROM question AS q
