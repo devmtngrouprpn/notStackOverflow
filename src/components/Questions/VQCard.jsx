@@ -20,7 +20,13 @@ function HQCard({ question }) {
   var date =
     today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
   var time =
-    today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    today.getHours() +
+    ":" +
+    today.getMinutes() +
+    ":" +
+    today.getSeconds() +
+    "." +
+    today.getMilliseconds();
   var dateTime = date + " " + time;
   var currentDate = new Date(dateTime);
   var qMade = new Date(question.question_created);
@@ -31,9 +37,9 @@ function HQCard({ question }) {
     // Convert both dates to milliseconds
     var date1_ms = date1.getTime();
     var date2_ms = date2.getTime();
-
+    console.log(date1_ms);
     // Calculate the difference in milliseconds
-    var difference_ms = date2_ms - date1_ms;
+    var difference_ms = date1_ms - date2_ms;
 
     // Convert back to days and return
     return Math.round(difference_ms);
@@ -100,7 +106,11 @@ function HQCard({ question }) {
                 : question.question_created.split("T")[0]}{" "}
             </AskedLink>
             <br />
+            {difference}
+            <br />
             {question.question_created}
+            <br />
+            {dateTime}
             <UserInfo>
               <ProPic src={question.picture} alt="" />
               <UserName>
