@@ -93,7 +93,7 @@ class QuestionCreator extends Component {
                                             return <BadTag onClick={
                                                 () => { this.removeTag(e) }
                                             }>
-                                                <TinyTag x={true} subject={e} />
+                                                <TinyTag x={true} subject={e} notClickable={true} />
                                             </BadTag>
                                         })}</HiddenTags>
                                         <TagBox value={this.state.typingTag} onChange={(value) => this.grabRelated(value)} />
@@ -108,14 +108,15 @@ class QuestionCreator extends Component {
                                             }
                                         >
                                             <TinyTag
-                                                subject={e.target}
+                                                subject={e.target} notClickable={true}
                                             />
                                         </TinyTagHolder>
                                     })}</Suggestions>
                                     <PageTurner>
 
                                         <RedButton onClick={() => { this.setState({ status: 'tags', tagsPayload: [], titlePayload: '', descPayload: '', }) }}>Start Over</RedButton>
-                                        <Button onClick={() => { this.setState({ status: 'title' }) }}>Next Step</Button>
+                                        {this.state.tagsPayload.length >= 1 ? <Button onClick={() => { this.setState({ status: 'title' }) }}>Next Step</Button> : <GrayButton>Next Step</GrayButton>}
+
                                     </PageTurner>
                                 </Container>
                             </Page>
@@ -151,7 +152,7 @@ class QuestionCreator extends Component {
                                 <SearchBoxNotForTags value={this.state.titlePayload} onChange={e => this.setState({ titlePayload: e.target.value })} />
                                 <PageTurner>
                                     <Button onClick={() => { this.setState({ status: 'tags' }) }}>Previous Step</Button>
-                                    <Button onClick={() => { this.setState({ status: 'desc' }) }}>Next Step</Button>
+                                    {this.state.titlePayload.length >= 1 ? <Button onClick={() => { this.setState({ status: 'desc' }) }}>Next Step</Button> : <GrayButton>Next Step</GrayButton>}
                                 </PageTurner>
                             </Container>
                         </Page>
@@ -175,7 +176,7 @@ class QuestionCreator extends Component {
                                 <TextSpot dataStore={this.handleChange} text={this.state.descPayload} />
                                 <PageTurner>
                                     <Button onClick={() => { this.setState({ status: 'title' }) }}>Previous Step</Button>
-                                    <Button onClick={() => { this.setState({ status: 'review' }) }}>Next Step</Button>
+                                    {this.state.descPayload.length >= 1 ? <Button onClick={() => { this.setState({ status: 'review' }) }}>Next Step</Button> : <GrayButton>Next Step</GrayButton>}
                                 </PageTurner>
                             </Container>
                         </Page>
@@ -211,7 +212,7 @@ class QuestionCreator extends Component {
                                         return <BadTag onClick={
                                             () => { this.removeTag(e) }
                                         }>
-                                            <TinyTag subject={e} />
+                                            <TinyTag subject={e} x={true} notClickable={true} />
                                         </BadTag>
                                     })}</HiddenTags>
                                     <TagBox value={this.state.typingTag} onChange={(value) => this.grabRelated(value)} />
@@ -226,13 +227,13 @@ class QuestionCreator extends Component {
                                         }
                                     >
                                         <TinyTag
-                                            subject={e.target} x={true}
+                                            subject={e.target} notClickable={true}
                                         />
                                     </TinyTagHolder>
                                 })}</Suggestions>
                                 <PageTurner>
                                     <RedButton onClick={async () => { await this.setState({ tagsPayload: [], titlePayload: '', descPayload: '', status: 'tags' }); this.setState({ descPayload: '' }) }}>Discard</RedButton>
-                                    <Button onClick={this.submitQuestion}>Submit Question</Button>
+                                    {this.state.descPayload.length >= 1 & this.state.titlePayload.length >= 1 & this.state.tagsPayload.length >= 1 ? <Button onClick={this.submitQuestion}>Submit Question</Button> : <GrayButton>Submit Question</GrayButton>}
                                 </PageTurner>
                             </Container>
                         </Page>
@@ -356,6 +357,18 @@ float: right;
 ${blueButton()};
 cursor: pointer;
 `
+const GrayButton = styled.button`
+border:1px solid transparent;
+margin: 10px;
+float: right;
+background-color:#AFC2CF;
+color: rgba(255,255,255,0.8);
+border-radius: 3px;
+ padding:8px 10px 8px 10px;
+outline: none;
+font-size: 13px;
+white-space: nowrap;
+ `
 const Head = styled(P)`
 width:100%;
 text-align:left;
@@ -446,4 +459,4 @@ function mapStateToProps(reduxStore) {
 }
 
 export default connect(mapStateToProps)(QuestionCreator);
-
+  
