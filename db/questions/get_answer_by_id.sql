@@ -1,4 +1,4 @@
-SELECT 
+SELECT
 	(
 	select sum(amount)
 	from reputation
@@ -6,7 +6,7 @@ SELECT
 	) as reputation,
 	username,
 	a.user_id,
-    answer_accepted
+	answer_accepted,
 	(
 	select e.edit_id
 	from edit as e
@@ -28,5 +28,5 @@ SELECT
 		AND source_type = 'answer'
 	) as comments
 FROM answer as a
-    JOIN users AS u ON a.user_id = u.auth_id
+	JOIN users AS u ON a.user_id = u.auth_id
 WHERE answer_id = $1

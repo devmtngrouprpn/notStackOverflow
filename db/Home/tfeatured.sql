@@ -3,4 +3,5 @@ SELECT
 FROM
     bounty
 WHERE
-    bounty_active = TRUE and AGE(now(), bounty_creation_timestamp) < interval '7 days'
+    bounty_winner IS NULL and AGE(now(), bounty_creation_timestamp) < interval
+'7 days'

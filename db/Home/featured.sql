@@ -51,5 +51,5 @@ FROM question AS q
 	JOIN users AS u ON u.auth_id = q.user_id
 	JOIN bounty AS b ON b.question_id = q.question_id
 WHERE AGE(now(), b.bounty_creation_timestamp) < interval
-'7 days' 
+'7 days' AND bounty_winner IS NULL
 ORDER BY bounty_creation_timestamp desc;
