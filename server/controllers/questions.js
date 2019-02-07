@@ -80,9 +80,11 @@ module.exports = {
   },
   // ==========================================================
   questionById: async (req, res) => {
+    console.log("question");
     const id = req.query.id;
     const db = req.app.get("db");
     const question = await db.questions.get_question_by_id([id]);
+    console.log("ended");
     res.status(200).send(question[0]);
   },
   answerById: async (req, res) => {

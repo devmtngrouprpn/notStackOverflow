@@ -48,7 +48,7 @@ app.get("/api/users/allusers", users.getUsers);
 // USERS END
 // QUESTIONS START
 app.get("/api/questions/indv", questions.questionById);
-app.get("/api/questions/indv/answer", questions.answerById);
+app.get("/api/answer/indv", questions.answerById);
 // QUESTIONS END
 
 // *** IM LISTENING! *** //
