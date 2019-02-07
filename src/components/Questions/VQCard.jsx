@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { connect } from "react-redux";
 import {
   P,
   hrGray,
@@ -15,7 +16,7 @@ import {
   textLightGray
 } from "./../../utilites/index";
 
-function HQCard({ question }) {
+function HQCard({ question, user }) {
   var today = new Date();
   var date =
     today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
@@ -29,23 +30,40 @@ function HQCard({ question }) {
     today.getMilliseconds();
   var dateTime = date + " " + time;
   var currentDate = new Date(dateTime);
-  var qMade = new Date(question.question_created);
-  Date.daysBetween = function(date1, date2) {
-    //Get 1 day in milliseconds
-    // var one_day = 1000 * 60 * 60 * 24;
+  let first = question.question_creation_timestamp.split("T");
+  var qMade = new Date(first[0] + " " + first[1].split("Z")[0]);
+  let qqMade = new Date("2019-2-7 9:28:0.54");
+  // Date.daysBetween = function(date1, date2) {
+  //   // Convert both dates to milliseconds
+  //   var date1_ms = date1.getTime();
+  //   var date2_ms = date2.getTime();
+  //   // console.log(date1_ms - date2_ms);
+  //   // Calculate the difference in milliseconds
+  //   var difference_ms = date1_ms - date2_ms;
+  //   // Convert back to days and return
+  //   return Math.round(difference_ms);
+  // };
+  Date.timeBetween = function(currentTime, postTime) {
+    // get total seconds between the times
+    var delta = Math.abs(currentTime - postTime) / 1000;
+    console.log(Math.floor(delta));
+    // calculate (and subtract) whole days
+    var days = Math.floor(delta / 86400);
+    delta -= days * 86400;
 
-    // Convert both dates to milliseconds
-    var date1_ms = date1.getTime();
-    var date2_ms = date2.getTime();
-    // console.log(date1_ms);
-    // Calculate the difference in milliseconds
-    var difference_ms = date1_ms - date2_ms;
+    // calculate (and subtract) whole hours
+    var hours = Math.floor(delta / 3600) % 24;
+    delta -= hours * 3600;
 
-    // Convert back to days and return
-    return Math.round(difference_ms);
+    // calculate (and subtract) whole minutes
+    var minutes = Math.floor(delta / 60) % 60;
+    delta -= minutes * 60;
+
+    // what's left is seconds
+    var seconds = Math.floor(delta % 60); // in theory the modulus is not required
+    return seconds;
   };
-  let difference = Date.daysBetween(qMade, currentDate);
-  // console.log(question);
+  let difference = Date.timeBetween(qMade, currentDate);
   const tags = question.tags.map(tag => <TinyTag subject={tag} />);
   return (
     <>
@@ -54,7 +72,6 @@ function HQCard({ question }) {
           <Container to={`/questions/${question.question_id}`}>
             <BigP>{question.votes}</BigP>
             <SmallP>vote{question.votes != 1 ? "s" : ""}</SmallP>
-            {/* <p>Hello</p> */}
           </Container>
           <AnswerBox
             answers={question.answers}
@@ -67,11 +84,6 @@ function HQCard({ question }) {
             </SmallP>
           </AnswerBox>
           <Container to={`/questions/${question.question_id}`}>
-            {/* <ViewsP big={true} views={question.question_views}>
-              {question.question_views > 1000
-                ? `${(question.question_views / 1000).toFixed(0)}k`
-                : question.question_views}
-            </ViewsP> */}
             <ViewsP views={question.question_views} big={true}>
               {question.question_views > 1000
                 ? `${(question.question_views / 1000).toFixed(0)}k`
@@ -107,8 +119,6 @@ function HQCard({ question }) {
             </AskedLink>
             <br />
             {difference}
-            <br />
-            {question.question_created}
             <br />
             {dateTime}
             <UserInfo>
@@ -227,7 +237,9 @@ const StyledCardLink = styled(StyledLink)`
 const Card = styled.div`
   padding: 12px 8px;
   height: auto;
-  ${flex("row", "flex-start", "flex-start")}
+  ${flex("row", "flex-start", "flex-start")};
+  padding-left: 8px;
+  color: ${props => (props.tag ? "#fffbec" : "inherit")};
 `;
 
 const Data = styled.div`
@@ -289,5 +301,10 @@ const Container = styled(StyledLink)`
 const Hr = styled.div`
   border: 0.5px solid ${hrGray};
 `;
-
-export default HQCard;
+function mapStateToProps(state) {
+  let { user } = state.global;
+  return {
+    user
+  };
+}
+export default connect(mapStateToProps)(HQCard);
