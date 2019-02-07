@@ -89,6 +89,12 @@ module.exports = {
     const id = req.query.id;
     const db = req.app.get("db");
     const answer = await db.questions.get_answer_by_id([id]);
-    res.status(200).send(answer);
+    res.status(200).send(answer[0]);
+  },
+  commentById: async (req, res) => {
+    const id = req.query.id;
+    const db = req.app.get("db");
+    const comment = await db.questions.get_comment_by_id([id]);
+    res.status(200).send(comment[0]);
   }
 };
