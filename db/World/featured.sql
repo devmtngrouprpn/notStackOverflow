@@ -48,7 +48,8 @@ FROM
     JOIN users AS u ON u.auth_id = q.user_id
     JOIN bounty AS b ON b.question_id = q.question_id
 WHERE
-    AGE(now(), b.bounty_creation_timestamp) < interval AND bounty_winner IS NULL
-'7 days'
+    AGE(now(), b.bounty_creation_timestamp) < interval
+'7 days' AND bounty_winner IS NULL
+
 ORDER BY
     bounty_creation_timestamp DESC;
