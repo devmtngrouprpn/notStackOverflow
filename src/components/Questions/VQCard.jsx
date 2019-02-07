@@ -13,61 +13,26 @@ import {
   questionBoxGray,
   H1,
   StyledLink,
-  textLightGray
+  textLightGray,
+  timeFunction
 } from "./../../utilites/index";
 
-function HQCard({ question, user }) {
-  var today = new Date();
-  var date =
-    today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
-  var time =
-    today.getHours() +
-    ":" +
-    today.getMinutes() +
-    ":" +
-    today.getSeconds() +
-    "." +
-    today.getMilliseconds();
-  var dateTime = date + " " + time;
-  var currentDate = new Date(dateTime);
-  let first = question.question_creation_timestamp.split("T");
-  var qMade = new Date(first[0] + " " + first[1].split("Z")[0]);
-  let qqMade = new Date("2019-2-7 9:28:0.54");
-  // Date.daysBetween = function(date1, date2) {
-  //   // Convert both dates to milliseconds
-  //   var date1_ms = date1.getTime();
-  //   var date2_ms = date2.getTime();
-  //   // console.log(date1_ms - date2_ms);
-  //   // Calculate the difference in milliseconds
-  //   var difference_ms = date1_ms - date2_ms;
-  //   // Convert back to days and return
-  //   return Math.round(difference_ms);
-  // };
-  Date.timeBetween = function(currentTime, postTime) {
-    // get total seconds between the times
-    var delta = Math.abs(currentTime - postTime) / 1000;
-    console.log(Math.floor(delta));
-    // calculate (and subtract) whole days
-    var days = Math.floor(delta / 86400);
-    delta -= days * 86400;
-
-    // calculate (and subtract) whole hours
-    var hours = Math.floor(delta / 3600) % 24;
-    delta -= hours * 3600;
-
-    // calculate (and subtract) whole minutes
-    var minutes = Math.floor(delta / 60) % 60;
-    delta -= minutes * 60;
-
-    // what's left is seconds
-    var seconds = Math.floor(delta % 60); // in theory the modulus is not required
-    return seconds;
-  };
-  let difference = Date.timeBetween(qMade, currentDate);
+function VQCard({ question, user }) {
+  let difference = timeFunction(question.question_creation_timestamp);
   const tags = question.tags.map(tag => <TinyTag subject={tag} />);
+  let userTagbe = false;
+  const userTag = () => {
+    if (user.tags_watching) {
+      let userTags = user.tags_watching.map(tag => question.tags.includes(tag));
+      if (userTags.includes(true)) {
+        userTagbe = true;
+      }
+    }
+  };
+  userTag();
   return (
     <>
-      <Card>
+      <Card tag={userTagbe}>
         <Data>
           <Container to={`/questions/${question.question_id}`}>
             <BigP>{question.votes}</BigP>
@@ -106,21 +71,10 @@ function HQCard({ question, user }) {
           <SmallerBox />
           <NameP>
             <AskedLink to={`/questions/${question.question_id}`}>
-              asked{" "}
-              {difference >= 1000 && difference <= 60000
-                ? `${(difference / 1000).toFixed(0)} secs ago`
-                : difference >= 60000 && difference <= 3600000
-                ? `${(difference / 60000).toFixed(0)} min ago`
-                : difference >= 3600000 && difference <= 86400000
-                ? `${(difference / 3600000).toFixed(0)} hours ago`
-                : difference >= 86400000 && difference <= 604800000
-                ? `${(difference / 86400000).toFixed(0)} days ago`
-                : question.question_creation_timestamp.split("T")[0]}{" "}
+              {difference}
             </AskedLink>
             <br />
-            {difference}
-            <br />
-            {dateTime}
+            {/* {difference} */}
             <UserInfo>
               <ProPic src={question.picture} alt="" />
               <UserName>
@@ -239,7 +193,7 @@ const Card = styled.div`
   height: auto;
   ${flex("row", "flex-start", "flex-start")};
   padding-left: 8px;
-  color: ${props => (props.tag ? "#fffbec" : "inherit")};
+  background-color: ${props => (props.tag ? "#fffbec" : "inherit")};
 `;
 
 const Data = styled.div`
@@ -307,4 +261,4 @@ function mapStateToProps(state) {
     user
   };
 }
-export default connect(mapStateToProps)(HQCard);
+export default connect(mapStateToProps)(VQCard);

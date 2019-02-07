@@ -42,7 +42,7 @@ class Questions extends Component {
     let questions = this.props[this.state.view].map(question => (
       <VQCard question={question} />
     ));
-
+    let featuredTotal = (this.props.featuredTotal || {}).featured_total;
     return (
       <Layout>
         <LoadingWraper loading={this.state.loading}>
@@ -76,7 +76,7 @@ class Questions extends Component {
                       position="mid"
                     >
                       <FeaturedBox>
-                        <CountBox>{this.props.t}</CountBox>
+                        <CountBox>{featuredTotal}</CountBox>
                         Featured
                       </FeaturedBox>
                     </TabButton>
@@ -111,46 +111,46 @@ class Questions extends Component {
                     </TabButton>
                   </>
                 ) : (
-                    <>
-                      <TabButton
-                        onClick={() => this.handleView("unansweredMyTags")}
-                        active={this.state.view === "unansweredMyTags"}
-                        activeNeigbor={this.state.view === "unansweredNewest"}
-                        position="left"
-                      >
-                        My Tags
+                  <>
+                    <TabButton
+                      onClick={() => this.handleView("unansweredMyTags")}
+                      active={this.state.view === "unansweredMyTags"}
+                      activeNeigbor={this.state.view === "unansweredNewest"}
+                      position="left"
+                    >
+                      My Tags
                     </TabButton>
-                      <TabButton
-                        onClick={() => this.handleView("unansweredNewest")}
-                        active={this.state.view === "unansweredNewest"}
-                        activeNeigbor={this.state.view === "unansweredVotes"}
-                        position="mid"
-                      >
-                        Newest
+                    <TabButton
+                      onClick={() => this.handleView("unansweredNewest")}
+                      active={this.state.view === "unansweredNewest"}
+                      activeNeigbor={this.state.view === "unansweredVotes"}
+                      position="mid"
+                    >
+                      Newest
                     </TabButton>
-                      <TabButton
-                        onClick={() => this.handleView("unansweredVotes")}
-                        active={this.state.view === "unansweredVotes"}
-                        activeNeigbor={this.state.view === "unansweredNoAnswer"}
-                        position="mid"
-                      >
-                        Votes
+                    <TabButton
+                      onClick={() => this.handleView("unansweredVotes")}
+                      active={this.state.view === "unansweredVotes"}
+                      activeNeigbor={this.state.view === "unansweredNoAnswer"}
+                      position="mid"
+                    >
+                      Votes
                     </TabButton>
-                      <TabButton
-                        onClick={() => this.handleView("unansweredNoAnswer")}
-                        active={this.state.view === "unansweredNoAnswer"}
-                        position="mid"
-                      >
-                        No Answers
+                    <TabButton
+                      onClick={() => this.handleView("unansweredNoAnswer")}
+                      active={this.state.view === "unansweredNoAnswer"}
+                      position="mid"
+                    >
+                      No Answers
                     </TabButton>
-                      <TabButton
-                        onClick={() => this.handleView("newest")}
-                        position="right"
-                      >
-                        all questions
+                    <TabButton
+                      onClick={() => this.handleView("newest")}
+                      position="right"
+                    >
+                      all questions
                     </TabButton>
-                    </>
-                  )}
+                  </>
+                )}
               </ButtonContainer>
               <QuestionBox>{questions}</QuestionBox>
             </Content>
@@ -210,7 +210,8 @@ function mapStateToProps(state) {
     unansweredNewest,
     unansweredMyTags,
     unansweredVotes,
-    unansweredNoAnswer
+    unansweredNoAnswer,
+    featuredTotal
   } = state.questions;
   return {
     newest,
@@ -222,7 +223,8 @@ function mapStateToProps(state) {
     unansweredNewest,
     unansweredMyTags,
     unansweredVotes,
-    unansweredNoAnswer
+    unansweredNoAnswer,
+    featuredTotal
   };
 }
 export default connect(
