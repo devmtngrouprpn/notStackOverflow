@@ -47,7 +47,7 @@ export default class QuestionId extends Component {
                   <ArrowColumn stars={24} votes={2000} />
                   <QuestionContent>
                     {/* <html> */}
-                    {question.question_content.replace("^\"|\"$", "")}
+                    {question.question_content.fontcolor('red')}
                     {/* </html> */}
                   </QuestionContent>
                 </Section>
