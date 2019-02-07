@@ -47,7 +47,7 @@ export default class QuestionId extends Component {
                   <ArrowColumn stars={24} votes={2000} />
                   <QuestionContent>
                     {/* <html> */}
-                    {question.question_content.fontcolor('red')}
+                    {/* {question.question_content} */}
                     {/* </html> */}
                   </QuestionContent>
                 </Section>
