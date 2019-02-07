@@ -14,7 +14,6 @@ import {
     P,
     blueButton,
 } from "./../../utilites/index";
-import { type } from "os";
 
 class QuestionCreator extends Component {
     constructor() {
