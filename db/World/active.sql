@@ -57,11 +57,11 @@ ORDER BY
 ((extract
 (milliseconds FROM now
 () - (
-    select max(edit_date)
-   from edit
-   where source_id = q.question_id
-       AND source_type = 'question'
-    ))) /
+	select max(edit_date)
+    from edit
+    where source_id = q.question_id
+        AND source_type = 'question'
+	))) /
 (extract
 (milliseconds FROM now
 () -
