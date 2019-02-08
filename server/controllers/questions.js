@@ -31,7 +31,8 @@ module.exports = {
       db.World.featured([]),
       db.World.frequent([]),
       db.World.votes([]),
-      db.World.active([])
+      db.World.active([]),
+      db.World.unanswered.votes([])
     ]);
     let dbTotal = await Promise.all([
       db.World.totals.featured_total([]),
@@ -45,14 +46,14 @@ module.exports = {
     let featuredTotal = featuredT[0];
     let frequentTotal = frequentT[0];
     let allTotal = allT[0];
-    let [newest, featured, frequent, votes, active, unanswered] = dbResult;
+    let [newest, featured, frequent, votes, active, unansweredVotes] = dbResult;
     res.status(200).send({
       newest,
       featured,
       frequent,
       votes,
       active,
-      unanswered,
+      unansweredVotes,
       featuredTotal,
       frequentTotal,
       allTotal
@@ -83,6 +84,11 @@ module.exports = {
     const id = req.query.id;
     const db = req.app.get("db");
     const question = await db.questions.get_question_by_id([id]);
+    await db.question.save({
+      question_id: id,
+      question_views: question[0].question_views + 1
+    });
+    console.log(question);
     res.status(200).send(question[0]);
   },
   answerById: async (req, res) => {
@@ -131,5 +137,11 @@ module.exports = {
     await db.users.save({ auth_id: user_id, favorites });
     const user = await db.get_user([user_id]);
     res.status(200).send(user[0]);
+  },
+  // ==========================================================
+  createQuestion: async (req, res) => {
+    const { user_id, content, question_id } = req.body;
+    await db.questions.create_answer([user_id, question_id, content]);
+    res.sendStatus(201);
   }
 };

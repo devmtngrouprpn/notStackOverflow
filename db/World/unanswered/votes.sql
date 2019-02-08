@@ -1,39 +1,70 @@
 SELECT
-    q.question_id,
-    q.question_title,
-    substring(q.question_content, 0, 200) AS content,
-    q.question_views,
-    use.username,
-    use.reputation,
-    use.auth_id,
-    use.picture,
-    sum(v.up_or_down) / 2 AS votes,
-    (count(a.question_id) / 2) AS answers,
-    t.tag_name AS tags,
-    (extract(epoch FROM (now() - q.question_creation_timestamp)::interval)) AS question_creation,
-    q.question_creation_timestamp AS question_created,
-    (extract(epoch FROM (now() - q.question_last_edit)::interval)) AS question_edit,
-    q.question_last_edit AS question_edit_time,
-    CASE WHEN a.answer_accepted = TRUE THEN
-        TRUE
-    END AS accepted
+    (
+        SELECT sum(amount)
+    FROM reputation
+    WHERE user_id = q.user_id
+    ) AS reputation,
+    (
+        SELECT array_agg(tag_name)
+    FROM question_tag
+    WHERE question_id = q.question_id
+    ) AS tags,
+    (
+        SELECT sum(value)
+    FROM vote
+    WHERE source_id = q.question_id
+        AND source_type = 'question'
+    ) AS votes,
+    (
+        SELECT count(answer_id)
+    FROM answer
+    WHERE question_id = q.question_id
+    ) AS answers,
+    (
+        SELECT
+        bool_or(
+            CASE WHEN answer_accepted = TRUE 
+            	THEN
+                	TRUE
+            WHEN answer_accepted = FALSE
+             	THEN
+                	FALSE
+            END
+        )
+    FROM answer
+    WHERE question_id = q.question_id) 
+    AS answer_accepted,
+    u.username,
+    u.picture,
+    substring(regexp_replace(q.question_content, '<[^<]+>', '', 'g'), '^[^\n\r]{0,200}\M') || ' ...' AS content,
+    question_title,
+    question_views,
+    question_creation_timestamp,
+    q.user_id
+--     (
+--     select max(edit_date)
+--     from edit
+--     where source_id = q.question_id
+--         AND source_type = 'question'
+-- 	) as last_edit
 FROM
-    question q
-    JOIN users use ON q.user_id = use.auth_id
-    LEFT JOIN answer a ON q.question_id = a.question_id
-    JOIN vote v ON use.auth_id = v.user_id
-        AND v.source_type = 'question'
-    JOIN question_tag t ON q.question_id = t.question_id
-GROUP BY
-    v.source_type,
-    use.username,
-    use.reputation,
-    t.tag_name,
-    q.question_id,
-    use.auth_id,
-    a.answer_accepted
-HAVING (count(a.question_id)) = 0
+    question AS q
+    JOIN users AS u ON u.auth_id = q.user_id
+WHERE (
+	select bool_or(answer_accepted)
+    from answer
+    where question_id = q.question_id
+) = TRUE AND 0 <> ANY (
+	select array_agg(
+		(select sum(value)
+        from vote
+        where source_id = answer_id AND source_type = 'answer')
+	)
+    from answer
+    where question_id = q.question_id
+)
 ORDER BY
-    votes DESC
-LIMIT 100;
+    votes;
+
+
 

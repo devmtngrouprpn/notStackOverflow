@@ -1,5 +1,6 @@
 SELECT
 	a.*,
+	picture,
 	(
 	select sum(amount)
 	from reputation

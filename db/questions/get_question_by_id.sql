@@ -1,6 +1,8 @@
 SELECT
 	q.*,
 	username,
+	picture,
+	question_views,
 	bounty_value,
 	bounty_creation_timestamp,
 	b.user_id as bounty_creator_id,
@@ -18,6 +20,7 @@ SELECT
 		select array_agg(answer_id)
 	from answer
 	where question_id = q.question_id
+	ORDER by answer_creation_timestamp
 	) as answers,
 	(
 		select sum(value)
