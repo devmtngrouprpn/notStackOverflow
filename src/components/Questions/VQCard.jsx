@@ -101,28 +101,11 @@ const QuestionH3 = styled(P)`
   font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
 `;
 
-const RepP = styled(P)`
-  font-weight: bold;
-  font-size: 12px;
-  margin-right: 2px;
-  color: #848d95;
-`;
-
 const RightContainer = styled.div`
   flex-basis: 100%;
   position: relative;
   margin: 0;
   height: 100%;
-`;
-
-const AskedLink = styled(StyledLink)`
-  color: #9199a1;
-  font-size: 12px;
-  margin-right: 5px;
-  :hover {
-    color: #07c;
-  }
-  margin-bottom: 2px;
 `;
 
 const NameP = styled(P)`
@@ -132,67 +115,16 @@ const NameP = styled(P)`
   float: right;
 `;
 
-const ProPic = styled.img`
-  border-radius: 1.5px;
-  width: 32px;
-  height: 32px;
-  margin: 0;
-  -webkit-box-shadow: 0px 3px 25px 1px rgba(0, 0, 0, 0.32);
-  -moz-box-shadow: 0px 3px 25px 1px rgba(0, 0, 0, 0.32);
-  box-shadow: 0px 3px 25px 1px rgba(0, 0, 0, 0.32);
-`;
-
-const UserInfo = styled(P)`
-  display: flex;
-  flex-direction: row;
-`;
-
 const SmallerBox = styled.div`
   /* ${flex("column", "flex-start", "flex-start")} */
 
 `;
-const Bronze = styled.div`
-  font-size: 14px;
-  font-weight: 0;
-  color: brown;
-  font-weight: 550;
-  padding-left: 8px;
-  display: flex;
-  padding-right: 2.5px;
-`;
-const Silver = styled.div`
-  font-size: 14px;
-  font-weight: 0;
-  color: silver;
-  font-weight: 550;
-  padding-left: 8px;
-  padding-right: 2.5px;
-`;
-const Gold = styled.div`
-  font-size: 14px;
-  font-weight: 0;
-  color: gold;
-  font-weight: 550;
-  padding-left: 8px;
-  padding-right: 2.5px;
-`;
+
 const BiggerBox = styled.div`
   ${flex("column", "flex-start", "flex-start")}
   flex-basis: 100%;
   position: relative;
   margin: 0;
-`;
-const UserName = styled(P)`
-  display: flex;
-  flex-direction: column;
-  margin-left: 8px;
-`;
-
-const UserBadges = styled(P)`
-  display: flex;
-  flex-direction: row;
-  margin-top: 3px;
-  /* margin-left: 8px; */
 `;
 
 const StyledCardLink = styled(StyledLink)`
@@ -265,12 +197,7 @@ const ViewsP = styled(P)`
 const TagContainer = styled.div`
   ${flex()}
 `;
-const BadgeP = styled.p`
-  font-weight: 400;
-  font-size: 12px;
-  padding-left: 0;
-  color: #6a737c;
-`;
+
 const Container = styled(StyledLink)`
   ${flex("column")}
   padding: 7px;

@@ -30,49 +30,105 @@ class Foooter extends Component {
             />
           </SiteFooterLogo>
           <Stack>
-            <SiteFooterTitle to="">NOTSTACK OVERFLOW</SiteFooterTitle>
-            <SiteFooterLink to="">Questions</SiteFooterLink>
-            <SiteFooterLink to="">Jobs</SiteFooterLink>
-            <SiteFooterLink to="">Developer Jobs Directory</SiteFooterLink>
-            <SiteFooterLink to="">Salary Calculator</SiteFooterLink>
-            <SiteFooterLink to="">Help</SiteFooterLink>
-            <SiteFooterLink to="">Mobile</SiteFooterLink>
-            <SiteFooterLink to="">Enable Responsiveness</SiteFooterLink>
+            <SiteFooterTitle href="https://stackoverflow.com/">
+              NOTSTACK OVERFLOW
+            </SiteFooterTitle>
+            <SiteFooterLink href="https://stackoverflow.com/questions">
+              Questions
+            </SiteFooterLink>
+            <SiteFooterLink href="https://stackoverflow.com/jobs">
+              Jobs
+            </SiteFooterLink>
+            <SiteFooterLink href="https://stackoverflow.com/jobs/directory/developer-jobs">
+              Developer Jobs Directory
+            </SiteFooterLink>
+            <SiteFooterLink href="https://stackoverflow.com/jobs/salary">
+              Salary Calculahrefr
+            </SiteFooterLink>
+            <SiteFooterLink href="https://stackoverflow.com/help">
+              Help
+            </SiteFooterLink>
+            <SiteFooterLink href="https://stackoverflow.com/?__=1114576337">
+              Mobile
+            </SiteFooterLink>
+            <SiteFooterLink href="">Enable Responsiveness</SiteFooterLink>
           </Stack>
           <Stack>
-            <SiteFooterTitle to="">PRODUCTS</SiteFooterTitle>
-            <SiteFooterLink to="">Team</SiteFooterLink>
-            <SiteFooterLink to="">Talent</SiteFooterLink>
-            <SiteFooterLink to="">Engagement</SiteFooterLink>
-            <SiteFooterLink to="">Enterprise</SiteFooterLink>
+            <SiteFooterTitle href="https://www.stackoverflowbusiness.com/">
+              PRODUCTS
+            </SiteFooterTitle>
+            <SiteFooterLink href="https://stackoverflow.com/teams">
+              Team
+            </SiteFooterLink>
+            <SiteFooterLink href="https://www.stackoverflowbusiness.com/talent">
+              Talent
+            </SiteFooterLink>
+            <SiteFooterLink href="https://www.stackoverflowbusiness.com/advertise">
+              Engagement
+            </SiteFooterLink>
+            <SiteFooterLink href="https://stackoverflow.com/enterprise">
+              Enterprise
+            </SiteFooterLink>
           </Stack>
           <Stack>
-            <SiteFooterTitle to="">COMPANY</SiteFooterTitle>
-            <SiteFooterLink to="">About</SiteFooterLink>
-            <SiteFooterLink to="">Press</SiteFooterLink>
-            <SiteFooterLink to="">Work Here</SiteFooterLink>
-            <SiteFooterLink to="">Legal</SiteFooterLink>
-            <SiteFooterLink to="">Privacy Policy</SiteFooterLink>
-            <SiteFooterLink to="">Contact Us</SiteFooterLink>
+            <SiteFooterTitle href="https://stackoverflow.com/company/about">
+              COMPANY
+            </SiteFooterTitle>
+            <SiteFooterLink href="https://stackoverflow.com/company/about">
+              About
+            </SiteFooterLink>
+            <SiteFooterLink href="https://stackoverflow.com/company/press">
+              Press
+            </SiteFooterLink>
+            <SiteFooterLink href="https://stackoverflow.com/company/work-here">
+              Work Here
+            </SiteFooterLink>
+            <SiteFooterLink href="https://stackoverflow.com/legal">
+              Legal
+            </SiteFooterLink>
+            <SiteFooterLink href="https://stackoverflow.com/legal/privacy-policy">
+              Privacy Policy
+            </SiteFooterLink>
+            <SiteFooterLink href="https://stackoverflow.com/company/contact">
+              Contact Us
+            </SiteFooterLink>
           </Stack>
           <Stack>
             <SiteFooterTitle>
               NOTSTACK EXCHANGE <br /> NETWORK
             </SiteFooterTitle>
-            <SiteFooterLink to="">Technology</SiteFooterLink>
-            <SiteFooterLink to="">Life / Arts</SiteFooterLink>
-            <SiteFooterLink to="">Culture / Recreation</SiteFooterLink>
-            <SiteFooterLink to="">Science</SiteFooterLink>
-            <SiteFooterLink to="">Other</SiteFooterLink>
+            <SiteFooterLink href="https://stackoverflow.com/questions?sort=newest#">
+              Technology
+            </SiteFooterLink>
+            <SiteFooterLink href="https://stackoverflow.com/questions?sort=newest#">
+              Life / Arts
+            </SiteFooterLink>
+            <SiteFooterLink href="https://stackoverflow.com/questions?sort=newest#">
+              Culture / Recreation
+            </SiteFooterLink>
+            <SiteFooterLink href="https://stackoverflow.com/questions?sort=newest#">
+              Science
+            </SiteFooterLink>
+            <SiteFooterLink href="https://stackoverflow.com/questions?sort=newest#">
+              Other
+            </SiteFooterLink>
           </Stack>
           <SiteFooterCopyright>
             <SiteFooterList>
-              <SiteFooterLink to="">Blog</SiteFooterLink>
-              <SiteFooterLink to="">Facebook</SiteFooterLink>
-              <SiteFooterLink to="">Twitter</SiteFooterLink>
-              <SiteFooterLink to="">LinkedIn</SiteFooterLink>
+              <SiteFooterLink href="https://stackoverflow.blog/?blb=1">
+                Blog
+              </SiteFooterLink>
+              <SiteFooterLink href="https://www.facebook.com/officialstackoverflow/">
+                Facebook
+              </SiteFooterLink>
+              <SiteFooterLink href="https://twitter.com/stackoverflow">
+                Twitter
+              </SiteFooterLink>
+              <SiteFooterLink href="https://linkedin.com/company/stack-overflow">
+                LinkedIn
+              </SiteFooterLink>
             </SiteFooterList>
-            <SiteFooterLink to="">
+            <SiteFooterLink href="">
               site design / logo © 2019 Stack Exchange Inc; user contributions
               licensed under cc by-sa 3.0 with attribution required. rev
               2019.2.5.32815
@@ -97,7 +153,8 @@ const SiteFooterContainer = styled.div`
   padding: 32px 12px 12px 12px;
   display: flex;
   flex-flow: row wrap;
-  /* justify-content: space-evenly; */
+  justify-content: space-evenly;
+  width: 70vw;
 `;
 const SiteFooter = styled.div`
   background-color: #242729;
@@ -111,14 +168,15 @@ const SiteFooter = styled.div`
   padding-bottom: 0;
   display: flex;
   justify-content: center;
-  width: 90vw;
+  width: 100vw;
 `;
-const SiteFooterLink = styled(StyledLink)`
+const SiteFooterLink = styled.a`
   color: #848d95;
   padding: 4px 0;
   line-height: 1.30769231;
   text-decoration: none;
   padding-right: 10px;
+  font-size: 13px;
   :hover {
     cursor: pointer;
     color: #bbc0c4;
@@ -130,6 +188,7 @@ const SiteFooterTitle = styled(H1)`
   font-weight: bold;
   margin-bottom: 12px;
   color: #bbc0c4;
+  font-size: 0.83em;
   line-height: 1.30769231;
   max-width: 230px;
   position: relative;
@@ -146,7 +205,7 @@ const FooterLogo = styled(Logo)`
 `;
 const SiteFooterLogo = styled.div`
   flex: 0 0 64px;
-  margin: -12px 0 32px 0;
+  margin: 0px 0 42px 0;
 `;
 const SiteFooterCopyright = styled.div`
   flex: 1 1 150px;
