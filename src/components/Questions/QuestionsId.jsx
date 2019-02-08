@@ -70,7 +70,7 @@ export default class QuestionId extends Component {
                 </Section>
                 {question.answers !== null ? <Section>
                   <TotalAnswers>Answers {question.answers.length}</TotalAnswers>
-                  {question.answers.map(e => { <CompleteAnswer></CompleteAnswer> })}
+                  {question.answers.map(e => { return <CompleteAnswer></CompleteAnswer> })}
                 </Section> : <></>}
 
                 <Section2>
@@ -92,6 +92,7 @@ export default class QuestionId extends Component {
     );
   }
 }
+const CompleteAnswer = styled.div``
 const TotalAnswers = styled.div``
 const NewAnswer = styled.div`
 
