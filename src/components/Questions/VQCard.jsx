@@ -16,6 +16,7 @@ import {
   textLightGray,
   timeFunction
 } from "./../../utilites/index";
+import UserTag from "./../../utilites/UserTag";
 
 function VQCard({ question, user }) {
   let difference = timeFunction(question.question_creation_timestamp);
@@ -35,7 +36,7 @@ function VQCard({ question, user }) {
       <Card tag={userTagbe}>
         <Data>
           <Container to={`/questions/${question.question_id}`}>
-            <BigP>{question.votes}</BigP>
+            <BigP>{question.votes ? question.votes : 0}</BigP>
             <SmallP>vote{question.votes != 1 ? "s" : ""}</SmallP>
           </Container>
           <AnswerBox
@@ -61,6 +62,10 @@ function VQCard({ question, user }) {
           <BiggerBox>
             <QuestionH1>
               <StyledCardLink to={`/questions/${question.question_id}`}>
+                {question.bounty_value ? (
+                  <BountyAmount>+ {question.bounty_value}</BountyAmount>
+                ) : null}
+
                 {question.question_title}
               </StyledCardLink>
             </QuestionH1>
@@ -70,26 +75,7 @@ function VQCard({ question, user }) {
           </BiggerBox>
           <SmallerBox />
           <NameP>
-            <AskedLink to={`/questions/${question.question_id}`}>
-              {difference}
-            </AskedLink>
-            <br />
-            {/* {difference} */}
-            <UserInfo>
-              <ProPic src={question.picture} alt="" />
-              <UserName>
-                <StyledCardLink user={true} to={`/users/${question.username}`}>
-                  <P>{question.username}</P>
-                </StyledCardLink>{" "}
-                <UserBadges>
-                  <RepP>
-                    {question.reputation > 1000
-                      ? `${(question.reputation / 1000).toFixed(1)}k`
-                      : question.reputation}
-                  </RepP>
-                </UserBadges>
-              </UserName>
-            </UserInfo>
+            <UserTag question={question} user={user} />
           </NameP>
         </RightContainer>
       </Card>
@@ -116,7 +102,9 @@ const QuestionH3 = styled(P)`
 `;
 
 const RepP = styled(P)`
-  font-weight: 700;
+  font-weight: bold;
+  font-size: 12px;
+  margin-right: 2px;
   color: #848d95;
 `;
 
@@ -134,6 +122,7 @@ const AskedLink = styled(StyledLink)`
   :hover {
     color: #07c;
   }
+  margin-bottom: 2px;
 `;
 
 const NameP = styled(P)`
@@ -144,10 +133,13 @@ const NameP = styled(P)`
 `;
 
 const ProPic = styled.img`
-  border-radius: 1px;
+  border-radius: 1.5px;
   width: 32px;
   height: 32px;
   margin: 0;
+  -webkit-box-shadow: 0px 3px 25px 1px rgba(0, 0, 0, 0.32);
+  -moz-box-shadow: 0px 3px 25px 1px rgba(0, 0, 0, 0.32);
+  box-shadow: 0px 3px 25px 1px rgba(0, 0, 0, 0.32);
 `;
 
 const UserInfo = styled(P)`
@@ -159,7 +151,31 @@ const SmallerBox = styled.div`
   /* ${flex("column", "flex-start", "flex-start")} */
 
 `;
-
+const Bronze = styled.div`
+  font-size: 14px;
+  font-weight: 0;
+  color: brown;
+  font-weight: 550;
+  padding-left: 8px;
+  display: flex;
+  padding-right: 2.5px;
+`;
+const Silver = styled.div`
+  font-size: 14px;
+  font-weight: 0;
+  color: silver;
+  font-weight: 550;
+  padding-left: 8px;
+  padding-right: 2.5px;
+`;
+const Gold = styled.div`
+  font-size: 14px;
+  font-weight: 0;
+  color: gold;
+  font-weight: 550;
+  padding-left: 8px;
+  padding-right: 2.5px;
+`;
 const BiggerBox = styled.div`
   ${flex("column", "flex-start", "flex-start")}
   flex-basis: 100%;
@@ -169,17 +185,21 @@ const BiggerBox = styled.div`
 const UserName = styled(P)`
   display: flex;
   flex-direction: column;
+  margin-left: 8px;
 `;
 
 const UserBadges = styled(P)`
   display: flex;
   flex-direction: row;
+  margin-top: 3px;
+  /* margin-left: 8px; */
 `;
 
 const StyledCardLink = styled(StyledLink)`
   color: #07c;
   font-size: ${props => (props.user ? "12px" : "")};
   margin-right: ${props => (props.user ? "5px" : "")};
+  font-weight: 400;
   :hover {
     color: #3af;
   }
@@ -194,6 +214,7 @@ const Card = styled.div`
   ${flex("row", "flex-start", "flex-start")};
   padding-left: 8px;
   background-color: ${props => (props.tag ? "#fffbec" : "inherit")};
+  float: none;
 `;
 
 const Data = styled.div`
@@ -244,7 +265,12 @@ const ViewsP = styled(P)`
 const TagContainer = styled.div`
   ${flex()}
 `;
-
+const BadgeP = styled.p`
+  font-weight: 400;
+  font-size: 12px;
+  padding-left: 0;
+  color: #6a737c;
+`;
 const Container = styled(StyledLink)`
   ${flex("column")}
   padding: 7px;
@@ -254,6 +280,16 @@ const Container = styled(StyledLink)`
 
 const Hr = styled.div`
   border: 0.5px solid ${hrGray};
+`;
+const BountyAmount = styled.div`
+  float: left;
+  color: #fff;
+  font-size: 11px;
+  padding: 0.2em 0.5em 0.25em;
+  line-height: 1.3;
+  background-color: #0077dd;
+  margin-right: 5px;
+  border-radius: 2px;
 `;
 function mapStateToProps(state) {
   let { user } = state.global;
