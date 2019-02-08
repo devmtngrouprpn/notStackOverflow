@@ -33,7 +33,12 @@ SELECT
 		select array_agg(comment_id)
 	from comment
 	where source_id = q.question_id AND source_type = 'question'
-	) as comments
+	) as comments,
+	(
+		select edit_id
+	from edit
+	where source_id = $1 AND source_type = 'question'
+	) as last_edit
 FROM question AS q
 	JOIN users AS u ON u.auth_id = q.user_id
 	LEFT JOIN bounty AS b ON b.question_id = q.question_id

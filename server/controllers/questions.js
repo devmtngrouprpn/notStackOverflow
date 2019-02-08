@@ -80,11 +80,9 @@ module.exports = {
   },
   // ==========================================================
   questionById: async (req, res) => {
-    console.log("question");
     const id = req.query.id;
     const db = req.app.get("db");
     const question = await db.questions.get_question_by_id([id]);
-    console.log("ended");
     res.status(200).send(question[0]);
   },
   answerById: async (req, res) => {
@@ -98,5 +96,40 @@ module.exports = {
     const db = req.app.get("db");
     const comment = await db.questions.get_comment_by_id([id]);
     res.status(200).send(comment[0]);
+  },
+  // ==========================================================
+  addVote: async (req, res) => {
+    const { user_id, source_id, source_type, value } = req.body;
+    const db = req.app.get("db");
+    const check = await db.questions.check_vote([
+      user_id,
+      source_id,
+      source_type,
+      value
+    ]);
+    if (!check[0]) {
+      db.vote.insert({ user_id, source_id, source_type, value });
+      res.sendStatus(201);
+    } else if (check[0].res) {
+      res.sendStatus(200);
+    } else {
+      db.vote.save({ vote_id: check[0].vote_id, value });
+      res.status(200);
+    }
+  },
+  // ==========================================================
+  addFavorite: async (req, res) => {
+    const { user_id, question_id } = req.body;
+    const db = req.app.get("db");
+    const check = await db.questions.check_favorites([user_id, question_id]);
+    let favorites = check[0].favorites;
+    if (check[0].res) {
+      favorites = favorites.filter(question => question != question_id);
+    } else {
+      favorites.push(question_id);
+    }
+    await db.users.save({ auth_id: user_id, favorites });
+    const user = await db.get_user([user_id]);
+    res.status(200).send(user[0]);
   }
 };

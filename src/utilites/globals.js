@@ -32,6 +32,8 @@ export const Content = styled.div`
 export const Adds = styled.div`
   flex-basis: 324px;
   flex-shrink: 0;
+  border: 1px black solid;
+  height: 5000px;
 `;
 
 export const Logo = styled.img`
