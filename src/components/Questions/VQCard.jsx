@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { connect } from "react-redux";
 import {
   P,
   hrGray,
@@ -12,49 +13,31 @@ import {
   questionBoxGray,
   H1,
   StyledLink,
-  textLightGray
+  textLightGray,
+  timeFunction
 } from "./../../utilites/index";
+import UserTag from "./../../utilites/UserTag";
 
-function HQCard({ question }) {
-  var today = new Date();
-  var date =
-    today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
-  var time =
-    today.getHours() +
-    ":" +
-    today.getMinutes() +
-    ":" +
-    today.getSeconds() +
-    "." +
-    today.getMilliseconds();
-  var dateTime = date + " " + time;
-  var currentDate = new Date(dateTime);
-  var qMade = new Date(question.question_created);
-  Date.daysBetween = function(date1, date2) {
-    //Get 1 day in milliseconds
-    // var one_day = 1000 * 60 * 60 * 24;
-
-    // Convert both dates to milliseconds
-    var date1_ms = date1.getTime();
-    var date2_ms = date2.getTime();
-    // console.log(date1_ms);
-    // Calculate the difference in milliseconds
-    var difference_ms = date1_ms - date2_ms;
-
-    // Convert back to days and return
-    return Math.round(difference_ms);
-  };
-  let difference = Date.daysBetween(qMade, currentDate);
-  // console.log(question);
+function VQCard({ question, user }) {
+  let difference = timeFunction(question.question_creation_timestamp);
   const tags = question.tags.map(tag => <TinyTag subject={tag} />);
+  let userTagbe = false;
+  const userTag = () => {
+    if (user.tags_watching) {
+      let userTags = user.tags_watching.map(tag => question.tags.includes(tag));
+      if (userTags.includes(true)) {
+        userTagbe = true;
+      }
+    }
+  };
+  userTag();
   return (
     <>
-      <Card>
+      <Card tag={userTagbe}>
         <Data>
           <Container to={`/questions/${question.question_id}`}>
-            <BigP>{question.votes}</BigP>
+            <BigP>{question.votes ? question.votes : 0}</BigP>
             <SmallP>vote{question.votes != 1 ? "s" : ""}</SmallP>
-            {/* <p>Hello</p> */}
           </Container>
           <AnswerBox
             answers={question.answers}
@@ -67,11 +50,6 @@ function HQCard({ question }) {
             </SmallP>
           </AnswerBox>
           <Container to={`/questions/${question.question_id}`}>
-            {/* <ViewsP big={true} views={question.question_views}>
-              {question.question_views > 1000
-                ? `${(question.question_views / 1000).toFixed(0)}k`
-                : question.question_views}
-            </ViewsP> */}
             <ViewsP views={question.question_views} big={true}>
               {question.question_views > 1000
                 ? `${(question.question_views / 1000).toFixed(0)}k`
@@ -84,6 +62,10 @@ function HQCard({ question }) {
           <BiggerBox>
             <QuestionH1>
               <StyledCardLink to={`/questions/${question.question_id}`}>
+                {question.bounty_value ? (
+                  <BountyAmount>+ {question.bounty_value}</BountyAmount>
+                ) : null}
+
                 {question.question_title}
               </StyledCardLink>
             </QuestionH1>
@@ -93,39 +75,7 @@ function HQCard({ question }) {
           </BiggerBox>
           <SmallerBox />
           <NameP>
-            <AskedLink to={`/questions/${question.question_id}`}>
-              asked{" "}
-              {difference >= 1000 && difference <= 60000
-                ? `${(difference / 1000).toFixed(0)} secs ago`
-                : difference >= 60000 && difference <= 3600000
-                ? `${(difference / 60000).toFixed(0)} min ago`
-                : difference >= 3600000 && difference <= 86400000
-                ? `${(difference / 3600000).toFixed(0)} hours ago`
-                : difference >= 86400000 && difference <= 604800000
-                ? `${(difference / 86400000).toFixed(0)} days ago`
-                : question.question_creation_timestamp.split("T")[0]}{" "}
-            </AskedLink>
-            <br />
-            {difference}
-            <br />
-            {question.question_created}
-            <br />
-            {dateTime}
-            <UserInfo>
-              <ProPic src={question.picture} alt="" />
-              <UserName>
-                <StyledCardLink user={true} to={`/users/${question.username}`}>
-                  <P>{question.username}</P>
-                </StyledCardLink>{" "}
-                <UserBadges>
-                  <RepP>
-                    {question.reputation > 1000
-                      ? `${(question.reputation / 1000).toFixed(1)}k`
-                      : question.reputation}
-                  </RepP>
-                </UserBadges>
-              </UserName>
-            </UserInfo>
+            <UserTag question={question} user={user} />
           </NameP>
         </RightContainer>
       </Card>
@@ -152,7 +102,9 @@ const QuestionH3 = styled(P)`
 `;
 
 const RepP = styled(P)`
-  font-weight: 700;
+  font-weight: bold;
+  font-size: 12px;
+  margin-right: 2px;
   color: #848d95;
 `;
 
@@ -170,6 +122,7 @@ const AskedLink = styled(StyledLink)`
   :hover {
     color: #07c;
   }
+  margin-bottom: 2px;
 `;
 
 const NameP = styled(P)`
@@ -180,10 +133,13 @@ const NameP = styled(P)`
 `;
 
 const ProPic = styled.img`
-  border-radius: 1px;
+  border-radius: 1.5px;
   width: 32px;
   height: 32px;
   margin: 0;
+  -webkit-box-shadow: 0px 3px 25px 1px rgba(0, 0, 0, 0.32);
+  -moz-box-shadow: 0px 3px 25px 1px rgba(0, 0, 0, 0.32);
+  box-shadow: 0px 3px 25px 1px rgba(0, 0, 0, 0.32);
 `;
 
 const UserInfo = styled(P)`
@@ -195,7 +151,31 @@ const SmallerBox = styled.div`
   /* ${flex("column", "flex-start", "flex-start")} */
 
 `;
-
+const Bronze = styled.div`
+  font-size: 14px;
+  font-weight: 0;
+  color: brown;
+  font-weight: 550;
+  padding-left: 8px;
+  display: flex;
+  padding-right: 2.5px;
+`;
+const Silver = styled.div`
+  font-size: 14px;
+  font-weight: 0;
+  color: silver;
+  font-weight: 550;
+  padding-left: 8px;
+  padding-right: 2.5px;
+`;
+const Gold = styled.div`
+  font-size: 14px;
+  font-weight: 0;
+  color: gold;
+  font-weight: 550;
+  padding-left: 8px;
+  padding-right: 2.5px;
+`;
 const BiggerBox = styled.div`
   ${flex("column", "flex-start", "flex-start")}
   flex-basis: 100%;
@@ -205,17 +185,21 @@ const BiggerBox = styled.div`
 const UserName = styled(P)`
   display: flex;
   flex-direction: column;
+  margin-left: 8px;
 `;
 
 const UserBadges = styled(P)`
   display: flex;
   flex-direction: row;
+  margin-top: 3px;
+  /* margin-left: 8px; */
 `;
 
 const StyledCardLink = styled(StyledLink)`
   color: #07c;
   font-size: ${props => (props.user ? "12px" : "")};
   margin-right: ${props => (props.user ? "5px" : "")};
+  font-weight: 400;
   :hover {
     color: #3af;
   }
@@ -227,7 +211,10 @@ const StyledCardLink = styled(StyledLink)`
 const Card = styled.div`
   padding: 12px 8px;
   height: auto;
-  ${flex("row", "flex-start", "flex-start")}
+  ${flex("row", "flex-start", "flex-start")};
+  padding-left: 8px;
+  background-color: ${props => (props.tag ? "#fffbec" : "inherit")};
+  float: none;
 `;
 
 const Data = styled.div`
@@ -278,7 +265,12 @@ const ViewsP = styled(P)`
 const TagContainer = styled.div`
   ${flex()}
 `;
-
+const BadgeP = styled.p`
+  font-weight: 400;
+  font-size: 12px;
+  padding-left: 0;
+  color: #6a737c;
+`;
 const Container = styled(StyledLink)`
   ${flex("column")}
   padding: 7px;
@@ -289,5 +281,20 @@ const Container = styled(StyledLink)`
 const Hr = styled.div`
   border: 0.5px solid ${hrGray};
 `;
-
-export default HQCard;
+const BountyAmount = styled.div`
+  float: left;
+  color: #fff;
+  font-size: 11px;
+  padding: 0.2em 0.5em 0.25em;
+  line-height: 1.3;
+  background-color: #0077dd;
+  margin-right: 5px;
+  border-radius: 2px;
+`;
+function mapStateToProps(state) {
+  let { user } = state.global;
+  return {
+    user
+  };
+}
+export default connect(mapStateToProps)(VQCard);
