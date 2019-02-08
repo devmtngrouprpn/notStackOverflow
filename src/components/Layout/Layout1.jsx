@@ -28,7 +28,7 @@ function Layout(props) {
 
 const Grid = styled.div`
   width: 100vw;
-  height: 100vh;
+  min-height:100vh;
   display: grid;
   grid-template-rows: 50px 1fr 272px;
   grid-template-columns: 1fr;
@@ -44,6 +44,7 @@ const FooterContainer = styled.div`
   position: relative;
   top: 272px;
   z-index: 2;
+  float:bottom;
 `;
 
 const SidebarContainer = styled.div`
@@ -67,6 +68,8 @@ const ContentHolder = styled.div`
   grid-area: content;
   ${flex("row", "center", "flex-start")};
   width: 100%;
+  height: auto;
+
 `;
 const HeaderHolder = styled.div`
   width: 100%;

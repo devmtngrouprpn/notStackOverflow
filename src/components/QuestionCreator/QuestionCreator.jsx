@@ -14,7 +14,6 @@ import {
     P,
     blueButton,
 } from "./../../utilites/index";
-import { type } from "os";
 
 class QuestionCreator extends Component {
     constructor() {
@@ -46,8 +45,10 @@ class QuestionCreator extends Component {
             this.props.history.push(`/questions/${res.data.question_id}`)
         } else alert('Please fill in all fields')
     }
-    handleChange = (defaultValue) => {
-        this.setState({ descPayload: defaultValue })
+    handleChange = async (defaultValue = '') => {
+        console.log(defaultValue)
+        await this.setState({ descPayload: defaultValue })
+        console.log(this.state.descPayload)
     }
     removeTag = (tag) => {
         let newArr = this.state.tagsPayload.filter((e) => { return e !== tag })
@@ -60,10 +61,7 @@ class QuestionCreator extends Component {
     }
     grabRelated = (e) => {
         this.setState({ typingTag: e.target.value })
-        console.log(e.target.value, typeof e.target.value)
-        console.log(Array.isArray(this.state.tagNames))
         let object = stringSimilarity.findBestMatch(e.target.value, this.state.tagNames)
-        console.log(object)
         object = object.ratings.sort((a, b) => { return a.rating * 100 - b.rating * 100 }).reverse().filter(a => a.rating > 0)
         object = object.slice(0, 6)
         this.setState({ tagsForMapping: object })
