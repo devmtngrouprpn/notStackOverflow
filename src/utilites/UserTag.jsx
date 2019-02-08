@@ -10,7 +10,7 @@ class UserTag extends Component {
   }
 
   render() {
-    let { question, user } = this.props;
+    let { question } = this.props;
     let difference = timeFunction(question.question_creation_timestamp);
     return (
       <>
@@ -53,9 +53,9 @@ const ProPic = styled.img`
   width: 32px;
   height: 32px;
   margin: 0;
-  -webkit-box-shadow: 0px 3px 25px 1px rgba(0, 0, 0, 0.32);
-  -moz-box-shadow: 0px 3px 25px 1px rgba(0, 0, 0, 0.32);
-  box-shadow: 0px 3px 25px 1px rgba(0, 0, 0, 0.32);
+  -webkit-box-shadow: 2px 2px 4px rgba(12, 13, 14, 0.5);
+  -moz-box-shadow: 2px 2px 4px rgba(12, 13, 14, 0.5);
+  box-shadow: 2px 2px 4px rgba(12, 13, 14, 0.5);
 `;
 const UserName = styled(P)`
   display: flex;
@@ -104,6 +104,7 @@ const UserBadges = styled(P)`
   display: flex;
   flex-direction: row;
   margin-top: 3px;
+  align-items: center;
   /* margin-left: 8px; */
 `;
 const AskedLink = styled(StyledLink)`
