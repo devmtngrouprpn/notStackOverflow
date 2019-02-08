@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { connect } from "react-redux";
 import {
   P,
   hrGray,
@@ -11,19 +12,31 @@ import {
   questionBoxGray,
   H1,
   StyledLink,
-  featuredBoxBlue
+  featuredBoxBlue,
+  timeFunction
 } from "./../../utilites/index";
 
-function HQCard({ question }) {
+function HQCard({ question, user }) {
   let tags;
   if (question.tags) {
     tags = question.tags.map(tag => <TinyTag subject={tag} />);
   } else {
     tags = [];
   }
+  let difference = timeFunction(question.question_creation_timestamp);
+  let userTagbe = false;
+  const userTag = () => {
+    if (user.tags_watching) {
+      let userTags = user.tags_watching.map(tag => question.tags.includes(tag));
+      if (userTags.includes(true)) {
+        userTagbe = true;
+      }
+    }
+  };
+  userTag();
   return (
     <>
-      <Card>
+      <Card tag={userTagbe}>
         <Data>
           <Container to={`/questions/${question.question_id}`}>
             <BigP>{question.votes || 0}</BigP>
@@ -66,7 +79,7 @@ function HQCard({ question }) {
           <TagContainer>{tags}</TagContainer>
           <NameP>
             <AskedLink to={`/questions/${question.question_id}`}>
-              asked in the past
+              {difference}
             </AskedLink>
             <StyledCardLink user={true} to={`/users/${question.user_id}`}>
               <P>{question.username}</P>
@@ -150,6 +163,7 @@ const StyledCardLink = styled(StyledLink)`
 const Card = styled.div`
   padding: 12px 8px;
   ${flex("row", "flex-start", "flex-start")}
+  background-color: ${props => (props.tag ? "#fffbec" : "inherit")};
 `;
 
 const Data = styled.div`
@@ -204,4 +218,10 @@ const Hr = styled.div`
   border: 0.5px solid ${hrGray};
 `;
 
-export default HQCard;
+function mapStateToProps(state) {
+  let { user } = state.global;
+  return {
+    user
+  };
+}
+export default connect(mapStateToProps)(HQCard);
