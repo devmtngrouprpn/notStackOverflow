@@ -47,8 +47,11 @@ app.get("/api/tags/alltinytags", tinyTag.getAllTags);
 app.get("/api/users/allusers", users.getUsers);
 // USERS END
 // QUESTIONS START
-app.get("/api/questions/indv", questions.questionById);
+app.get("/api/question/indv", questions.questionById);
 app.get("/api/answer/indv", questions.answerById);
+app.get("/api/comment/indv", questions.commentById);
+app.post("/api/question/vote", questions.addVote);
+app.post("/api/question/favorite", questions.addFavorite);
 // QUESTIONS END
 
 // *** IM LISTENING! *** //
