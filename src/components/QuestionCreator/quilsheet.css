@@ -4,12 +4,13 @@
 border-bottom-left-radius: 3px;
 border-bottom-right-radius: 3px;
 width: 100%;
+height:inherit;
   }
 
   
 .ql-toolbar {
     width: 100%;
-
+height:inherit;
     background: white;
     border-top-left-radius: 3px;;
     border-top-right-radius: 3px;
