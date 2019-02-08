@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import Layout from "../Layout/Layout1.jsx";
 import Quill from '../QuestionCreator/Quil'
+import AnswerCreator from './AnswerCreator'
 import UserTag from '../../utilites/UserTag'
 import ArrowColumn from '../../utilites/ArrowColumn'
 import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser'
@@ -22,10 +23,8 @@ import { format } from "path";
 export default class QuestionId extends Component {
   state = {
     loading: true,
-    question: { question_content: '', question_title: '', tags: [] },
-
+    question: { answers: [], question_content: '', question_title: '', tags: [] },
   };
-
   componentDidMount = async () => {
     const res = await axios.get(
       `/api/question/indv?id=${this.props.match.params.id}`
@@ -33,6 +32,12 @@ export default class QuestionId extends Component {
     console.log(res.data);
     this.setState({ loading: false, question: res.data });
   };
+  reMount = async () => {
+    const res = await axios.get(
+      `/api/question/indv?id=${this.props.match.params.id}`
+    );
+    this.setState({ loading: false, question: res.data });
+  }
   render() {
     let { question } = this.state
     // console.log(question.question_content)
@@ -60,9 +65,17 @@ export default class QuestionId extends Component {
                     <QuestionTags>
                       {question.tags.map(e => { return (<TinyTag subject={e} />) })}
                     </QuestionTags>
-                    <ShareEditUser><UserTag question={question} /></ShareEditUser>
+                    <ShareEditUser><div>woah</div><QuestionUserTag question={question} /></ShareEditUser>
                   </QuestionContent>
                 </Section>
+                {question.answers !== null ? <Section>
+                  <TotalAnswers>Answers {question.answers.length}</TotalAnswers>
+                  {question.answers.map(e => { <CompleteAnswer></CompleteAnswer> })}
+                </Section> : <></>}
+
+                <Section2>
+                  <AnswerCreator reMount={this.reMount} questionId={question.question_id} />
+                </Section2>
               </Content>
               <AddsColumn>
                 <AskedInfo>
@@ -79,6 +92,18 @@ export default class QuestionId extends Component {
     );
   }
 }
+const TotalAnswers = styled.div``
+const NewAnswer = styled.div`
+
+`
+const QuestionUserTag = styled(UserTag)`
+height:50px;
+width:50px;
+background: blue;
+border:1px black solid;
+padding: 30px;
+`
+
 const ShareEditUser = styled.div`
 display:flex;
 justify-content:space-between;
@@ -104,6 +129,13 @@ const Section = styled.div`
     align-items:flex-start;
     margin: 25px 5px 25px 5px;
     border-bottom: 1px solid ${borderGray};
+    height: fit-content;
+    width: 750px;
+    `
+const Section2 = styled.div`
+    display: flex;
+    align-items:flex-start;
+    margin: 25px 5px 25px 5px;
     height: fit-content;
     width: 750px;
     `
