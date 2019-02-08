@@ -52,6 +52,7 @@ app.get("/api/answer/indv", questions.answerById);
 app.get("/api/comment/indv", questions.commentById);
 app.post("/api/question/vote", questions.addVote);
 app.post("/api/question/favorite", questions.addFavorite);
+app.post("/api/answer", questions.createQuestion);
 // QUESTIONS END
 
 // *** IM LISTENING! *** //

@@ -137,5 +137,11 @@ module.exports = {
     await db.users.save({ auth_id: user_id, favorites });
     const user = await db.get_user([user_id]);
     res.status(200).send(user[0]);
+  },
+  // ==========================================================
+  createQuestion: async (req, res) => {
+    const { user_id, content, question_id } = req.body;
+    await db.questions.create_answer([user_id, question_id, content]);
+    res.sendStatus(201);
   }
 };

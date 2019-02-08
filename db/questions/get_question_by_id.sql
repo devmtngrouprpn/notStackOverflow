@@ -20,6 +20,7 @@ SELECT
 		select array_agg(answer_id)
 	from answer
 	where question_id = q.question_id
+	ORDER by answer_creation_timestamp
 	) as answers,
 	(
 		select sum(value)
