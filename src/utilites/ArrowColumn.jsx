@@ -60,7 +60,8 @@ const Shell = styled(P)`
 color: rgb(187, 192, 196);
 display:flex;
 flex-flow:column;
-margin:2px;
+margin:15px;
+margin-left: 0px;
 justify-content:center;
 align-items:center;
 `

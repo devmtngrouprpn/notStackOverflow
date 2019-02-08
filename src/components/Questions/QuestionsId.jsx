@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Layout from "../Layout/Layout1.jsx";
 import Quill from '../QuestionCreator/Quil'
 import ArrowColumn from '../../utilites/ArrowColumn'
+import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser'
 import {
   Page,
   Adds,
@@ -11,14 +12,17 @@ import {
   H1,
   borderGray,
   flex,
-  blueButton
+  blueButton,
+  TinyTag
 } from "../../utilites/index.js";
 import axios from "axios";
+import { format } from "path";
 
 export default class QuestionId extends Component {
   state = {
     loading: true,
-    question: []
+    question: { question_content: '', question_title: '', tags: [] },
+
   };
 
   componentDidMount = async () => {
@@ -30,8 +34,13 @@ export default class QuestionId extends Component {
   };
   render() {
     let { question } = this.state
-    let message = question.question_content
-    console.log(typeof message)
+    // console.log(question.question_content)
+    // let message = question.question_content.replace(/^"'/, '').replace(/'"$/, '');
+    // console.log(message)
+    // let messageCopy = message.split(`'`)
+    // let formatedhtml = messageCopy.slice(1, messageCopy.length - 1).join('').replace(/,,/g, `'`)
+    // let newHtml = question.question_content.replace(/^"'/, '').replace(/'"$/, '').split(`'`)
+    // console.log(newHtml)
     return (
       <Layout>
         <LoadingWraper loading={this.state.loading}>
@@ -46,15 +55,16 @@ export default class QuestionId extends Component {
                 <Section>
                   <ArrowColumn stars={24} votes={2000} />
                   <QuestionContent>
-                    {/* <html> */}
-                    {/* {question.question_content} */}
-                    {/* </html> */}
+                    {ReactHtmlParser(question.question_content)}
+                    {/* <div dangerouslySetInnerHTML={{ __html: message }} /> */}
+                    {/* <Tags>
+                      {}
+                    </Tags> */}
                   </QuestionContent>
                 </Section>
-
-
-
-
+                <QuestionTags>
+                  {question.tags.map(e => { return (<TinyTag subject={e} />) })}
+                </QuestionTags>
               </Content>
               <Adds />
             </QuestionPage>
@@ -64,11 +74,18 @@ export default class QuestionId extends Component {
     );
   }
 }
+const QuestionTags = styled.div`
+display: flex;
+`
 const QuestionContent = styled.div`
     
     `
 const Section = styled.div`
     display: flex;
+    align-items:flex-start;
+    margin: 25px 5px 25px 5px;
+    border-bottom: 1px solid ${borderGray};
+    height: fit-content;
     `
 const AskButton = styled.button`
   ${blueButton("10.4px 10.4px 10.4px 10.4px")}
@@ -83,7 +100,8 @@ const TitleBox = styled.div`
 const Box = styled.div`
   ${flex("column", "flex-start", "flex-start")}
         flex-basis: 1100px;
-        overflow: hidden;
+        /* overflow: hidden; */
+        height: fit-content;
       `;
 
 const TopAdds = styled.div`
