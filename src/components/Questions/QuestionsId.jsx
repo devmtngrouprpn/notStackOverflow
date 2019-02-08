@@ -60,13 +60,20 @@ export default class QuestionId extends Component {
                     {/* <Tags>
                       {}
                     </Tags> */}
+                    <QuestionTags>
+                      {question.tags.map(e => { return (<TinyTag subject={e} />) })}
+                    </QuestionTags>
                   </QuestionContent>
                 </Section>
-                <QuestionTags>
-                  {question.tags.map(e => { return (<TinyTag subject={e} />) })}
-                </QuestionTags>
               </Content>
-              <Adds />
+              <AddsColumn>
+                <AskedInfo>
+                  <Posted>asked</Posted><br />
+                  <Posted>viewed</Posted><br />
+                  {question.bounty_value ? <Posted>Active</Posted> : <></>}
+                </AskedInfo>
+                <Adds />
+              </AddsColumn>
             </QuestionPage>
           </Box>
         </LoadingWraper>
@@ -74,6 +81,16 @@ export default class QuestionId extends Component {
     );
   }
 }
+const Posted = styled.span`
+margin: 15px 0px 15px 15px;
+`
+const AskedInfo = styled.div`
+margin-bottom:15px;
+`
+const AddsColumn = styled.div`
+width:100%;
+padding: 25px 0 25px 25px;
+`
 const QuestionTags = styled.div`
 display: flex;
 `
@@ -86,6 +103,7 @@ const Section = styled.div`
     margin: 25px 5px 25px 5px;
     border-bottom: 1px solid ${borderGray};
     height: fit-content;
+    width: 750px;
     `
 const AskButton = styled.button`
   ${blueButton("10.4px 10.4px 10.4px 10.4px")}
@@ -98,10 +116,11 @@ const TitleBox = styled.div`
       `;
 
 const Box = styled.div`
-  ${flex("column", "flex-start", "flex-start")}
-        flex-basis: 1100px;
-        /* overflow: hidden; */
+  /* ${flex("column")} */
+        /* flex-basis: 1100px; */
+        /* overflow: visible; */
         height: fit-content;
+        width:100%;
       `;
 
 const TopAdds = styled.div`
@@ -114,4 +133,5 @@ const QuestionPage = styled(Page)`
   border-top: 1px solid ${borderGray};
         margin: 13px 24px 24px 24px;
         width: calc(100% - 48px);
+        height:fit-content;
       `;
