@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import Layout from "../Layout/Layout1.jsx";
 import Quill from '../QuestionCreator/Quil'
+import UserTag from '../../utilites/UserTag'
 import ArrowColumn from '../../utilites/ArrowColumn'
 import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser'
 import {
@@ -27,7 +28,7 @@ export default class QuestionId extends Component {
 
   componentDidMount = async () => {
     const res = await axios.get(
-      `/api/questions/indv?id=${this.props.match.params.id}`
+      `/api/question/indv?id=${this.props.match.params.id}`
     );
     console.log(res.data);
     this.setState({ loading: false, question: res.data });
@@ -56,13 +57,10 @@ export default class QuestionId extends Component {
                   <ArrowColumn stars={24} votes={2000} />
                   <QuestionContent>
                     {ReactHtmlParser(question.question_content)}
-                    {/* <div dangerouslySetInnerHTML={{ __html: message }} /> */}
-                    {/* <Tags>
-                      {}
-                    </Tags> */}
                     <QuestionTags>
                       {question.tags.map(e => { return (<TinyTag subject={e} />) })}
                     </QuestionTags>
+                    <ShareEditUser><UserTag question={question} /></ShareEditUser>
                   </QuestionContent>
                 </Section>
               </Content>
@@ -81,6 +79,10 @@ export default class QuestionId extends Component {
     );
   }
 }
+const ShareEditUser = styled.div`
+display:flex;
+justify-content:space-between;
+`
 const Posted = styled.span`
 margin: 15px 0px 15px 15px;
 `
