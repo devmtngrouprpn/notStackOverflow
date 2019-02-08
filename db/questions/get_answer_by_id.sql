@@ -1,12 +1,11 @@
 SELECT
+	a.*,
 	(
 	select sum(amount)
 	from reputation
 	where user_id = a.user_id
 	) as reputation,
 	username,
-	a.user_id,
-	answer_accepted,
 	(
 	select e.edit_id
 	from edit as e
