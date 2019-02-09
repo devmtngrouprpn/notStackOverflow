@@ -1,4 +1,5 @@
 SELECT
+    q.question_id,
     (
         SELECT sum(amount)
     FROM reputation
@@ -20,51 +21,49 @@ SELECT
     FROM answer
     WHERE question_id = q.question_id
     ) AS answers,
-    (
-        SELECT
-        bool_or(
-            CASE WHEN answer_accepted = TRUE 
-            	THEN
-                	TRUE
-            WHEN answer_accepted = FALSE
-             	THEN
-                	FALSE
-            END
-        )
-    FROM answer
-    WHERE question_id = q.question_id) 
-    AS answer_accepted,
     u.username,
     u.picture,
     substring(regexp_replace(q.question_content, '<[^<]+>', '', 'g'), '^[^\n\r]{0,200}\M') || ' ...' AS content,
     question_title,
     question_views,
     question_creation_timestamp,
-    q.user_id
---     (
---     select max(edit_date)
---     from edit
---     where source_id = q.question_id
---         AND source_type = 'question'
--- 	) as last_edit
+    q.user_id,
+    (
+        select edit_id
+    from edit
+    where source_id = q.question_id
+        AND source_type = 'question'
+) as last_edit
 FROM
     question AS q
     JOIN users AS u ON u.auth_id = q.user_id
-WHERE (
+WHERE
+(
 	select bool_or(answer_accepted)
     from answer
     where question_id = q.question_id
-) = TRUE AND 0 <> ANY (
-	select array_agg(
+)
+= FALSE
+    AND
+    (0 <= ANY
+(select unnest(array_agg(
 		(select sum(value)
         from vote
-        where source_id = answer_id AND source_type = 'answer')
-	)
+        where source_id = answer_id and source_type = 'answer')
+	))
     from answer
-    where question_id = q.question_id
-)
+    where question_id = q.question_id)
+    OR -100000 = ALL
+(select unnest(array_agg((select sum(value)
+        from vote
+        where source_id = answer_id and source_type = 'answer')))
+    from answer
+    where question_id = q.question_id)
+IS NULL)
+	or
+(select count(answer_id)
+from answer
+where question_id = q.question_id)
+= 0
 ORDER BY
     votes;
-
-
-

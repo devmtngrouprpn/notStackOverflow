@@ -26,13 +26,17 @@ module.exports = {
   // ==========================================================
   worldQuestions: async (req, res, next) => {
     let db = req.app.get("db");
+    console.log(Array.isArray(req.session.user));
     let dbResult = await Promise.all([
       db.World.newest([]),
       db.World.featured([]),
       db.World.frequent([]),
       db.World.votes([]),
       db.World.active([]),
-      db.World.unanswered.votes([])
+      db.World.unanswered.votes([]),
+      db.World.unanswered.my_tags([
+        (req.session.user || { tags_watching: [] }).tags_watching
+      ])
     ]);
     let dbTotal = await Promise.all([
       db.World.totals.featured_total([]),
@@ -46,7 +50,15 @@ module.exports = {
     let featuredTotal = featuredT[0];
     let frequentTotal = frequentT[0];
     let allTotal = allT[0];
-    let [newest, featured, frequent, votes, active, unansweredVotes] = dbResult;
+    let [
+      newest,
+      featured,
+      frequent,
+      votes,
+      active,
+      unansweredVotes,
+      unansweredMyTags
+    ] = dbResult;
     res.status(200).send({
       newest,
       featured,
@@ -54,6 +66,7 @@ module.exports = {
       votes,
       active,
       unansweredVotes,
+      unansweredMyTags,
       featuredTotal,
       frequentTotal,
       allTotal
@@ -114,12 +127,12 @@ module.exports = {
       value
     ]);
     if (!check[0]) {
-      db.vote.insert({ user_id, source_id, source_type, value });
+      await db.vote.insert({ user_id, source_id, source_type, value });
       res.sendStatus(201);
     } else if (check[0].res) {
       res.sendStatus(200);
     } else {
-      db.vote.save({ vote_id: check[0].vote_id, value });
+      await db.vote.save({ vote_id: check[0].vote_id, value });
       res.status(200);
     }
   },
