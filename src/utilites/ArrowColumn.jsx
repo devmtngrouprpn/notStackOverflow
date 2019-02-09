@@ -35,9 +35,6 @@ class ArrowColumn extends Component {
     }
     favorite = async () => {
 
-        console.log({
-            user_id: this.props.global.user.auth_id, question_id: this.props.id
-        })
         let res = await axios.post('api/question/favorite', {
             user_id: this.props.global.user.auth_id, question_id: this.props.id, favnum: this.props.favnun
         })
