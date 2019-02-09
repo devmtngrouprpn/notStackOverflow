@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import Layout from "../Layout/Layout1.jsx";
-import Quill from '../QuestionCreator/Quil'
+import Answer from './Answer'
 import AnswerCreator from './AnswerCreator'
 import UserTag from '../../utilites/UserTag'
 import ArrowColumn from '../../utilites/ArrowColumn'
@@ -9,6 +9,7 @@ import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from
 import {
   Page,
   Adds,
+  P,
   Content,
   LoadingWraper,
   H1,
@@ -59,19 +60,19 @@ export default class QuestionId extends Component {
             <QuestionPage>
               <Content>
                 <Section>
-                  <ArrowColumn stars={24} votes={2000} />
+                  <ArrowColumn reset={this.reMount} id={question.question_id} type={'question'} stars={question.favorites} votes={question.votes} />
                   <QuestionContent>
                     {ReactHtmlParser(question.question_content)}
                     <QuestionTags>
                       {question.tags.map(e => { return (<TinyTag subject={e} />) })}
                     </QuestionTags>
-                    <ShareEditUser><div>woah</div><QuestionUserTag question={question} /></ShareEditUser>
+                    <ShareEditUser><div>edit</div><QuestionUserTag question={question} /></ShareEditUser>
                   </QuestionContent>
                 </Section>
-                {question.answers !== null ? <Section>
-                  <TotalAnswers>Answers {question.answers.length}</TotalAnswers>
-                  {question.answers.map(e => { return <CompleteAnswer></CompleteAnswer> })}
-                </Section> : <></>}
+                {question.answers !== null ? <Section3>
+                  <TotalAnswers> {`Answers ${question.answers.length}`}</TotalAnswers>
+                  {question.answers.map(e => { return <Answer id={e}></Answer> })}
+                </Section3> : <></>}
 
                 <Section2>
                   <AnswerCreator reMount={this.reMount} questionId={question.question_id} />
@@ -93,7 +94,13 @@ export default class QuestionId extends Component {
   }
 }
 const CompleteAnswer = styled.div``
-const TotalAnswers = styled.div``
+const TotalAnswers = styled(P)`
+width:100%;
+border-bottom: 1px solid ${borderGray};
+padding-bottom:25px;
+font-size:18px;
+font-weight:400;
+`
 const NewAnswer = styled.div`
 
 `
@@ -135,6 +142,14 @@ const Section = styled.div`
     `
 const Section2 = styled.div`
     display: flex;
+    align-items:flex-start;
+    margin: 25px 5px 25px 5px;
+    height: fit-content;
+    width: 750px;
+    `
+const Section3 = styled.div`
+    display: flex;
+    flex-flow:column;
     align-items:flex-start;
     margin: 25px 5px 25px 5px;
     height: fit-content;
