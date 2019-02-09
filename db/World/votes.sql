@@ -1,4 +1,5 @@
 SELECT
+    q.*,
     (
         SELECT
         sum(amount)
@@ -45,7 +46,7 @@ FROM
     question AS q
     JOIN users AS u ON u.auth_id = q.user_id
 ORDER BY
-                        votes
+    (select sum(value) from vote where source_id = q.question_id and source_type = 'question')
 LIMIT 100;
 
 
