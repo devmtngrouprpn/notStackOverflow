@@ -119,26 +119,28 @@ module.exports = {
   // ==========================================================
   addVote: async (req, res) => {
     const { user_id, source_id, source_type, value } = req.body;
+    console.log(req.body);
     const db = req.app.get("db");
     const check = await db.questions.check_vote([
       user_id,
       source_id,
-      source_type,
-      value
+      source_type
     ]);
-    if (!check[0]) {
-      await db.vote.insert({ user_id, source_id, source_type, value });
-      res.sendStatus(201);
-    } else if (check[0].res) {
-      res.sendStatus(200);
+    if (req.session.user) {
+      if (!check[0]) {
+        await db.vote.insert({ user_id, source_id, source_type, value });
+        res.sendStatus(201);
+      } else {
+        await db.vote.save({ vote_id: check[0].vote_id, value });
+        res.sendStatus(200);
+      }
     } else {
-      await db.vote.save({ vote_id: check[0].vote_id, value });
-      res.status(200);
+      res.sendStatus(401);
     }
   },
   // ==========================================================
   addFavorite: async (req, res) => {
-    const { user_id, question_id } = req.body;
+    const { user_id, question_id, favNum } = req.body;
     const db = req.app.get("db");
     const check = await db.questions.check_favorites([user_id, question_id]);
     let favorites = check[0].favorites;
@@ -148,13 +150,14 @@ module.exports = {
       favorites.push(question_id);
     }
     await db.users.save({ auth_id: user_id, favorites });
+    await db.question.save({ question_id, favorites: favNum + 1 });
     const user = await db.get_user([user_id]);
     res.status(200).send(user[0]);
-    console.log('hit me baby one more time')
+    console.log("hit me baby one more time");
   },
   // ==========================================================
   createQuestion: async (req, res) => {
-    const db = req.app.get("db")
+    const db = req.app.get("db");
     const { user_id, answer_content, question_id } = req.body;
     await db.questions.create_answer([user_id, question_id, answer_content]);
     res.sendStatus(201);
