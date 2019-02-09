@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import axios from 'axios'
+import { connect } from 'react-redux'
 import Quill from '../QuestionCreator/Quil'
 import {
     Page,
@@ -24,28 +25,41 @@ class AnswerCreator extends Component {
         };
     }
     handleChange = async (defaultValue = '') => {
-        await this.setState({ descPayload: defaultValue })
+        await this.setState({ text: defaultValue })
     };
+    componentDidMount() {
+        console.log(this.props.global.user.auth_id)
+    }
     uploadAnswer = async () => {
-        let res = await axios.post('/api/answer', {
-            user_id: this.props.global.user.auth_id, answer_content: this.state.text, question_id: this.props.questionId
-        })
+        if (this.props.global.user.auth_id) {
+            console.log({
+                user_id: this.props.global.user.auth_id, answer_content: this.state.text, question_id: this.props.questionId
+            })
+            let res = await axios.post('/api/answer', {
+                user_id: this.props.global.user.auth_id, answer_content: this.state.text, question_id: this.props.questionId
+            })
 
-        this.props.reMount()
+            this.props.reMount()
+        } else { alert('please log in to post an answer') }
     };
     render() {
         return (
             <Holder>
                 <Title>Your Answer</Title>
+                {this.state.text}
                 <NewAnswer height={'280px'} dataStore={this.handleChange} reset={this.state.toggle} text={this.state.descPayload} />
                 <Borders />
-                <SubmitButton>Post Your Answer</SubmitButton>
+                <SubmitButton onClick={this.uploadAnswer}>Post Your Answer</SubmitButton>
             </Holder>
         );
     }
 }
 
-export default AnswerCreator
+function mapStateToProps(reduxStore) {
+    return { ...reduxStore };
+}
+
+export default connect(mapStateToProps)(AnswerCreator);
 const Holder = styled(P)`
 width:100%;
 `
