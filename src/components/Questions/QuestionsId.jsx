@@ -72,7 +72,7 @@ export default class QuestionId extends Component {
                       {question.tags.map(e => { return (<TinyTag subject={e} />) })}
                     </QuestionTags>
                     <ShareEditUser><div>edit</div><QuestionUserTag question={question} /></ShareEditUser>
-                    <CommentSection />
+                    <CommentSection comments={question.comments} reMount={this.reMount} type={'question'} id={question.question_id} />
                   </QuestionContent>
                 </Section>
                 {question.answers !== null ? <Section3>
