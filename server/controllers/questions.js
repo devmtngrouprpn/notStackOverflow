@@ -43,12 +43,20 @@ module.exports = {
     let dbTotal = await Promise.all([
       db.World.totals.featured_total([]),
       db.World.totals.frequent_total([]),
-      db.World.totals.question_total([])
+      db.World.totals.question_total([]),
+      db.World.unanswered.totals.my_tags_total([
+        (req.session.user || { tags_watching: [] }).tags_watching
+      ]),
+      db.World.unanswered.totals.no_answer_total([]),
+      db.World.unanswered.totals.question_total([])
     ]);
-    let [featuredT, frequentT, allT] = dbTotal;
+    let [featuredT, frequentT, allT, myTagsT, noAnswerT, unansweredT] = dbTotal;
     let featuredTotal = featuredT[0];
     let frequentTotal = frequentT[0];
     let allTotal = allT[0];
+    let myTagsTotal = myTagsT[0];
+    let noAnswerTotal = noAnswerT[0];
+    let unansweredTotal = unansweredT[0];
     let [
       newest,
       featured,
@@ -72,7 +80,10 @@ module.exports = {
       unansweredNoAnswer,
       featuredTotal,
       frequentTotal,
-      allTotal
+      allTotal,
+      myTagsTotal,
+      noAnswerTotal,
+      unansweredTotal
     });
   },
   // ==========================================================
@@ -149,11 +160,12 @@ module.exports = {
     let favorites = check[0].favorites;
     if (check[0].res) {
       favorites = favorites.filter(question => question != question_id);
+      await db.question.save({ question_id, favorites: favNum - 1 });
     } else {
       favorites.push(question_id);
+      await db.question.save({ question_id, favorites: favNum + 1 });
     }
     await db.users.save({ auth_id: user_id, favorites });
-    await db.question.save({ question_id, favorites: favNum + 1 });
     const user = await db.get_user([user_id]);
     res.status(200).send(user[0]);
   },
