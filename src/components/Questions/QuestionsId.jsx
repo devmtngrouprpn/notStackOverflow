@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom'
 import AnswerCreator from './AnswerCreator'
 import UserTag from '../../utilites/UserTag'
 import ArrowColumn from '../../utilites/ArrowColumn'
+import CommentSection from './CommentSection'
 import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser'
 import {
   Page,
@@ -71,6 +72,7 @@ export default class QuestionId extends Component {
                       {question.tags.map(e => { return (<TinyTag subject={e} />) })}
                     </QuestionTags>
                     <ShareEditUser><div>edit</div><QuestionUserTag question={question} /></ShareEditUser>
+                    <CommentSection />
                   </QuestionContent>
                 </Section>
                 {question.answers !== null ? <Section3>

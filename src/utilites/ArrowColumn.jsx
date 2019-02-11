@@ -21,17 +21,26 @@ class ArrowColumn extends Component {
         console.log(this.props.stars)
     };
     upvote = async () => {
-        console.log({ user_id: this.props.global.user.auth_id, source_id: this.props.id, source_type: this.props.type, value: 1 })
-        let res = await axios.post('api/question/vote', {
-            user_id: this.props.global.user.auth_id, source_id: this.props.id, source_type: this.props.type, value: 1
-        })
-        this.props.reset();
+        if (this.props.global.user.auth_id) {
+            let res = await axios.post('api/question/vote', {
+                user_id: this.props.global.user.auth_id, source_id: this.props.id, source_type: this.props.type, value: 1
+            })
+            this.props.reset();
+        } else {
+            alert('please log in to vote')
+        }
     }
+
     downVote = async () => {
-        let res = await axios.post('api/question/vote', {
-            user_id: this.props.global.user.auth_id, source_id: this.props.id, source_type: this.props.type, value: -1
-        })
-        this.props.reset();
+        if (this.props.global.user.auth_id) {
+            let res = await axios.post('api/question/vote', {
+                user_id: this.props.global.user.auth_id, source_id: this.props.id, source_type: this.props.type, value: -1
+            })
+            this.props.reset();
+        } else {
+            alert('please log in to vote')
+        }
+
     }
     favorite = async () => {
         if (this.props.global.user.auth_id) {
@@ -42,9 +51,6 @@ class ArrowColumn extends Component {
         } else {
             alert('please log in to favorite')
         }
-
-    }
-    unFavorite() {
 
     }
     render() {

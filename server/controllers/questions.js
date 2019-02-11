@@ -166,12 +166,6 @@ module.exports = {
       await db.question.save({ question_id, favorites: favNum + 1 });
     }
     await db.users.save({ auth_id: user_id, favorites });
-<<<<<<< HEAD
-    // console.log('almost there')
-    // console.log(question_id, favorites)
-    await db.question.save({ question_id, favorites: favNum + 1 });
-=======
->>>>>>> master
     const user = await db.get_user([user_id]);
     res.status(200).send(user[0]);
   },
