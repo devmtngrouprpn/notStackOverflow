@@ -4,7 +4,7 @@ import axios from 'axios'
 import ArrowColumn from '../../utilites/ArrowColumn'
 import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser'
 import UserTagForAnswer from '../../utilites/UserTagForAnswer'
-
+import CommentSection from './CommentSection'
 import { connect } from 'react-redux'
 import Quill from '../QuestionCreator/Quil'
 import {
@@ -32,7 +32,7 @@ class Answer extends Component {
     componentDidMount = async () => {
         let res = await axios.get(`/api/answer/indv?id=${this.props.id}`)
         console.log(res.data)
-        await this.setState({ answer: res.data })
+        this.setState({ answer: res.data })
     }
     reset = async () => {
         let res = await axios.get(`/api/answer/indv?id=${this.props.id}`)
@@ -41,6 +41,7 @@ class Answer extends Component {
     }
     render() {
         let { answer } = this.state
+        console.log(answer)
         return (
             <Wrapper>
                 <ArrowColumn reset={this.reset} id={answer.answer_id} type={'answer'} noStars={true} votes={answer.votes} />
@@ -49,6 +50,7 @@ class Answer extends Component {
                         {ReactHtmlParser(answer.answer_content)}
                     </QuestionContent>
                     <ShareEditUser><div>edit</div>{answer.answer_creation_timestamp ? <QuestionUserTag question={answer} /> : <></>}</ShareEditUser>
+                    <CommentSection comments={answer.comments} reMount={this.reset} type={'answer'} id={answer.answer_id} />
                 </Section >
             </Wrapper>
         );
