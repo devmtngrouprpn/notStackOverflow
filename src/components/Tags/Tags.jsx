@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Layout from "../Layout/Layout1.jsx";
 import styled from "styled-components";
 import { TinyTag } from "../../utilites/index.js";
-import { SearchBar } from '../../utilites/globals';
+import { SearchBar } from "../../utilites/globals";
 import HQCard from "./../Questions/HQCard";
 import { P, LoadingWraper, TabButton } from "./../../utilites/index";
 import axios from "axios";
@@ -13,13 +13,12 @@ export default class Tags extends Component {
     this.state = {
       view: "Popular",
       data: { allTags: [], day: [], week: [] },
-      searching: '',
+      searching: ""
     };
   }
   componentDidMount = async () => {
     let res = await axios.get("/api/tags/alltinytags");
     this.setState({ data: res.data });
-    console.log(this.state);
   };
   handleView = name => {
     this.setState({ view: name });
@@ -36,7 +35,7 @@ export default class Tags extends Component {
               others to find and answer your question.
             </Desc>
             <SortBar>
-              <SearchBox placeholder='Filter by tag name' />
+              <SearchBox placeholder="Filter by tag name" />
               <ButtonContainer>
                 <TabButton
                   onClick={() => this.handleView("Popular")}
@@ -102,15 +101,15 @@ export default class Tags extends Component {
 }
 const SearchBox = styled(SearchBar)`
   border-radius: 3px;
-    border-color: #bbc0c4;
-    border: 1px solid lightgray;
-    background-color: #fff;
-    box-shadow: none;
-    color: #3b4045;
-    padding: 8px 9px 8px 9px;
-    margin-left:0;
-    max-width: 180px;
-`
+  border-color: #bbc0c4;
+  border: 1px solid lightgray;
+  background-color: #fff;
+  box-shadow: none;
+  color: #3b4045;
+  padding: 8px 9px 8px 9px;
+  margin-left: 0;
+  max-width: 180px;
+`;
 const ButtonContainer = styled.div``;
 const CountBox = styled.div``;
 const FeaturedBox = styled.div``;
@@ -129,8 +128,8 @@ const Asked = styled(P)`
   font-size: 12px;
 `;
 const SortBar = styled.div`
-margin-top:25px;
-margin-bottom:25px;
+  margin-top: 25px;
+  margin-bottom: 25px;
   display: flex;
   justify-content: space-between;
 `;

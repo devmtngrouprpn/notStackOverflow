@@ -18,7 +18,7 @@ import {
 } from "./../../utilites/index";
 import { connect } from "react-redux";
 import { update_home } from "./../../ducks/home";
-import Ads from "./../../utilites/Ads";
+import Ads from "../../utilites/RightSideBar";
 
 class Home extends Component {
   state = {
@@ -32,7 +32,6 @@ class Home extends Component {
     let res = await axios.get(`/api/questions/interesting`);
     this.props.update_home(res.data);
     this.setState({ loading: false });
-    console.log(res.data);
   }
   handleView = name => {
     this.setState({ view: name });
