@@ -55,6 +55,8 @@ module.exports = {
     let frequentTotal = frequentT[0];
     let allTotal = allT[0];
     let myTagsTotal = myTagsT[0];
+    let noAnswerTotal = noAnswerT[0];
+    let unansweredTotal = unansweredT[0];
     let [
       newest,
       featured,
@@ -78,7 +80,10 @@ module.exports = {
       unansweredNoAnswer,
       featuredTotal,
       frequentTotal,
-      allTotal
+      allTotal,
+      myTagsTotal,
+      noAnswerTotal,
+      unansweredTotal
     });
   },
   // ==========================================================
