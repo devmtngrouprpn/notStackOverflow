@@ -47,6 +47,5 @@ FROM
 WHERE ((extract(day FROM now() - q.question_creation_timestamp))) <= 1
 ORDER BY
                     ((1 + q.question_views) / (1 + extract(day FROM now() - q.question_creation_timestamp)))
-                    DESC
-LIMIT 100;
+                    DESC NULLS LAST;
 

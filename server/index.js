@@ -51,9 +51,49 @@ app.get("/api/users/allusers", users.getUsers);
 app.get("/api/question/indv", questions.questionById);
 app.get("/api/answer/indv", questions.answerById);
 app.get("/api/comment/indv", questions.commentById);
-app.post("/api/question/vote", questions.addVote);
-app.post("/api/question/favorite", questions.addFavorite);
-app.post("/api/answer", questions.createQuestion);
+app.post("/api/question/favorite", questions.addVote);
+app.get("/api/edits", questions.getEdits);
+// app.put('/api/edits', questions.acceptEdit);
+// app.delete('/api/edits', questions.declineEdit);
+// app.post('/api/edits', questions.createEdit);
+app.post(
+  "/api/question/vote",
+  (req, res, next) => {
+    const { value } = req.body;
+    const { reputation } = req.session.user;
+    if (value === -1) {
+      if (reputation >= 125) {
+        next();
+      } else {
+        res
+          .status(401)
+          .send("You Need 125 reputation to compleate this action.");
+      }
+    } else if (value === 1) {
+      if (reputation >= 15) {
+        next();
+      } else {
+        res
+          .status(401)
+          .send("You Need 15 reputation to compleate this action.");
+      }
+    }
+  },
+  questions.addFavorite
+);
+app.post("/api/answer", questions.createAnswer);
+app.post(
+  "/api/comment",
+  (req, res, next) => {
+    const { reputation } = req.session.user;
+    if (reputation >= 50) {
+      next();
+    } else {
+      res.status(401).send("You need 50 reputation to compleate this action.");
+    }
+  },
+  questions.createComment
+);
 // QUESTIONS END
 // ADS START
 app.get("/api/adsapi", ads.Ads);

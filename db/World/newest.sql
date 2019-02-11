@@ -45,6 +45,5 @@ FROM
     question AS q
     JOIN users AS u ON u.auth_id = q.user_id
 ORDER BY
-                        (now() - q.question_creation_timestamp)
-LIMIT 100;
+    q.question_creation_timestamp desc NULLS LAST;
 

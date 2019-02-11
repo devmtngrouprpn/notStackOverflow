@@ -20,7 +20,7 @@ SELECT
         SELECT count(answer_id)
     FROM answer
     WHERE question_id = q.question_id
-    ) AS answers,
+    ) AS answers, 
     u.username, 
     u.picture, 
     substring(regexp_replace(q.question_content, '<[^<]+>', '', 'g'), '^[^\n\r]{0,200}\M') || ' ...' AS content,
@@ -47,6 +47,6 @@ AND (0 <= ANY (select unnest(array_agg(
 	)) from answer where question_id = q.question_id)
 	OR -100000 = ALL (select unnest(array_agg((select sum(value) from vote where source_id = answer_id and source_type = 'answer'))) from answer where question_id = q.question_id) IS NULL)
 	or (select count(answer_id) from answer where question_id = q.question_id) = 0
-	and array['react'] = (select array_agg(tag_name) from question_tag where question_id = q.question_id)
+	and $1 = (select array_agg(tag_name) from question_tag where question_id = q.question_id)
 ORDER BY
-    votes;
+    votes desc NULLS LAST;
