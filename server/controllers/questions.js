@@ -26,7 +26,7 @@ module.exports = {
   // ==========================================================
   worldQuestions: async (req, res, next) => {
     let db = req.app.get("db");
-    console.log(Array.isArray(req.session.user));
+    console.log(req.session.user);
     let dbResult = await Promise.all([
       db.World.newest([]),
       db.World.featured([]),
@@ -36,17 +36,16 @@ module.exports = {
       db.World.unanswered.votes([]),
       db.World.unanswered.my_tags([
         (req.session.user || { tags_watching: [] }).tags_watching
-      ])
+      ]),
+      db.World.unanswered.newest([]),
+      db.World.unanswered.no_answer([])
     ]);
     let dbTotal = await Promise.all([
       db.World.totals.featured_total([]),
       db.World.totals.frequent_total([]),
-      db.World.totals.question_total([]),
-      console.log("I got hit")
+      db.World.totals.question_total([])
     ]);
-    // console.log(dbResult);
     let [featuredT, frequentT, allT] = dbTotal;
-    // console.log(featuredTotal[0]);
     let featuredTotal = featuredT[0];
     let frequentTotal = frequentT[0];
     let allTotal = allT[0];
@@ -57,7 +56,9 @@ module.exports = {
       votes,
       active,
       unansweredVotes,
-      unansweredMyTags
+      unansweredMyTags,
+      unansweredNewest,
+      unansweredNoAnswer
     ] = dbResult;
     res.status(200).send({
       newest,
@@ -67,6 +68,8 @@ module.exports = {
       active,
       unansweredVotes,
       unansweredMyTags,
+      unansweredNewest,
+      unansweredNoAnswer,
       featuredTotal,
       frequentTotal,
       allTotal
@@ -119,7 +122,6 @@ module.exports = {
   // ==========================================================
   addVote: async (req, res) => {
     const { user_id, source_id, source_type, value } = req.body;
-    console.log(req.body);
     const db = req.app.get("db");
     const check = await db.questions.check_vote([
       user_id,
@@ -142,6 +144,7 @@ module.exports = {
   addFavorite: async (req, res) => {
     const { user_id, question_id, favNum } = req.body;
     const db = req.app.get("db");
+    console.log("hit", req.body);
     const check = await db.questions.check_favorites([user_id, question_id]);
     let favorites = check[0].favorites;
     if (check[0].res) {
@@ -153,7 +156,6 @@ module.exports = {
     await db.question.save({ question_id, favorites: favNum + 1 });
     const user = await db.get_user([user_id]);
     res.status(200).send(user[0]);
-    console.log("hit me baby one more time");
   },
   // ==========================================================
   createQuestion: async (req, res) => {
