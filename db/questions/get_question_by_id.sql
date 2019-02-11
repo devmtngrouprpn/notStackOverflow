@@ -39,7 +39,8 @@ SELECT
 	(
 		select edit_id
 	from edit
-	where source_id = $1 AND source_type = 'question'
+	where source_id = $1 AND source_type = 'question' and edit_accepted = TRUE
+	order by edit_date
 	) as last_edit
 FROM question AS q
 	JOIN users AS u ON u.auth_id = q.user_id
