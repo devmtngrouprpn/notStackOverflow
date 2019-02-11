@@ -20,7 +20,7 @@ SELECT
         SELECT count(answer_id)
     FROM answer
     WHERE question_id = q.question_id
-    ) AS answers,
+    ) AS answers, 
     u.username, 
     u.picture, 
     substring(regexp_replace(q.question_content, '<[^<]+>', '', 'g'), '^[^\n\r]{0,200}\M') || ' ...' AS content,

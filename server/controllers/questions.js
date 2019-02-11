@@ -26,7 +26,6 @@ module.exports = {
   // ==========================================================
   worldQuestions: async (req, res, next) => {
     let db = req.app.get("db");
-    console.log(req.session.user);
     let dbResult = await Promise.all([
       db.World.newest([]),
       db.World.featured([]),
@@ -44,11 +43,11 @@ module.exports = {
       db.World.totals.featured_total([]),
       db.World.totals.frequent_total([]),
       db.World.totals.question_total([]),
-      db.World.unanswered.totals.my_tags_total([
+      db.World.unanswered.my_tags_total([
         (req.session.user || { tags_watching: [] }).tags_watching
       ]),
-      db.World.unanswered.totals.no_answer_total([]),
-      db.World.unanswered.totals.question_total([])
+      db.World.unanswered.no_answer_total([]),
+      db.World.unanswered.question_total([])
     ]);
     let [featuredT, frequentT, allT, myTagsT, noAnswerT, unansweredT] = dbTotal;
     let featuredTotal = featuredT[0];
@@ -170,10 +169,21 @@ module.exports = {
     res.status(200).send(user[0]);
   },
   // ==========================================================
-  createQuestion: async (req, res) => {
+  createAnswer: async (req, res) => {
     const db = req.app.get("db");
     const { user_id, answer_content, question_id } = req.body;
     await db.questions.create_answer([user_id, question_id, answer_content]);
     res.sendStatus(201);
+  },
+  createComment: async (req, res) => {
+    const db = req.app.get("db");
+    const { user_id, source_id, source_type, content } = req.body;
+    await db.comment.insert({ user_id, source_id, source_type, content });
+    res.sendStatus(201);
   }
+  // ==========================================================
+  // editQuestion: async (req, res) => {
+  //   const db = req.app.get('db');
+  //   const {}
+  // }
 };
