@@ -52,4 +52,4 @@ WHERE
 '7 days' AND bounty_winner IS NULL
 
 ORDER BY
-    bounty_creation_timestamp DESC;
+    bounty_creation_timestamp DESC NULLS LAST;

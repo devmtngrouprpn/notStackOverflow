@@ -66,4 +66,4 @@ from answer
 where question_id = q.question_id)
 = 0
 ORDER BY
-    votes;
+    votes desc NULLS LAST;
