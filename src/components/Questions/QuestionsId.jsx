@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import Layout from "../Layout/Layout1.jsx";
 import Answer from './Answer'
+import { Link } from 'react-router-dom'
 import AnswerCreator from './AnswerCreator'
 import UserTag from '../../utilites/UserTag'
 import ArrowColumn from '../../utilites/ArrowColumn'
@@ -30,14 +31,14 @@ export default class QuestionId extends Component {
     const res = await axios.get(
       `/api/question/indv?id=${this.props.match.params.id}`
     );
-    console.log(res.data);
+    // console.log(res.data);
     this.setState({ loading: false, question: res.data });
   };
   reMount = async () => {
     const res = await axios.get(
       `/api/question/indv?id=${this.props.match.params.id}`
     );
-    this.setState({ loading: true, question: res.data });
+    this.setState({ loading: false, question: res.data });
   }
 
   render() {
@@ -56,14 +57,15 @@ export default class QuestionId extends Component {
             <TopAdds />
             <TitleBox>
               <H1>{question.question_title}</H1>
-              <AskButton>Ask Question</AskButton>
+              <Link to="/create-question">
+                <AskButton>Ask Question</AskButton>
+              </Link>
             </TitleBox>
             <QuestionPage>
               <Content>
                 <Section>
                   <ArrowColumn favnum={question.favorites} reset={this.reMount} id={question.question_id} type={'question'} stars={question.favorites} votes={question.votes} />
                   <QuestionContent>
-                    {question.favorites}
                     {ReactHtmlParser(question.question_content)}
                     <QuestionTags>
                       {question.tags.map(e => { return (<TinyTag subject={e} />) })}

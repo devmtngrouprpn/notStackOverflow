@@ -18,7 +18,7 @@ class ArrowColumn extends Component {
     };
 
     componentDidMount = async () => {
-
+        console.log(this.props.stars)
     };
     upvote = async () => {
         console.log({ user_id: this.props.global.user.auth_id, source_id: this.props.id, source_type: this.props.type, value: 1 })
@@ -34,11 +34,14 @@ class ArrowColumn extends Component {
         this.props.reset();
     }
     favorite = async () => {
-
-        let res = await axios.post('api/question/favorite', {
-            user_id: this.props.global.user.auth_id, question_id: this.props.id, favnum: this.props.favnun
-        })
-        this.props.reset();
+        if (this.props.global.user.auth_id) {
+            let res = await axios.post('api/question/favorite', {
+                user_id: this.props.global.user.auth_id, question_id: this.props.id, favNum: this.props.stars || 0
+            })
+            this.props.reset();
+        } else {
+            alert('please log in to favorite')
+        }
 
     }
     unFavorite() {
@@ -51,7 +54,7 @@ class ArrowColumn extends Component {
                 <Votes>{this.props.votes ? this.props.votes : 0}</Votes>
                 <Bottom onClick={this.downVote} aria-hidden="true" class="svg-icon m0 iconArrowUpLg" width="36" height="36" viewBox="0 0 36 36"><Path d="M2 26h32L18 10z"></Path></Bottom>
                 {this.props.noStars ? <></> : <><Svg onClick={this.favorite} aria-hidden="true" class="svg-icon iconStar" width="18" height="18" viewBox="0 0 18 18"><Path d="M9 12.65l-5.29 3.63 1.82-6.15L.44 6.22l6.42-.17L9 0l2.14 6.05 6.42.17-5.1 3.9 1.83 6.16z"></Path></Svg>
-                    <Stars>{this.props.favorites || 0}</Stars></>}
+                    <Stars>{this.props.stars || 0}</Stars></>}
             </Shell>
         );
     }

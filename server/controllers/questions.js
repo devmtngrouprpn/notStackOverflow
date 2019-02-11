@@ -82,10 +82,10 @@ module.exports = {
     let dbResult = await Promise.all([
       db.user_input.new_question([userId, content, title])
     ]).catch(err => {
-      console.log(err);
+      // console.log(err);
     });
     let question_id = dbResult[0][0].question_id;
-    console.log(question_id, dbResult[0][0]);
+    // console.log(question_id, dbResult[0][0]);
     tags.forEach(tag => {
       db.user_input.new_question_tag([tag, question_id]);
     });
@@ -104,7 +104,7 @@ module.exports = {
       question_id: id,
       question_views: question[0].question_views + 1
     });
-    console.log(question);
+    // console.log(question);
     res.status(200).send(question[0]);
   },
   answerById: async (req, res) => {
@@ -144,8 +144,8 @@ module.exports = {
   addFavorite: async (req, res) => {
     const { user_id, question_id, favNum } = req.body;
     const db = req.app.get("db");
-    console.log("hit", req.body);
     const check = await db.questions.check_favorites([user_id, question_id]);
+    // console.log(check)
     let favorites = check[0].favorites;
     if (check[0].res) {
       favorites = favorites.filter(question => question != question_id);
@@ -153,6 +153,8 @@ module.exports = {
       favorites.push(question_id);
     }
     await db.users.save({ auth_id: user_id, favorites });
+    // console.log('almost there')
+    // console.log(question_id, favorites)
     await db.question.save({ question_id, favorites: favNum + 1 });
     const user = await db.get_user([user_id]);
     res.status(200).send(user[0]);
