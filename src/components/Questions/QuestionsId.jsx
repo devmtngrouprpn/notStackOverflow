@@ -1,13 +1,15 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import Layout from "../Layout/Layout1.jsx";
-import Quill from '../QuestionCreator/Quil'
+import Answer from './Answer'
+import AnswerCreator from './AnswerCreator'
 import UserTag from '../../utilites/UserTag'
 import ArrowColumn from '../../utilites/ArrowColumn'
 import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser'
 import {
   Page,
   Adds,
+  P,
   Content,
   LoadingWraper,
   H1,
@@ -22,10 +24,8 @@ import { format } from "path";
 export default class QuestionId extends Component {
   state = {
     loading: true,
-    question: { question_content: '', question_title: '', tags: [] },
-
+    question: { answers: [], question_content: '', question_title: '', tags: [] },
   };
-
   componentDidMount = async () => {
     const res = await axios.get(
       `/api/question/indv?id=${this.props.match.params.id}`
@@ -33,6 +33,12 @@ export default class QuestionId extends Component {
     console.log(res.data);
     this.setState({ loading: false, question: res.data });
   };
+  reMount = async () => {
+    const res = await axios.get(
+      `/api/question/indv?id=${this.props.match.params.id}`
+    );
+    this.setState({ loading: false, question: res.data });
+  }
   render() {
     let { question } = this.state
     // console.log(question.question_content)
@@ -54,15 +60,23 @@ export default class QuestionId extends Component {
             <QuestionPage>
               <Content>
                 <Section>
-                  <ArrowColumn stars={24} votes={2000} />
+                  <ArrowColumn favnun={question.favorites}reset={this.reMount} id={question.question_id} type={'question'} stars={question.favorites} votes={question.votes} />
                   <QuestionContent>
                     {ReactHtmlParser(question.question_content)}
                     <QuestionTags>
                       {question.tags.map(e => { return (<TinyTag subject={e} />) })}
                     </QuestionTags>
-                    <ShareEditUser><UserTag question={question} /></ShareEditUser>
+                    <ShareEditUser><div>edit</div><QuestionUserTag question={question} /></ShareEditUser>
                   </QuestionContent>
                 </Section>
+                {question.answers !== null ? <Section3>
+                  <TotalAnswers> {`Answers ${question.answers.length}`}</TotalAnswers>
+                  {question.answers.map(e => { return <Answer id={e}></Answer> })}
+                </Section3> : <></>}
+
+                <Section2>
+                  <AnswerCreator reMount={this.reMount} questionId={question.question_id} />
+                </Section2>
               </Content>
               <AddsColumn>
                 <AskedInfo>
@@ -79,6 +93,25 @@ export default class QuestionId extends Component {
     );
   }
 }
+const CompleteAnswer = styled.div``
+const TotalAnswers = styled(P)`
+width:100%;
+border-bottom: 1px solid ${borderGray};
+padding-bottom:25px;
+font-size:18px;
+font-weight:400;
+`
+const NewAnswer = styled.div`
+
+`
+const QuestionUserTag = styled(UserTag)`
+height:50px;
+width:50px;
+background: blue;
+border:1px black solid;
+padding: 30px;
+`
+
 const ShareEditUser = styled.div`
 display:flex;
 justify-content:space-between;
@@ -104,6 +137,21 @@ const Section = styled.div`
     align-items:flex-start;
     margin: 25px 5px 25px 5px;
     border-bottom: 1px solid ${borderGray};
+    height: fit-content;
+    width: 750px;
+    `
+const Section2 = styled.div`
+    display: flex;
+    align-items:flex-start;
+    margin: 25px 5px 25px 5px;
+    height: fit-content;
+    width: 750px;
+    `
+const Section3 = styled.div`
+    display: flex;
+    flex-flow:column;
+    align-items:flex-start;
+    margin: 25px 5px 25px 5px;
     height: fit-content;
     width: 750px;
     `

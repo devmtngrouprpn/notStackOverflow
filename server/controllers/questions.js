@@ -26,12 +26,17 @@ module.exports = {
   // ==========================================================
   worldQuestions: async (req, res, next) => {
     let db = req.app.get("db");
+    console.log(Array.isArray(req.session.user));
     let dbResult = await Promise.all([
       db.World.newest([]),
       db.World.featured([]),
       db.World.frequent([]),
       db.World.votes([]),
-      db.World.active([])
+      db.World.active([]),
+      db.World.unanswered.votes([]),
+      db.World.unanswered.my_tags([
+        (req.session.user || { tags_watching: [] }).tags_watching
+      ])
     ]);
     let dbTotal = await Promise.all([
       db.World.totals.featured_total([]),
@@ -45,14 +50,23 @@ module.exports = {
     let featuredTotal = featuredT[0];
     let frequentTotal = frequentT[0];
     let allTotal = allT[0];
-    let [newest, featured, frequent, votes, active, unanswered] = dbResult;
+    let [
+      newest,
+      featured,
+      frequent,
+      votes,
+      active,
+      unansweredVotes,
+      unansweredMyTags
+    ] = dbResult;
     res.status(200).send({
       newest,
       featured,
       frequent,
       votes,
       active,
-      unanswered,
+      unansweredVotes,
+      unansweredMyTags,
       featuredTotal,
       frequentTotal,
       allTotal
@@ -83,6 +97,11 @@ module.exports = {
     const id = req.query.id;
     const db = req.app.get("db");
     const question = await db.questions.get_question_by_id([id]);
+    await db.question.save({
+      question_id: id,
+      question_views: question[0].question_views + 1
+    });
+    console.log(question);
     res.status(200).send(question[0]);
   },
   answerById: async (req, res) => {
@@ -100,26 +119,28 @@ module.exports = {
   // ==========================================================
   addVote: async (req, res) => {
     const { user_id, source_id, source_type, value } = req.body;
+    console.log(req.body);
     const db = req.app.get("db");
     const check = await db.questions.check_vote([
       user_id,
       source_id,
-      source_type,
-      value
+      source_type
     ]);
-    if (!check[0]) {
-      db.vote.insert({ user_id, source_id, source_type, value });
-      res.sendStatus(201);
-    } else if (check[0].res) {
-      res.sendStatus(200);
+    if (req.session.user) {
+      if (!check[0]) {
+        await db.vote.insert({ user_id, source_id, source_type, value });
+        res.sendStatus(201);
+      } else {
+        await db.vote.save({ vote_id: check[0].vote_id, value });
+        res.sendStatus(200);
+      }
     } else {
-      db.vote.save({ vote_id: check[0].vote_id, value });
-      res.status(200);
+      res.sendStatus(401);
     }
   },
   // ==========================================================
   addFavorite: async (req, res) => {
-    const { user_id, question_id } = req.body;
+    const { user_id, question_id, favNum } = req.body;
     const db = req.app.get("db");
     const check = await db.questions.check_favorites([user_id, question_id]);
     let favorites = check[0].favorites;
@@ -129,7 +150,16 @@ module.exports = {
       favorites.push(question_id);
     }
     await db.users.save({ auth_id: user_id, favorites });
+    await db.question.save({ question_id, favorites: favNum + 1 });
     const user = await db.get_user([user_id]);
     res.status(200).send(user[0]);
+    console.log("hit me baby one more time");
+  },
+  // ==========================================================
+  createQuestion: async (req, res) => {
+    const db = req.app.get("db");
+    const { user_id, answer_content, question_id } = req.body;
+    await db.questions.create_answer([user_id, question_id, answer_content]);
+    res.sendStatus(201);
   }
 };
