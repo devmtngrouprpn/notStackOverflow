@@ -93,10 +93,10 @@ module.exports = {
     let dbResult = await Promise.all([
       db.user_input.new_question([userId, content, title])
     ]).catch(err => {
-      console.log(err);
+      // console.log(err);
     });
     let question_id = dbResult[0][0].question_id;
-    console.log(question_id, dbResult[0][0]);
+    // console.log(question_id, dbResult[0][0]);
     tags.forEach(tag => {
       db.user_input.new_question_tag([tag, question_id]);
     });
@@ -115,7 +115,7 @@ module.exports = {
       question_id: id,
       question_views: question[0].question_views + 1
     });
-    console.log(question);
+    // console.log(question);
     res.status(200).send(question[0]);
   },
   answerById: async (req, res) => {
@@ -159,6 +159,7 @@ module.exports = {
     const { user_id, question_id, favNum } = req.body;
     const db = req.app.get("db");
     const check = await db.questions.check_favorites([user_id, question_id]);
+    // console.log(check)
     let favorites = check[0].favorites;
     if (check[0].res) {
       favorites = favorites.filter(question => question != question_id);
