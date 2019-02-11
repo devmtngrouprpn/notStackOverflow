@@ -37,8 +37,9 @@ export default class QuestionId extends Component {
     const res = await axios.get(
       `/api/question/indv?id=${this.props.match.params.id}`
     );
-    this.setState({ loading: false, question: res.data });
+    this.setState({ loading: true, question: res.data });
   }
+
   render() {
     let { question } = this.state
     // console.log(question.question_content)
@@ -60,8 +61,9 @@ export default class QuestionId extends Component {
             <QuestionPage>
               <Content>
                 <Section>
-                  <ArrowColumn favnun={question.favorites}reset={this.reMount} id={question.question_id} type={'question'} stars={question.favorites} votes={question.votes} />
+                  <ArrowColumn favnum={question.favorites} reset={this.reMount} id={question.question_id} type={'question'} stars={question.favorites} votes={question.votes} />
                   <QuestionContent>
+                    {question.favorites}
                     {ReactHtmlParser(question.question_content)}
                     <QuestionTags>
                       {question.tags.map(e => { return (<TinyTag subject={e} />) })}

@@ -39,6 +39,7 @@ class ArrowColumn extends Component {
             user_id: this.props.global.user.auth_id, question_id: this.props.id, favnum: this.props.favnun
         })
         this.props.reset();
+
     }
     unFavorite() {
 
