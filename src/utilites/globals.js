@@ -30,9 +30,9 @@ export const Content = styled.div`
 `;
 
 export const Adds = styled.div`
+  border: 1px black solid;
   flex-basis: 324px;
   flex-shrink: 0;
-  border: 1px black solid;
   height: 5000px;
 `;
 
@@ -83,7 +83,6 @@ export const tabButton = (padding = "8px 8px 8px 8px") =>
       props.active ? tabButtonDarkGray : tabButtonGray};
   }
 `;
-
 export const blueButton = (padding = "8px 10px 8px 10px") =>
   `
     background-color: ${buttonBlue};

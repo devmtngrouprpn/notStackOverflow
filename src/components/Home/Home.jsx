@@ -18,6 +18,7 @@ import {
 } from "./../../utilites/index";
 import { connect } from "react-redux";
 import { update_home } from "./../../ducks/home";
+import Ads from "./../../utilites/Ads";
 
 class Home extends Component {
   state = {
@@ -113,7 +114,10 @@ class Home extends Component {
               <Questions>{questions}</Questions>
               <button onClick={this.pushitrealgood}>Push for Test</button>
             </Content>
-            <Adds />
+            <Adds>
+              {" "}
+              <Ads />{" "}
+            </Adds>
           </Page>
         </LoadingWraper>
       </Layout>
