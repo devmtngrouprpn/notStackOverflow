@@ -3,7 +3,8 @@ SELECT
 FROM
     question AS q
 WHERE
-(select count(answer_id)
+(
+    select count(answer_id)
 from answer
 where question_id = q.question_id)
 = 0

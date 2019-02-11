@@ -51,8 +51,33 @@ app.get("/api/question/indv", questions.questionById);
 app.get("/api/answer/indv", questions.answerById);
 app.get("/api/comment/indv", questions.commentById);
 app.post("/api/question/vote", questions.addVote);
-app.post("/api/question/favorite", questions.addFavorite);
-app.post("/api/answer", questions.createQuestion);
+app.post(
+  "/api/question/favorite",
+  (req, res, next) => {
+    const { value } = req.body;
+    const { reputation } = req.session.user;
+    if (value === -1) {
+      if (reputation >= 125) {
+        next();
+      } else {
+        res
+          .status(401)
+          .send("You Need 125 reputation to compleate this action.");
+      }
+    } else if (value === 1) {
+      if (reputation >= 15) {
+        next();
+      } else {
+        res
+          .status(401)
+          .send("You Need 15 reputation to compleate this action.");
+      }
+    }
+  },
+  questions.addFavorite
+);
+app.post("/api/answer", questions.createAnswer);
+app.post("/api/comment", questions.createComment);
 // QUESTIONS END
 
 // *** IM LISTENING! *** //
