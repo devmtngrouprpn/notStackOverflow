@@ -25,6 +25,7 @@ module.exports = {
   },
   // ==========================================================
   worldQuestions: async (req, res, next) => {
+    console.log(req.session.user);
     let db = req.app.get("db");
     let dbResult = await Promise.all([
       db.World.newest([]),
@@ -138,6 +139,9 @@ module.exports = {
       source_id,
       source_type
     ]);
+
+    // const repCheck = db.questions.check_rep([user_id]);
+
     if (req.session.user) {
       if (!check[0]) {
         await db.vote.insert({ user_id, source_id, source_type, value });
@@ -154,7 +158,6 @@ module.exports = {
   addFavorite: async (req, res) => {
     const { user_id, question_id, favNum } = req.body;
     const db = req.app.get("db");
-    console.log("hit", req.body);
     const check = await db.questions.check_favorites([user_id, question_id]);
     let favorites = check[0].favorites;
     if (check[0].res) {
@@ -180,10 +183,36 @@ module.exports = {
     const { user_id, source_id, source_type, content } = req.body;
     await db.comment.insert({ user_id, source_id, source_type, content });
     res.sendStatus(201);
-  }
+  },
   // ==========================================================
-  // editQuestion: async (req, res) => {
-  //   const db = req.app.get('db');
-  //   const {}
-  // }
+  editQuestion: async (req, res) => {
+    const db = req.app.get("db");
+    const {
+      edit_id,
+      edit_title,
+      edit_content,
+      edit_summary,
+      edit_tags,
+      user_id,
+      source_id,
+      source_type
+    } = req.body;
+    await db.edit.insert({
+      edit_id,
+      edit_title,
+      edit_content,
+      edit_summary,
+      edit_tags,
+      source_id,
+      source_type,
+      user_id
+    });
+    res.sendStatus(201);
+  },
+  getEdits: async (req, res) => {
+    const db = req.app.get("db");
+    const { source_id, source_type } = req.body;
+    const results = await db.questions.get_edits([source_id, source_type]);
+    console.log(results);
+  }
 };

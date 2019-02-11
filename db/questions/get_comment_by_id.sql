@@ -11,7 +11,8 @@ SELECT
 	from vote
 	where source_id = c.comment_id
 		AND source_type = 'comment'
-	) as votes
+	) as votes,
+	comment_creation_timestamp
 FROM comment as c
 	JOIN users AS u ON c.user_id = u.auth_id
 WHERE comment_id = $1
