@@ -32,15 +32,17 @@ class Home extends Component {
       this.setState({ loading: false });
     }
   }
+
   async getQuestions() {
     let res = await axios.get(`/api/questions/interesting`);
     this.props.update_home(res.data);
     this.setState({ loading: false });
-    console.log(res.data);
   }
+
   handleView = name => {
     this.setState({ view: name });
   };
+
   pushitrealgood() {
     let userId = `user1`;
     let content = `<p>werertk;'erwkt</p><p>lrtj;wer</p><p>leng9\\rere</p><p>erqwer</p><p><br></p><p>rtret<em>rtrtr</em></p>`;

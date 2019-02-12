@@ -1,25 +1,30 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import Layout from "../Layout/Layout1.jsx";
 import styled from "styled-components";
 import { TinyTag } from "../../utilites/index.js";
-import { SearchBar } from '../../utilites/globals';
-import HQCard from "./../Questions/HQCard";
+import { SearchBar } from "../../utilites/globals";
 import { P, LoadingWraper, TabButton } from "./../../utilites/index";
+import { setTags } from "../../ducks/tags.js";
 import axios from "axios";
 
-export default class Tags extends Component {
+class Tags extends Component {
   constructor() {
     super();
     this.state = {
-      view: "Popular",
-      data: { allTags: [], day: [], week: [] },
-      searching: '',
+      view: "popular",
+      searching: "",
+      loading: true
     };
   }
   componentDidMount = async () => {
-    let res = await axios.get("/api/tags/alltinytags");
-    this.setState({ data: res.data });
-    console.log(this.state);
+    if (this.props.popular[0]) {
+      const res = await axios.get("/api/tags/alltinytags");
+      this.props.setTags(res.data);
+      this.setState({ loading: false });
+    } else {
+      this.setState({ loading: false });
+    }
   };
   handleView = name => {
     this.setState({ view: name });
@@ -28,89 +33,85 @@ export default class Tags extends Component {
     return (
       <>
         <Layout>
-          <Content>
-            <Title>Tags</Title>
-            <Desc>
-              A tag is a keyword or label that categorizes your question with
-              other, similar questions. Using the right tags makes it easier for
-              others to find and answer your question.
-            </Desc>
-            <SortBar>
-              <SearchBox placeholder='Filter by tag name' />
-              <ButtonContainer>
-                <TabButton
-                  onClick={() => this.handleView("Popular")}
-                  active={this.state.view === "Popular"}
-                  activeNeigbor={this.state.view === "featured"}
-                  position="left"
-                >
-                  Popular
-                </TabButton>
-                <TabButton
-                  onClick={() => this.handleView("Name")}
-                  active={this.state.view === "Name"}
-                  activeNeigbor={this.state.view === "New"}
-                  position="mid"
-                >
-                  <FeaturedBox>Name</FeaturedBox>
-                </TabButton>
-                <TabButton
-                  onClick={() => this.handleView("New")}
-                  active={this.state.view === "New"}
-                  position="right"
-                >
-                  New
-                </TabButton>
-              </ButtonContainer>
-            </SortBar>
-            <Grid>
-              {this.state.data.allTags.map(e => {
-                return (
-                  <MapReturn>
-                    <Top>
-                      <TinyTag subject={`${e.name}`} />
-                      <QuestionsApartOf>
-                        x {e.questions_with_tag}
-                      </QuestionsApartOf>
-                    </Top>
-                    <TagDescription>{e.description}</TagDescription>
-                    <Asked>
-                      <span>
-                        {this.state.data.day.map(f => {
-                          if (f.name === e.name) {
-                            return f.question_tag + " asked today, ";
-                          }
-                        })}
-                      </span>
-                      <span>
-                        {this.state.data.week.map(c => {
-                          if (c.name === e.name) {
-                            return c.question_tag + " asked this week";
-                          }
-                        })}{" "}
-                      </span>
-                    </Asked>
-                  </MapReturn>
-                );
-              })}
-            </Grid>
-          </Content>
+          <LoadingWraper loading={this.state.loading}>
+            <Content>
+              <Title>Tags</Title>
+              <Desc>
+                A tag is a keyword or label that categorizes your question with
+                other, similar questions. Using the right tags makes it easier
+                for others to find and answer your question.
+              </Desc>
+              <SortBar>
+                <SearchBox placeholder="Filter by tag name" />
+                <ButtonContainer>
+                  <TabButton
+                    onClick={() => this.handleView("popular")}
+                    active={this.state.view === "popular"}
+                    activeNeigbor={this.state.view === "name"}
+                    position="left"
+                  >
+                    Popular
+                  </TabButton>
+                  <TabButton
+                    onClick={() => this.handleView("name")}
+                    active={this.state.view === "name"}
+                    position="right"
+                  >
+                    Name
+                  </TabButton>
+                </ButtonContainer>
+              </SortBar>
+              <Grid>
+                {this.props[this.state.view].map(tags => {
+                  return (
+                    <MapReturn>
+                      <Top>
+                        <TinyTag subject={`${tags.name}`} />
+                        <QuestionsApartOf>
+                          x {tags.questions_with_tag}
+                        </QuestionsApartOf>
+                      </Top>
+                      <TagDescription>{tags.description}</TagDescription>
+                      <Asked>
+                        <span>{tags.day}</span>
+                        <span>{tags.week} </span>
+                      </Asked>
+                    </MapReturn>
+                  );
+                })}
+              </Grid>
+            </Content>
+          </LoadingWraper>
         </Layout>
       </>
     );
   }
 }
+
+function mapStateToProps(state) {
+  let { popular, name } = state.tags;
+  return {
+    popular,
+    name
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  { setTags }
+)(Tags);
+
 const SearchBox = styled(SearchBar)`
   border-radius: 3px;
-    border-color: #bbc0c4;
-    border: 1px solid lightgray;
-    background-color: #fff;
-    box-shadow: none;
-    color: #3b4045;
-    padding: 8px 9px 8px 9px;
-    margin-left:0;
-    max-width: 180px;
-`
+  border-color: #bbc0c4;
+  border: 1px solid lightgray;
+  background-color: #fff;
+  box-shadow: none;
+  color: #3b4045;
+  padding: 8px 9px 8px 9px;
+  margin-left: 0;
+  max-width: 180px;
+`;
 const ButtonContainer = styled.div``;
 const CountBox = styled.div``;
 const FeaturedBox = styled.div``;
@@ -129,8 +130,8 @@ const Asked = styled(P)`
   font-size: 12px;
 `;
 const SortBar = styled.div`
-margin-top:25px;
-margin-bottom:25px;
+  margin-top: 25px;
+  margin-bottom: 25px;
   display: flex;
   justify-content: space-between;
 `;
