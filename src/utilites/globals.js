@@ -30,10 +30,11 @@ export const Content = styled.div`
 `;
 
 export const Adds = styled.div`
-  border: 1px black solid;
+  /* border: 1px black solid; */
   flex-basis: 324px;
   flex-shrink: 0;
   height: 5000px;
+  margin-left: 5%;
 `;
 
 export const Logo = styled.img`

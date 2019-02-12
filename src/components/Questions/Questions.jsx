@@ -18,6 +18,7 @@ import {
 } from "./../../utilites/index";
 import { connect } from "react-redux";
 import { update_questions } from "../../ducks/questions";
+import Ads from "./../../utilites/RightSideBar";
 
 class Questions extends Component {
   state = {
@@ -35,7 +36,6 @@ class Questions extends Component {
 
   getQuestions = async () => {
     let res = await axios.get(`/api/questions/world`);
-    console.log(res.data);
     this.props.update_questions(res.data);
     this.setState({ loading: false });
   };
@@ -158,7 +158,9 @@ class Questions extends Component {
               </ButtonContainer>
               <QuestionBox>{questions}</QuestionBox>
             </Content>
-            <Adds style={{ border: "1px red solid" }} />
+            <Adds>
+              <Ads />
+            </Adds>
           </Page>
         </LoadingWraper>
       </Layout>

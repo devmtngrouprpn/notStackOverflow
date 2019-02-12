@@ -140,7 +140,6 @@ const SearchBox = styled(SearchBar)`
   margin-left: 0;
   max-width: 180px;
 `;
-
 const TagDescription = styled(P)`
   box-sizing: content-box;
   font-size: 12px;

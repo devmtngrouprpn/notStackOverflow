@@ -8,6 +8,7 @@ const authorization = require("./controllers/authorization");
 const questions = require("./controllers/questions");
 const tinyTag = require("./controllers/tinyTags");
 const users = require("./controllers/users");
+const ads = require("./controllers/ads");
 
 const app = express();
 // *** TOPLEVEL MIDDLEWARE *** //
@@ -99,5 +100,8 @@ app.post(
   questions.createComment
 );
 // QUESTIONS END
+// ADS START
+app.get("/api/adsapi", ads.Ads);
+// ADS END
 
 // *** IM LISTENING! *** //

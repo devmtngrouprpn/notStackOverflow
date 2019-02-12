@@ -11,8 +11,11 @@ class UserTag extends Component {
 
   render() {
     let { question } = this.props;
-    console.log(question)
-    let difference = timeFunction(question.question_creation_timestamp ? question.question_creation_timestamp : question.answer_creation_timestamp);
+    let difference = timeFunction(
+      question.question_creation_timestamp
+        ? question.question_creation_timestamp
+        : question.answer_creation_timestamp
+    );
     return (
       <Wrapper>
         <AskedLink to={`/questions/${question.question_id}`}>
@@ -45,7 +48,7 @@ class UserTag extends Component {
     );
   }
 }
-const Wrapper = styled.div``
+const Wrapper = styled.div``;
 const UserInfo = styled(P)`
   display: flex;
   flex-direction: row;

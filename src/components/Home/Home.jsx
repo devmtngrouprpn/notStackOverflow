@@ -18,7 +18,7 @@ import {
 } from "./../../utilites/index";
 import { connect } from "react-redux";
 import { update_home } from "./../../ducks/home";
-import Ads from "./../../utilites/Ads";
+import Ads from "../../utilites/RightSideBar";
 
 class Home extends Component {
   state = {
