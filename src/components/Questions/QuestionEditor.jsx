@@ -41,9 +41,9 @@ class QuestionEditor extends Component {
         let res2 = await axios.get('/api/tags/alltinytags');
         console.log(res.data)
         this.setState({ original: res.data.question_content, source: res.data.question_id, loading: false, descPayload: res.data.question_content, tagsPayload: res.data.tags, titlePayload: res.data.question_title });
-        console.log(res2.data)
-        this.setState({ tags: res2.data.popular })
-        let array = this.state.tags.map((e) => { return e.name })
+        console.log(res2.data.name)
+        await this.setState({ tags: res2.data.popular })
+        let array = this.state.tags.map((e) => { return e.tag_name })
         this.setState({ tagNames: array, loading: false })
     };
     handleChange = async (defaultValue = '') => {
