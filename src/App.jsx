@@ -10,6 +10,7 @@ import QuestionsId from "./components/Questions/QuestionsId.jsx";
 import TagsId from "./components/Tags/TagsId.jsx";
 import UsersId from "./components/Users/UsersId.jsx";
 import QuestionCreator from "./components/QuestionCreator/QuestionCreator";
+import QuestionEditor from './components/Questions/QuestionEditor'
 class App extends Component {
   getHome() {
     let auth_id = "user1";
@@ -28,6 +29,7 @@ class App extends Component {
           <Route path="/users/:id" component={UsersId} />
           <Route path="/users" component={Users} />
           <Route path="/create-question" component={QuestionCreator} />
+          <Route path="/edit/question/:id" component={QuestionEditor} />
         </Switch>
       </HashRouter>
     );

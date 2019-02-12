@@ -26,13 +26,14 @@ class Answer extends Component {
         this.state = {
             text: '',
             toggle: false,
-            answer: { tags: [] }
+            answer: { tags: [] },
+            loading: true
         };
     }
     componentDidMount = async () => {
         let res = await axios.get(`/api/answer/indv?id=${this.props.id}`)
         console.log(res.data)
-        this.setState({ answer: res.data })
+        this.setState({ answer: res.data, loading: false })
     }
     reset = async () => {
         let res = await axios.get(`/api/answer/indv?id=${this.props.id}`)
@@ -41,19 +42,24 @@ class Answer extends Component {
     }
     render() {
         let { answer } = this.state
-        console.log(answer)
+        console.log(answer.comments, 'look here')
         return (
-            <Wrapper>
-                <ArrowColumn reset={this.reset} id={answer.answer_id} type={'answer'} noStars={true} votes={answer.votes} />
-                <Section>
-                    <QuestionContent>
-                        {ReactHtmlParser(answer.answer_content)}
-                    </QuestionContent>
-                    <ShareEditUser><div>edit</div>{answer.answer_creation_timestamp ? <QuestionUserTag question={answer} /> : <></>}</ShareEditUser>
-                    <CommentSection comments={answer.comments} reMount={this.reset} type={'answer'} id={answer.answer_id} />
-                </Section >
-            </Wrapper>
+            <LoadingWraper loading={this.state.loading}>
+
+                <Wrapper>
+                    <ArrowColumn reset={this.reset} id={answer.answer_id} type={'answer'} noStars={true} votes={answer.votes} />
+                    <Section>
+                        <QuestionContent>
+                            {ReactHtmlParser(answer.answer_content)}
+                        </QuestionContent>
+                        <ShareEditUser><div>edit</div>{answer.answer_creation_timestamp ? <QuestionUserTag question={answer} /> : <></>}</ShareEditUser>
+                        <CommentSection comments={answer.comments} reMount={this.reset} type={'answer'} id={answer.answer_id} />
+                    </Section >
+                </Wrapper>
+
+            </LoadingWraper>
         );
+
     }
 }
 
@@ -63,7 +69,7 @@ function mapStateToProps(reduxStore) {
 
 export default connect(mapStateToProps)(Answer);
 
-const Wrapper = styled.div`
+const Wrapper = styled(P)`
 display:flex;
 width:100%;
 `
@@ -81,8 +87,6 @@ width:100%;
 align-items:center;
 justify-content:space-between;
 `
-
-
 const QuestionContent = styled.div`
     
     `
@@ -92,7 +96,7 @@ const Section = styled.div`
     align-items:flex-start;
     margin: 25px 5px 25px 5px;
     border-bottom: 1px solid ${borderGray};
-    height: fit-content;
+    /* height: fit-content; */
     width: 100%;
     `
 
@@ -110,7 +114,7 @@ const Box = styled.div`
   /* ${flex("column")} */
                         /* flex-basis: 1100px; */
                         /* overflow: visible; */
-                        height: fit-content;
+                        /* height: fit-content; */
                     width:100%;
                   `;
 
