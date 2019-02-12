@@ -26,7 +26,11 @@ class Home extends Component {
     loading: true
   };
   componentDidMount() {
-    this.getQuestions();
+    if (!this.props.interesting[0]) {
+      this.getQuestions();
+    } else {
+      this.setState({ loading: false });
+    }
   }
   async getQuestions() {
     let res = await axios.get(`/api/questions/interesting`);

@@ -26,7 +26,11 @@ class Questions extends Component {
   };
 
   componentDidMount = async () => {
-    await this.getQuestions();
+    if (!this.props.newest[0]) {
+      this.getQuestions();
+    } else {
+      this.setState({ loading: false });
+    }
   };
 
   getQuestions = async () => {

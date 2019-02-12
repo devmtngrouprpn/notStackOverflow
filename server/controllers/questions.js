@@ -214,6 +214,6 @@ module.exports = {
     const db = req.app.get("db");
     const { source_id, source_type } = req.body;
     const results = await db.questions.get_edits([source_id, source_type]);
-    console.log(results);
+    res.status(200).send(results);
   }
 };
