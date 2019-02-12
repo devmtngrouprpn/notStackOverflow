@@ -30,3 +30,4 @@ SELECT
 FROM answer as a
 	JOIN users AS u ON a.user_id = u.auth_id
 WHERE answer_id = $1
+ORDER BY votes desc NULLS LAST;
