@@ -15,5 +15,41 @@ module.exports = {
     console.log(promise);
     const [popular, name] = promise;
     res.status(200).send({ popular, name });
+  },
+  getTagQuestions: async (req, res) => {
+    const db = req.app.get("db");
+    const { tag_name } = req.query;
+    const results = await Promise.all([
+      db.Tags.active([tag_name]),
+      db.Tags.frequent([tag_name]),
+      db.Tags.featured([tag_name]),
+      db.Tags.newest([tag_name]),
+      db.Tags.votes([tag_name]),
+      db.Tags.unanswered_newest([tag_name]),
+      db.Tags.unanswered_votes([tag_name]),
+      db.Tags.no_answers([tag_name]),
+      db.Tags.frequent_total([tag_name])
+    ]);
+    console.log(results);
+    const [
+      active,
+      frequent,
+      featured,
+      newest,
+      votes,
+      unansweredNewest,
+      unansweredVotes,
+      unansweredNoAnswer
+    ] = results;
+    res.status(200).send({
+      active,
+      frequent,
+      featured,
+      newest,
+      votes,
+      unansweredNewest,
+      unansweredVotes,
+      unansweredNoAnswer
+    });
   }
 };

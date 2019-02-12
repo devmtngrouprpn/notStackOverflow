@@ -24,7 +24,7 @@ class TinyTag extends Component {
       console.log('woah  there cowboy')
       this.props.history.push(`/tags/${this.props.subject}`)
     }
-  }
+  };
   runCall = async () => {
     if (!this.state.information) {
       let res = await axios.post("/api/tags/tinytag", {
@@ -46,17 +46,19 @@ class TinyTag extends Component {
     }
     return (
       <>
-        <Relative
-          onMouseEnter={this.makeCall} onMouseLeave={this.leaving}
-
-        >
-          <Subject to={`/${this.state.information.subject}`}
+        <Relative onMouseEnter={this.makeCall} onMouseLeave={this.leaving}>
+          <Subject
+            to={`/${this.state.information.subject}`}
             onClick={this.clickable}
           >
             {this.props.subject}
-            {this.props.x ?
-              <SVG width="12" height="12" viewBox="0 0 14 14"><Path d="M12 3.41L10.59 2 7 5.59 3.41 2 2 3.41 5.59 7 2 10.59 3.41 12 7 8.41 10.59 12 12 10.59 8.41 7z"></Path></SVG>
-              : <></>}
+            {this.props.x ? (
+              <SVG width="12" height="12" viewBox="0 0 14 14">
+                <Path d="M12 3.41L10.59 2 7 5.59 3.41 2 2 3.41 5.59 7 2 10.59 3.41 12 7 8.41 10.59 12 12 10.59 8.41 7z" />
+              </SVG>
+            ) : (
+                <></>
+              )}
             {this.state.stillWant && this.state.information ? (
               <WhiteSquare
                 onMouseEnter={this.makeCall}
@@ -89,18 +91,15 @@ class TinyTag extends Component {
                       </Text>
                     </Watcher>
                     <Question>
-                      {
-                        (this.state.information.questions.replace(
-                          /[{()}]/g,
-                          ""
-                        ))
-                      }{" "}
+                      {this.state.information.questions.replace(/[{()}]/g, "")}{" "}
                       question{this.state.information.watchers < 2 ? "" : "s"}
                     </Question>
                   </TitleSpan>
                   <Desc>
                     {this.state.information.description}{" "}
-                    <Link to={`/tags/${this.state.information.tag_name}`}>View Tag</Link>
+                    <Link to={`/tags/${this.state.information.tag_name}`}>
+                      View Tag
+                    </Link>
                   </Desc>
                   <ButtonHolder>
                     <WatchButton>
@@ -141,13 +140,13 @@ class TinyTag extends Component {
   }
 }
 const SVG = styled.svg`
-position: relative;
-top: 1px;
-margin-left: 5px;
-:hover{
-fill: currentColor;
-}
-`
+  position: relative;
+  top: 1px;
+  margin-left: 5px;
+  :hover {
+    fill: currentColor;
+  }
+`;
 
 const Desc = styled.div`
   margin-top: 15px;
@@ -263,8 +262,8 @@ let DropDown = styled.div`
 `;
 const Subject = styled(P)`
   position: relative;
-  display:flex;
-  justify-content:center;
+  display: flex;
+  justify-content: center;
   align-content: center;
   align-content: center;
   align-items: center;
@@ -287,4 +286,4 @@ const Subject = styled(P)`
   }
 `;
 
-export default withRouter(TinyTag)
+export default withRouter(TinyTag);
