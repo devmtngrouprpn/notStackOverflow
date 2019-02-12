@@ -5,5 +5,5 @@ WHERE
     source_id = 4
     and source_type = 'question'
 	and edit_accepted = false
-ORDER BY edit_date asc a
+ORDER BY edit_date asc 
 limit 1; 

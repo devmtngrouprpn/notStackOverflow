@@ -33,4 +33,4 @@ SELECT
 FROM tag as t
 	LEFT JOIN question_tag as qt ON qt.tag_name = t.tag_name
 GROUP BY t.tag_name
-ORDER BY total;
+ORDER BY t.tag_name;
