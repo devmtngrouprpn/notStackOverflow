@@ -7,7 +7,6 @@ import Quill from "../QuestionCreator/Quil";
 import { connect } from "react-redux";
 import ReactHtmlParser from 'react-html-parser'
 import { Link } from 'react-router-dom'
-import Select from 'react-select'
 // import { SearchBar } from '../../utilites/globals';
 import Layout from '../Layout/Layout1'
 import {
@@ -17,8 +16,9 @@ import {
     P,
     blueButton,
 } from "./../../utilites/index";
+import Answer from "./Answer.jsx";
 
-class QuestionEditor extends Component {
+class AnswerEditor extends Component {
     constructor() {
         super()
         this.state = {
@@ -32,32 +32,21 @@ class QuestionEditor extends Component {
             tagsForMapping: [],
             typingTag: '',
             tagNames: [],
-            summaryPayload: '',
-            selectedOption: 'your edit',
-            choices: [],
-
+            summaryPayload: ''
         }
     }
     componentDidMount = async () => {
         const res = await axios.get(
             `/api/question/indv?id=${+this.props.match.params.id}`
         );
-        console.log('mounting')
         let res2 = await axios.get('/api/tags/alltinytags');
-        await this.setState({ user: res.data.user_id, original: res.data.question_content, source: res.data.question_id, loading: false, descPayload: res.data.question_content, tagsPayload: res.data.tags, titlePayload: res.data.question_title });
+        console.log(res.data)
+        this.setState({ original: res.data.question_content, source: res.data.question_id, loading: false, descPayload: res.data.question_content, tagsPayload: res.data.tags, titlePayload: res.data.question_title });
+        console.log(res2.data.name)
         await this.setState({ tags: res2.data.popular })
         let array = this.state.tags.map((e) => { return e.tag_name })
         this.setState({ tagNames: array, loading: false })
-        console.log({ source_id: this.state.source, source_type: 'question' })
-        let options = await axios.post('/api/page-edits', { source_id: this.state.source, source_type: 'question' });
-        this.setState({ choices: [options.data.activeEdit] })
-        console.log(options, 'yo')
-        console.log('mounted')
     };
-    handleSelectChange = (selectedOption) => {
-        console.log(typeof selectedOption.edit_tags)
-        this.setState({ titlePayload: selectedOption.edit_title, descPayload: selectedOption.descPayload, tagsPayload: selectedOption.edit_tags, summaryPayload: selectedOption.edit_summary });
-    }
     handleChange = async (defaultValue = '') => {
         await this.setState({ descPayload: defaultValue })
     }
@@ -70,19 +59,15 @@ class QuestionEditor extends Component {
         this.setState({ tagsForMapping: object })
     }
     uploadEdit = async () => {
-        console.log(this.state.question_id)
-        if (this.props.global.user.auth_id) {
-            let res = await axios.post('/api/edits', {
-                edit_title: this.state.titlePayload,
-                edit_content: this.state.descPayload,
-                edit_summary: this.state.summaryPayload,
-                edit_tags: this.state.tagsPayload,
-                user_id: this.props.global.user.auth_id,
-                source_id: this.state.source,
-                source_type: 'question'
-            });
-            console.log(res)
-        } else { alert('you must be logged in to submit edits') }
+        await axios.post('url', {
+            edit_title: this.state.titlePayload,
+            edit_content: this.state.descPayload,
+            edit_summary: this.state.summaryPayload,
+            edit_tags: this.state.tagsPayload,
+            user_id: this.props.global.user.auth_id,
+            source_id: this.state.question_id,
+            source_type: 'question'
+        })
     }
     test = () => {
         console.log({
@@ -106,8 +91,6 @@ class QuestionEditor extends Component {
                                 <T>Your edit will be place in queue until it is peer reviewed.</T>
                                 <T>We welcome all constructive edits, but please make them substantial. Avoid trivial edits unless absolutely necessary. </T>
                             </Head>
-                            <TagBar>View Other Edits</TagBar>
-                            <TheSelect value={this.state.selectedOption} onChange={this.handleSelectChange} options={this.state.choices} />
                             <TagBar>Title</TagBar>
                             <SearchBoxNotForTags value={this.state.titlePayload} onChange={e => this.setState({ titlePayload: e.target.value })} />
                             <TagBar>Body</TagBar>
@@ -141,11 +124,7 @@ class QuestionEditor extends Component {
                             })}</Suggestions>
                             <TagBar>Edit Summary</TagBar>
                             <SearchBoxNotForTags placeholder='briefly explain your changes (corrected spelling, fixed grammar, improved formatting' onChange={e => this.setState({ summaryPayload: e.target.value })} />
-                            <Options>
-                                <Button onClick={this.uploadEdit}>Submit Edit</Button>
-                                {this.props.global.user.reputation > 10000 || this.props.global.user.auth_id == this.state.user_id ? <Button>Accept Edit</Button> : <></>}
-                                <Cancel to='/'>Cancel</Cancel>
-                            </Options>
+                            <button onClick={this.test}>test</button>
 
                         </Container>
                         <HowToTag>
@@ -174,32 +153,7 @@ class QuestionEditor extends Component {
 function mapStateToProps(reduxStore) {
     return { ...reduxStore };
 }
-export default connect(mapStateToProps)(QuestionEditor);
-const Cancel = styled(Link)`
-font-family:Helvetica;
-text-decoration:none;
-${blueButton()};
-color: #9c1724;
-  height: fit-content;
-  background: none;
-  border: none;
-  box-shadow: none;
-  cursor: pointer;
-  :hover {
-    background: #fdf3f4;
-    box-shadow: none;
-    color: #9c1724;
-  }
-`
-const TheSelect = styled(Select)`
-width:100%;
-font-family:Helvetica;
-
-`
-const Options = styled.div`
-display:flex;
-align-items:center;
-`
+export default connect(mapStateToProps)(AnswerEditor);
 const Original = styled.div`
 text-align:left;
 margin:15px;

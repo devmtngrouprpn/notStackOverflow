@@ -102,8 +102,8 @@ class Tags extends Component {
                           ) : tag.year !== "0" ? (
                             <span>{tag.year} asked this year</span>
                           ) : (
-                            <span />
-                          )}
+                                    <span />
+                                  )}
                         </Asked>
                       </MapReturn>
                     );
@@ -140,10 +140,6 @@ const SearchBox = styled(SearchBar)`
   margin-left: 0;
   max-width: 180px;
 `;
-<<<<<<< HEAD
-
-=======
->>>>>>> frontend-skeleton
 const TagDescription = styled(P)`
   box-sizing: content-box;
   font-size: 12px;

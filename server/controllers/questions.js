@@ -7,7 +7,7 @@ module.exports = {
   },
   // ==========================================================
   questionsInteresting: async (req, res, next) => {
-    console.log("starting");
+    // console.log("starting");
     let db = req.app.get("db");
     let dbResult = await Promise.all([
       db.Home.interesting([]),
@@ -17,7 +17,7 @@ module.exports = {
       db.Home.month([]),
       db.Home.tfeatured([])
     ]);
-    console.log("ending");
+    // console.log("ending");
     let [interesting, featured, hot, week, month, tfeatured] = dbResult;
     res
       .status(200)
@@ -25,7 +25,7 @@ module.exports = {
   },
   // ==========================================================
   worldQuestions: async (req, res, next) => {
-    console.log(req.session.user);
+    // console.log(req.session.user);
     let db = req.app.get("db");
     let dbResult = await Promise.all([
       db.World.newest([]),
@@ -116,7 +116,6 @@ module.exports = {
       question_id: id,
       question_views: question[0].question_views + 1
     });
-    console.log('got questions');
     res.status(200).send(question[0]);
   },
   answerById: async (req, res) => {
@@ -186,7 +185,7 @@ module.exports = {
     res.sendStatus(201);
   },
   // ==========================================================
-  editQuestion: async (req, res) => {
+  createEdit: async (req, res) => {
     const db = req.app.get("db");
     const {
       edit_title,
@@ -212,10 +211,13 @@ module.exports = {
     const db = req.app.get("db");
     const { source_id, source_type } = req.body;
     const pastEdits = await db.questions.get_edits([source_id, source_type]);
-    const activeEdit = await db.questions.get_active_edits([
+    console.log(req.body)
+    let activeEdit = await db.questions.get_active_edit([
       source_id,
       source_type
     ]);
+    activeEdit = activeEdit[0]
+    console.log(activeEdit)
     res.status(200).send({ pastEdits, activeEdit });
   }
 };

@@ -2,8 +2,8 @@ SELECT
     *
 FROM edit 
 WHERE 
-    source_id = 4
-    and source_type = 'question'
+    source_id = $1
+    and source_type = $2
 	and edit_accepted = false
 ORDER BY edit_date asc 
 limit 1; 
