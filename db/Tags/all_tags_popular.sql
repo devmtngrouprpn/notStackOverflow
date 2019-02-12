@@ -1,7 +1,7 @@
 SELECT
 	count(qt.question_id) as total,
 	t.tag_name,
-	description,
+	substring(description, '^[^\n\r]{0,150}\M') as description,
 	(
 			select count(qt2.question_id)
 		from question_tag as qt2
@@ -33,4 +33,4 @@ SELECT
 FROM tag as t
 	LEFT JOIN question_tag as qt ON qt.tag_name = t.tag_name
 GROUP BY t.tag_name
-ORDER BY total;
+ORDER BY total desc;
