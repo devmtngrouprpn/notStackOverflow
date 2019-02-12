@@ -4,10 +4,6 @@ import Layout from "../Layout/Layout1.jsx";
 import styled from "styled-components";
 import { TinyTag } from "../../utilites/index.js";
 import { SearchBar } from "../../utilites/globals";
-<<<<<<< HEAD
-import HQCard from "./../Questions/HQCard";
-=======
->>>>>>> frontend-skeleton
 import { P, LoadingWraper, TabButton } from "./../../utilites/index";
 import { setTags } from "../../ducks/tags.js";
 import axios from "axios";
@@ -16,16 +12,6 @@ class Tags extends Component {
   constructor() {
     super();
     this.state = {
-<<<<<<< HEAD
-      view: "Popular",
-      data: { allTags: [], day: [], week: [] },
-      searching: ""
-    };
-  }
-  componentDidMount = async () => {
-    let res = await axios.get("/api/tags/alltinytags");
-    this.setState({ data: res.data });
-=======
       view: "popular",
       searching: "",
       loading: true
@@ -39,7 +25,6 @@ class Tags extends Component {
     } else {
       this.setState({ loading: false });
     }
->>>>>>> frontend-skeleton
   };
   handleView = name => {
     this.setState({ view: name });
@@ -48,75 +33,6 @@ class Tags extends Component {
     return (
       <>
         <Layout>
-<<<<<<< HEAD
-          <Content>
-            <Title>Tags</Title>
-            <Desc>
-              A tag is a keyword or label that categorizes your question with
-              other, similar questions. Using the right tags makes it easier for
-              others to find and answer your question.
-            </Desc>
-            <SortBar>
-              <SearchBox placeholder="Filter by tag name" />
-              <ButtonContainer>
-                <TabButton
-                  onClick={() => this.handleView("Popular")}
-                  active={this.state.view === "Popular"}
-                  activeNeigbor={this.state.view === "featured"}
-                  position="left"
-                >
-                  Popular
-                </TabButton>
-                <TabButton
-                  onClick={() => this.handleView("Name")}
-                  active={this.state.view === "Name"}
-                  activeNeigbor={this.state.view === "New"}
-                  position="mid"
-                >
-                  <FeaturedBox>Name</FeaturedBox>
-                </TabButton>
-                <TabButton
-                  onClick={() => this.handleView("New")}
-                  active={this.state.view === "New"}
-                  position="right"
-                >
-                  New
-                </TabButton>
-              </ButtonContainer>
-            </SortBar>
-            <Grid>
-              {this.state.data.allTags.map(e => {
-                return (
-                  <MapReturn>
-                    <Top>
-                      <TinyTag subject={`${e.name}`} />
-                      <QuestionsApartOf>
-                        x {e.questions_with_tag}
-                      </QuestionsApartOf>
-                    </Top>
-                    <TagDescription>{e.description}</TagDescription>
-                    <Asked>
-                      <span>
-                        {this.state.data.day.map(f => {
-                          if (f.name === e.name) {
-                            return f.question_tag + " asked today, ";
-                          }
-                        })}
-                      </span>
-                      <span>
-                        {this.state.data.week.map(c => {
-                          if (c.name === e.name) {
-                            return c.question_tag + " asked this week";
-                          }
-                        })}{" "}
-                      </span>
-                    </Asked>
-                  </MapReturn>
-                );
-              })}
-            </Grid>
-          </Content>
-=======
           <LoadingWraper loading={this.state.loading}>
             <Content>
               <Title>Tags</Title>
@@ -166,7 +82,6 @@ class Tags extends Component {
               </Grid>
             </Content>
           </LoadingWraper>
->>>>>>> frontend-skeleton
         </Layout>
       </>
     );

@@ -34,7 +34,7 @@ class CommentSection extends Component {
                         <Rep>{res.data.votes || 0} {this.props.global.user.reputation >= 15 ? <button>Upvote</button> : <></>}</Rep>
                         {res.data.content}
                         <UserName to={`/users/${res.data.username}`}> - {res.data.username}</UserName>
-                        <TimeStamp>{res.data.answer_creation_timestamp || res.data.question_creation_timestamp}</TimeStamp>
+                        <TimeStamp>{res.data.comment_creation_timestamp}</TimeStamp>
                     </Comment>)
                 })
             )
@@ -79,6 +79,7 @@ class CommentSection extends Component {
             let res = await axios.post('/api/comment', {
                 user_id: this.props.global.user.auth_id, content: this.state.text, source_id: this.props.id, source_type: this.props.type
             })
+            console.log('submited')
             this.props.reMount()
             // this.reRun()
             this.setState({ edit: false })
@@ -163,7 +164,7 @@ font-size:13px;
 const Shell = styled(P)`
 border-top: 1px solid ${borderGray};
 width:100%;
-height:fit-content;
+height:500px;
 margin: 25px 0 25px 0px;
 padding:5px 0 5px 0;
 

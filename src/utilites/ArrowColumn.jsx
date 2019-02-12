@@ -32,6 +32,9 @@ class ArrowColumn extends Component {
     }
 
     downVote = async () => {
+        console.log({
+            user_id: this.props.global.user.auth_id, source_id: this.props.id, source_type: this.props.type, value: -1
+        })
         if (this.props.global.user.auth_id) {
             let res = await axios.post('/api/question/vote', {
                 user_id: this.props.global.user.auth_id, source_id: this.props.id, source_type: this.props.type, value: -1
@@ -43,12 +46,10 @@ class ArrowColumn extends Component {
 
     }
     favorite = async () => {
-        console.log('hit')
         if (this.props.global.user.auth_id) {
             let res = await axios.post('/api/question/favorite', {
                 user_id: this.props.global.user.auth_id, question_id: this.props.id, favNum: this.props.stars || 0
             })
-            console.log(res)
             this.props.reset();
         } else {
             alert('please log in to favorite')
