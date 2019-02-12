@@ -26,6 +26,9 @@ app.use(
 );
 massive(DB_CONNECTION_STRING).then(db => {
   app.set("db", db);
+  app.listen(SERVER_PORT, () =>
+    console.log(`Listening on PORT: ${SERVER_PORT}`)
+  );
   console.log("database connected");
 });
 
@@ -43,19 +46,21 @@ app.post("/api/questions/ask", questions.askQuestions);
 // TAGS START
 app.post("/api/tags/tinytag", tinyTag.getTag);
 app.get("/api/tags/alltinytags", tinyTag.getAllTags);
+app.get("/api/tags/indv", tinyTag.getTagQuestions);
 // TAGS END
 // USERS START
 app.get("/api/users/allusers", users.getUsers);
+app.get("/api/users/indv", users.getFullUserData);
 // USERS END
 // QUESTIONS START
 app.get("/api/question/indv", questions.questionById);
 app.get("/api/answer/indv", questions.answerById);
 app.get("/api/comment/indv", questions.commentById);
-app.post("/api/question/favorite", questions.addVote);
-app.get("/api/edits", questions.getEdits);
-// app.put('/api/edits', questions.acceptEdit);
-// app.delete('/api/edits', questions.declineEdit);
-// app.post('/api/edits', questions.createEdit);
+app.post("/api/question/favorite", questions.addFavorite);
+app.post("/api/page-edits", questions.getEdits);
+app.put("/api/edits", questions.acceptEdit);
+app.delete("/api/edits", questions.declineEdit);
+app.post("/api/edits", questions.createEdit);
 app.post(
   "/api/question/vote",
   (req, res, next) => {
@@ -79,7 +84,7 @@ app.post(
       }
     }
   },
-  questions.addFavorite
+  questions.addVote
 );
 app.post("/api/answer", questions.createAnswer);
 app.post(
@@ -100,5 +105,3 @@ app.get("/api/adsapi", ads.Ads);
 // ADS END
 
 // *** IM LISTENING! *** //
-
-app.listen(SERVER_PORT, () => console.log(`Listening on PORT: ${SERVER_PORT}`));
