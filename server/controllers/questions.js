@@ -7,7 +7,7 @@ module.exports = {
   },
   // ==========================================================
   questionsInteresting: async (req, res, next) => {
-    console.log("starting");
+    // console.log("starting");
     let db = req.app.get("db");
     let dbResult = await Promise.all([
       db.Home.interesting([]),
@@ -17,7 +17,7 @@ module.exports = {
       db.Home.month([]),
       db.Home.tfeatured([])
     ]);
-    console.log("ending");
+    // console.log("ending");
     let [interesting, featured, hot, week, month, tfeatured] = dbResult;
     res
       .status(200)

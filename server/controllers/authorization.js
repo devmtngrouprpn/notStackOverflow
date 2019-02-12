@@ -29,11 +29,11 @@ module.exports = {
     const foundUser = await db.get_user([sub]);
     console.log(foundUser);
     if (foundUser) {
-      console.log("found user");
+      // console.log("found user");
       request.session.user = foundUser[0];
     } else if (name) {
-      console.log("it happened");
-      console.log("passed the init rep");
+      // console.log("it happened");
+      // console.log("passed the init rep");
       const createdUser = await db.create_user([
         sub,
         name,
@@ -44,7 +44,7 @@ module.exports = {
       await db.init_rep([sub]);
       request.session.user = createdUser[0];
     } else {
-      console.log("not logged in");
+      // console.log("not logged in");
       response.send("please log in");
       return;
     }
