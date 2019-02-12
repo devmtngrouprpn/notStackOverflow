@@ -4,9 +4,6 @@ module.exports = {
     let users = await db.Users.select_40_users([]);
     res.status(200).send(users);
   },
-<<<<<<< HEAD
-  getIndiUser: async (req, res) => {}
-=======
   getFullUserData: async (req, res) => {
     const db = req.app.get("db");
     const { user_id } = req.query;
@@ -14,5 +11,4 @@ module.exports = {
 
     res.status(200).send({ basicData: user });
   }
->>>>>>> frontend-skeleton
 };
