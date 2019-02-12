@@ -26,6 +26,9 @@ app.use(
 );
 massive(DB_CONNECTION_STRING).then(db => {
   app.set("db", db);
+  app.listen(SERVER_PORT, () =>
+    console.log(`Listening on PORT: ${SERVER_PORT}`)
+  );
   console.log("database connected");
 });
 
@@ -51,7 +54,7 @@ app.get("/api/users/allusers", users.getUsers);
 app.get("/api/question/indv", questions.questionById);
 app.get("/api/answer/indv", questions.answerById);
 app.get("/api/comment/indv", questions.commentById);
-app.post("/api/question/favorite", questions.addVote);
+app.post("/api/question/favorite", questions.addFavorite);
 app.get("/api/edits", questions.getEdits);
 // app.put('/api/edits', questions.acceptEdit);
 // app.delete('/api/edits', questions.declineEdit);
@@ -79,7 +82,7 @@ app.post(
       }
     }
   },
-  questions.addFavorite
+  questions.addVote
 );
 app.post("/api/answer", questions.createAnswer);
 app.post(
@@ -100,5 +103,3 @@ app.get("/api/adsapi", ads.Ads);
 // ADS END
 
 // *** IM LISTENING! *** //
-
-app.listen(SERVER_PORT, () => console.log(`Listening on PORT: ${SERVER_PORT}`));

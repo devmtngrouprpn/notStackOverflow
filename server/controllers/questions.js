@@ -159,7 +159,6 @@ module.exports = {
     const { user_id, question_id, favNum } = req.body;
     const db = req.app.get("db");
     const check = await db.questions.check_favorites([user_id, question_id]);
-    // console.log(check)
     let favorites = check[0].favorites;
     if (check[0].res) {
       favorites = favorites.filter(question => question != question_id);
@@ -213,7 +212,11 @@ module.exports = {
   getEdits: async (req, res) => {
     const db = req.app.get("db");
     const { source_id, source_type } = req.body;
-    const results = await db.questions.get_edits([source_id, source_type]);
-    console.log(results);
+    const pastEdits = await db.questions.get_edits([source_id, source_type]);
+    const activeEdit = await db.questions.get_active_edits([
+      source_id,
+      source_type
+    ]);
+    res.status(200).send({ pastEdits, activeEdit });
   }
 };

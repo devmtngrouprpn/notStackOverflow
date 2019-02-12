@@ -1,16 +1,22 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import Layout from "../Layout/Layout1.jsx";
 import styled from "styled-components";
 import { TinyTag } from "../../utilites/index.js";
 import { SearchBar } from "../../utilites/globals";
+<<<<<<< HEAD
 import HQCard from "./../Questions/HQCard";
+=======
+>>>>>>> frontend-skeleton
 import { P, LoadingWraper, TabButton } from "./../../utilites/index";
+import { setTags } from "../../ducks/tags.js";
 import axios from "axios";
 
-export default class Tags extends Component {
+class Tags extends Component {
   constructor() {
     super();
     this.state = {
+<<<<<<< HEAD
       view: "Popular",
       data: { allTags: [], day: [], week: [] },
       searching: ""
@@ -19,6 +25,21 @@ export default class Tags extends Component {
   componentDidMount = async () => {
     let res = await axios.get("/api/tags/alltinytags");
     this.setState({ data: res.data });
+=======
+      view: "popular",
+      searching: "",
+      loading: true
+    };
+  }
+  componentDidMount = async () => {
+    if (this.props.popular[0]) {
+      const res = await axios.get("/api/tags/alltinytags");
+      this.props.setTags(res.data);
+      this.setState({ loading: false });
+    } else {
+      this.setState({ loading: false });
+    }
+>>>>>>> frontend-skeleton
   };
   handleView = name => {
     this.setState({ view: name });
@@ -27,6 +48,7 @@ export default class Tags extends Component {
     return (
       <>
         <Layout>
+<<<<<<< HEAD
           <Content>
             <Title>Tags</Title>
             <Desc>
@@ -94,11 +116,76 @@ export default class Tags extends Component {
               })}
             </Grid>
           </Content>
+=======
+          <LoadingWraper loading={this.state.loading}>
+            <Content>
+              <Title>Tags</Title>
+              <Desc>
+                A tag is a keyword or label that categorizes your question with
+                other, similar questions. Using the right tags makes it easier
+                for others to find and answer your question.
+              </Desc>
+              <SortBar>
+                <SearchBox placeholder="Filter by tag name" />
+                <ButtonContainer>
+                  <TabButton
+                    onClick={() => this.handleView("popular")}
+                    active={this.state.view === "popular"}
+                    activeNeigbor={this.state.view === "name"}
+                    position="left"
+                  >
+                    Popular
+                  </TabButton>
+                  <TabButton
+                    onClick={() => this.handleView("name")}
+                    active={this.state.view === "name"}
+                    position="right"
+                  >
+                    Name
+                  </TabButton>
+                </ButtonContainer>
+              </SortBar>
+              <Grid>
+                {this.props[this.state.view].map(tags => {
+                  return (
+                    <MapReturn>
+                      <Top>
+                        <TinyTag subject={`${tags.name}`} />
+                        <QuestionsApartOf>
+                          x {tags.questions_with_tag}
+                        </QuestionsApartOf>
+                      </Top>
+                      <TagDescription>{tags.description}</TagDescription>
+                      <Asked>
+                        <span>{tags.day}</span>
+                        <span>{tags.week} </span>
+                      </Asked>
+                    </MapReturn>
+                  );
+                })}
+              </Grid>
+            </Content>
+          </LoadingWraper>
+>>>>>>> frontend-skeleton
         </Layout>
       </>
     );
   }
 }
+
+function mapStateToProps(state) {
+  let { popular, name } = state.tags;
+  return {
+    popular,
+    name
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  { setTags }
+)(Tags);
+
 const SearchBox = styled(SearchBar)`
   border-radius: 3px;
   border-color: #bbc0c4;
