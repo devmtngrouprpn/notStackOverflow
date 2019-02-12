@@ -10,7 +10,8 @@ import QuestionsId from "./components/Questions/QuestionsId.jsx";
 import TagsId from "./components/Tags/TagsId.jsx";
 import UsersId from "./components/Users/UsersId.jsx";
 import QuestionCreator from "./components/QuestionCreator/QuestionCreator";
-import QuestionEditor from './components/Questions/QuestionEditor'
+import QuestionEditor from "./components/Questions/QuestionEditor";
+import ScrollToTop from "./utilites/ScrollToTop";
 class App extends Component {
   getHome() {
     let auth_id = "user1";
@@ -21,6 +22,7 @@ class App extends Component {
     return (
       <HashRouter>
         <Switch>
+          {/* <ScrollToTop /> */}
           <Route exact path="/" component={Home} />
           <Route path="/questions/:id" component={QuestionsId} />
           <Route path="/questions" component={Questions} />

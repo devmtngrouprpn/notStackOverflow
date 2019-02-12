@@ -25,7 +25,7 @@ module.exports = {
   },
   // ==========================================================
   worldQuestions: async (req, res, next) => {
-    console.log(req.session.user);
+    // console.log(req.session.user);
     let db = req.app.get("db");
     let dbResult = await Promise.all([
       db.World.newest([]),

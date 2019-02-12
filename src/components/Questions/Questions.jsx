@@ -37,6 +37,7 @@ class Questions extends Component {
   getQuestions = async () => {
     let res = await axios.get(`/api/questions/world`);
     this.props.update_questions(res.data);
+    console.log();
     this.setState({ loading: false });
   };
   handleView = name => {
@@ -47,6 +48,13 @@ class Questions extends Component {
       <VQCard question={question} />
     ));
     let featuredTotal = (this.props.featuredTotal || {}).featured_total;
+    let AllTotal = (this.props.allTotal || {}).question_total;
+    let frequentTotal = (this.props.frequentTotal || {}).question_total;
+    let myTagsTotal = (this.props.myTagsTotal || {}).count;
+    let noAnswerTotal = (this.props.noAnswerTotal || {}).count;
+    let unansweredTotal = (this.props.unansweredTotal || {}).count;
+    console.log(frequentTotal);
+    let { view } = this.state;
     return (
       <Layout>
         <LoadingWraper loading={this.state.loading}>
@@ -62,100 +70,126 @@ class Questions extends Component {
                   <AskButton>Ask Question</AskButton>
                 </StyledLink>
               </HeaderContainer>
-              <ButtonContainer>
-                {!this.state.view.includes("unanswered") ? (
-                  <>
-                    <TabButton
-                      onClick={() => this.handleView("newest")}
-                      active={this.state.view === "newest"}
-                      activeNeigbor={this.state.view === "featured"}
-                      position="left"
-                    >
-                      Newest
-                    </TabButton>
-                    <TabButton
-                      onClick={() => this.handleView("featured")}
-                      active={this.state.view === "featured"}
-                      activeNeigbor={this.state.view === "frequent"}
-                      position="mid"
-                    >
-                      <FeaturedBox>
-                        <CountBox>{featuredTotal}</CountBox>
-                        Featured
-                      </FeaturedBox>
-                    </TabButton>
-                    <TabButton
-                      onClick={() => this.handleView("frequent")}
-                      active={this.state.view === "frequent"}
-                      activeNeigbor={this.state.view === "votes"}
-                      position="mid"
-                    >
-                      <FeaturedBox>Frequent</FeaturedBox>
-                    </TabButton>
-                    <TabButton
-                      onClick={() => this.handleView("votes")}
-                      active={this.state.view === "votes"}
-                      activeNeigbor={this.state.view === "active"}
-                      position="mid"
-                    >
-                      <FeaturedBox>Votes</FeaturedBox>
-                    </TabButton>
-                    <TabButton
-                      onClick={() => this.handleView("active")}
-                      active={this.state.view === "active"}
-                      position="mid"
-                    >
-                      <FeaturedBox>Active</FeaturedBox>
-                    </TabButton>
-                    <TabButton
-                      onClick={() => this.handleView("unansweredMyTags")}
-                      position="right"
-                    >
-                      unanswered
-                    </TabButton>
-                  </>
-                ) : (
-                  <>
-                    <TabButton
-                      onClick={() => this.handleView("unansweredMyTags")}
-                      active={this.state.view === "unansweredMyTags"}
-                      activeNeigbor={this.state.view === "unansweredNewest"}
-                      position="left"
-                    >
-                      My Tags
-                    </TabButton>
-                    <TabButton
-                      onClick={() => this.handleView("unansweredNewest")}
-                      active={this.state.view === "unansweredNewest"}
-                      activeNeigbor={this.state.view === "unansweredVotes"}
-                      position="mid"
-                    >
-                      Newest
-                    </TabButton>
-                    <TabButton
-                      onClick={() => this.handleView("unansweredVotes")}
-                      active={this.state.view === "unansweredVotes"}
-                      activeNeigbor={this.state.view === "unansweredNoAnswer"}
-                      position="mid"
-                    >
-                      Votes
-                    </TabButton>
-                    <TabButton
-                      onClick={() => this.handleView("unansweredNoAnswer")}
-                      active={this.state.view === "unansweredNoAnswer"}
-                      position="mid"
-                    >
-                      No Answers
-                    </TabButton>
-                    <TabButton
-                      onClick={() => this.handleView("newest")}
-                      position="right"
-                    >
-                      all questions
-                    </TabButton>
-                  </>
-                )}
-              </ButtonContainer>
+              <Bar>
+                <Totals>
+                  {view === "newest"
+                    ? AllTotal
+                    : view === "featured"
+                    ? featuredTotal
+                    : view === "frequent"
+                    ? frequentTotal
+                    : view === "unansweredMyTags"
+                    ? myTagsTotal
+                    : view === "unansweredNewest"
+                    ? noAnswerTotal
+                    : view === "votes"
+                    ? AllTotal
+                    : view === "active"
+                    ? AllTotal
+                    : view === "unansweredVotes"
+                    ? unansweredTotal
+                    : view === "unansweredNoAnswer"
+                    ? unansweredTotal
+                    : ""}{" "}
+                  {view.includes("unanswered")
+                    ? "questions with no upvoted or accepted answers"
+                    : "questions"}
+                </Totals>
+                <ButtonContainer>
+                  {!this.state.view.includes("unanswered") ? (
+                    <>
+                      <TabButton
+                        onClick={() => this.handleView("newest")}
+                        active={this.state.view === "newest"}
+                        activeNeigbor={this.state.view === "featured"}
+                        position="left"
+                      >
+                        Newest
+                      </TabButton>
+                      <TabButton
+                        onClick={() => this.handleView("featured")}
+                        active={this.state.view === "featured"}
+                        activeNeigbor={this.state.view === "frequent"}
+                        position="mid"
+                      >
+                        <FeaturedBox>
+                          <CountBox>{featuredTotal}</CountBox>
+                          Featured
+                        </FeaturedBox>
+                      </TabButton>
+                      <TabButton
+                        onClick={() => this.handleView("frequent")}
+                        active={this.state.view === "frequent"}
+                        activeNeigbor={this.state.view === "votes"}
+                        position="mid"
+                      >
+                        <FeaturedBox>Frequent</FeaturedBox>
+                      </TabButton>
+                      <TabButton
+                        onClick={() => this.handleView("votes")}
+                        active={this.state.view === "votes"}
+                        activeNeigbor={this.state.view === "active"}
+                        position="mid"
+                      >
+                        <FeaturedBox>Votes</FeaturedBox>
+                      </TabButton>
+                      <TabButton
+                        onClick={() => this.handleView("active")}
+                        active={this.state.view === "active"}
+                        position="mid"
+                      >
+                        <FeaturedBox>Active</FeaturedBox>
+                      </TabButton>
+                      <TabButton
+                        onClick={() => this.handleView("unansweredMyTags")}
+                        position="right"
+                      >
+                        unanswered
+                      </TabButton>
+                    </>
+                  ) : (
+                    <>
+                      <TabButton
+                        onClick={() => this.handleView("unansweredMyTags")}
+                        active={this.state.view === "unansweredMyTags"}
+                        activeNeigbor={this.state.view === "unansweredNewest"}
+                        position="left"
+                      >
+                        My Tags
+                      </TabButton>
+                      <TabButton
+                        onClick={() => this.handleView("unansweredNewest")}
+                        active={this.state.view === "unansweredNewest"}
+                        activeNeigbor={this.state.view === "unansweredVotes"}
+                        position="mid"
+                      >
+                        Newest
+                      </TabButton>
+                      <TabButton
+                        onClick={() => this.handleView("unansweredVotes")}
+                        active={this.state.view === "unansweredVotes"}
+                        activeNeigbor={this.state.view === "unansweredNoAnswer"}
+                        position="mid"
+                      >
+                        Votes
+                      </TabButton>
+                      <TabButton
+                        onClick={() => this.handleView("unansweredNoAnswer")}
+                        active={this.state.view === "unansweredNoAnswer"}
+                        position="mid"
+                      >
+                        No Answers
+                      </TabButton>
+                      <TabButton
+                        onClick={() => this.handleView("newest")}
+                        position="right"
+                      >
+                        all questions
+                      </TabButton>
+                    </>
+                  )}
+                </ButtonContainer>
+              </Bar>
               <QuestionBox>{questions}</QuestionBox>
             </Content>
             <Adds>
@@ -167,7 +201,18 @@ class Questions extends Component {
     );
   }
 }
-
+const Bar = styled.div`
+  display: flex;
+`;
+const Totals = styled.div`
+  float: left;
+  margin-left: 5%;
+  font-size: 1.30769231rem !important;
+  margin-right: 12px !important;
+  flex: 1 auto !important;
+  flex-wrap: wrap;
+  width: 40%;
+`;
 const QuestionBox = styled.div`
   border-top: 1px solid ${borderGray};
 `;
@@ -180,7 +225,7 @@ const HeaderContainer = styled.div`
 
 const ButtonContainer = styled.div`
   ${flex("row", "flex-end")}
-  margin: 0 24px 24px 16px;
+  margin: 0 0px 24px 0px;
 `;
 
 const FeaturedBox = styled.div`
@@ -217,7 +262,12 @@ function mapStateToProps(state) {
     unansweredMyTags,
     unansweredVotes,
     unansweredNoAnswer,
-    featuredTotal
+    featuredTotal,
+    allTotal,
+    frequentTotal,
+    myTagsTotal,
+    noAnswerTotal,
+    unansweredTotal
   } = state.questions;
   return {
     newest,
@@ -230,7 +280,12 @@ function mapStateToProps(state) {
     unansweredMyTags,
     unansweredVotes,
     unansweredNoAnswer,
-    featuredTotal
+    featuredTotal,
+    allTotal,
+    frequentTotal,
+    myTagsTotal,
+    noAnswerTotal,
+    unansweredTotal
   };
 }
 export default connect(

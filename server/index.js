@@ -33,9 +33,11 @@ massive(DB_CONNECTION_STRING).then(db => {
 });
 
 // *** ENDPOINTS *** //
-
+// User Start
 app.get("/auth/callback", authorization.authCallback);
 app.post("/api/user-data", authorization.checkUser);
+app.get("/api/user/:userId", users.getIndiUser);
+// User End
 
 // HOME START
 app.get("/api/home/:auth_id", questions.homeStart);
@@ -101,5 +103,6 @@ app.post(
 // ADS START
 app.get("/api/adsapi", ads.Ads);
 // ADS END
+//
 
 // *** IM LISTENING! *** //

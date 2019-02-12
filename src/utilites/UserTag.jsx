@@ -25,7 +25,7 @@ class UserTag extends Component {
         <UserInfo>
           <ProPic src={question.picture} alt="" />
           <UserName>
-            <StyledCardLink user={true} to={`/users/${question.username}`}>
+            <StyledCardLink user={true} to={`/users/${question.user_id}`}>
               <P>{question.username}</P>
             </StyledCardLink>{" "}
             <UserBadges>
