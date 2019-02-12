@@ -1,6 +1,8 @@
 SELECT
-    *
-FROM edit 
+    e.*,
+    u.username
+FROM edit as e
+    JOIN users as u ON u.auth_id = e.user_id
 WHERE 
     source_id = $1
     and source_type = $2
