@@ -102,8 +102,8 @@ class Tags extends Component {
                           ) : tag.year !== "0" ? (
                             <span>{tag.year} asked this year</span>
                           ) : (
-                            <span />
-                          )}
+                                    <span />
+                                  )}
                         </Asked>
                       </MapReturn>
                     );

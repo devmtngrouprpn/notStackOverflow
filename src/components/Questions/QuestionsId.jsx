@@ -42,6 +42,7 @@ export default class QuestionId extends Component {
     this.setState({ loading: false, question: res.data });
   }
 
+
   render() {
     let { question } = this.state
     // console.log(question.question_content)
@@ -71,7 +72,7 @@ export default class QuestionId extends Component {
                     <QuestionTags>
                       {question.tags.map(e => { return (<TinyTag subject={e} />) })}
                     </QuestionTags>
-                    <ShareEditUser><div>edit</div><QuestionUserTag question={question} /></ShareEditUser>
+                    <ShareEditUser><Edit to={`/edit/question/${question.question_id}`}>edit</Edit><QuestionUserTag question={question} /></ShareEditUser>
                     <CommentSection comments={question.comments} reMount={this.reMount} type={'question'} id={question.question_id} />
                   </QuestionContent>
                 </Section>
@@ -99,6 +100,9 @@ export default class QuestionId extends Component {
     );
   }
 }
+const Edit = styled(Link)`
+
+`
 const CompleteAnswer = styled.div``
 const TotalAnswers = styled(P)`
 width:100%;
@@ -136,7 +140,7 @@ const QuestionTags = styled.div`
 display: flex;
 `
 const QuestionContent = styled.div`
-    
+    	font-family: Helvetica, sans-serif;
     `
 const Section = styled.div`
     display: flex;
@@ -171,7 +175,7 @@ const TitleBox = styled.div`
         width: calc(100% - 48px);
       `;
 
-const Box = styled.div`
+const Box = styled(P)`
   /* ${flex("column")} */
         /* flex-basis: 1100px; */
         /* overflow: visible; */

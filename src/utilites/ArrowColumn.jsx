@@ -22,7 +22,7 @@ class ArrowColumn extends Component {
     };
     upvote = async () => {
         if (this.props.global.user.auth_id) {
-            let res = await axios.post('api/question/vote', {
+            let res = await axios.post('/api/question/vote', {
                 user_id: this.props.global.user.auth_id, source_id: this.props.id, source_type: this.props.type, value: 1
             })
             this.props.reset();
@@ -32,8 +32,11 @@ class ArrowColumn extends Component {
     }
 
     downVote = async () => {
+        console.log({
+            user_id: this.props.global.user.auth_id, source_id: this.props.id, source_type: this.props.type, value: -1
+        })
         if (this.props.global.user.auth_id) {
-            let res = await axios.post('api/question/vote', {
+            let res = await axios.post('/api/question/vote', {
                 user_id: this.props.global.user.auth_id, source_id: this.props.id, source_type: this.props.type, value: -1
             })
             this.props.reset();
@@ -44,7 +47,7 @@ class ArrowColumn extends Component {
     }
     favorite = async () => {
         if (this.props.global.user.auth_id) {
-            let res = await axios.post('api/question/favorite', {
+            let res = await axios.post('/api/question/favorite', {
                 user_id: this.props.global.user.auth_id, question_id: this.props.id, favNum: this.props.stars || 0
             })
             this.props.reset();
@@ -73,7 +76,7 @@ export default connect(mapStateToProps)(ArrowColumn);
 
 const Svg = styled.svg`
     color: rgb(187, 192, 196);
-    
+    cursor:pointer;
     `
 const Votes = styled.div`
     margin: 2px;
