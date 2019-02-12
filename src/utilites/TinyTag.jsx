@@ -22,7 +22,7 @@ class TinyTag extends Component {
   clickable = () => {
     if (!this.props.notClickable) {
       console.log('woah  there cowboy')
-      this.props.history.push(`/tags/${this.state.information.tag_name}`)
+      this.props.history.push(`/tags/${this.props.subject}`)
     }
   }
   runCall = async () => {
