@@ -108,6 +108,7 @@ module.exports = {
   },
   // ==========================================================
   questionById: async (req, res) => {
+
     const id = req.query.id;
     const db = req.app.get("db");
     const question = await db.questions.get_question_by_id([id]);
@@ -115,7 +116,7 @@ module.exports = {
       question_id: id,
       question_views: question[0].question_views + 1
     });
-    // console.log(question);
+    console.log('got questions');
     res.status(200).send(question[0]);
   },
   answerById: async (req, res) => {
@@ -188,7 +189,6 @@ module.exports = {
   editQuestion: async (req, res) => {
     const db = req.app.get("db");
     const {
-      edit_id,
       edit_title,
       edit_content,
       edit_summary,

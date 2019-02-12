@@ -30,17 +30,18 @@ class QuestionEditor extends Component {
             tagsPayload: [],
             tagsForMapping: [],
             typingTag: '',
-            tagNames: []
+            tagNames: [],
+            summaryPayload: ''
         }
     }
     componentDidMount = async () => {
         const res = await axios.get(
-            `/api/question/indv?id=${this.props.match.params.id}`
+            `/api/question/indv?id=${+this.props.match.params.id}`
         );
-        console.log(res.data)
-        this.setState({ original: res.data.question_content, loading: false, descPayload: res.data.question_content, tagsPayload: res.data.tags });
         let res2 = await axios.get('/api/tags/alltinytags');
         console.log(res.data)
+        this.setState({ original: res.data.question_content, source: res.data.question_id, loading: false, descPayload: res.data.question_content, tagsPayload: res.data.tags, titlePayload: res.data.question_title });
+        console.log(res2.data)
         this.setState({ tags: res2.data.popular })
         let array = this.state.tags.map((e) => { return e.name })
         this.setState({ tagNames: array, loading: false })
@@ -50,13 +51,35 @@ class QuestionEditor extends Component {
     }
     grabRelated = (e) => {
         this.setState({ typingTag: e.target.value })
+        console.log(this.state.tagNames)
         let object = stringSimilarity.findBestMatch(e.target.value, this.state.tagNames)
         object = object.ratings.sort((a, b) => { return a.rating * 100 - b.rating * 100 }).reverse().filter(a => a.rating > 0)
         object = object.slice(0, 6)
         this.setState({ tagsForMapping: object })
     }
+    uploadEdit = async () => {
+        await axios.post('url', {
+            edit_title: this.state.titlePayload,
+            edit_content: this.state.descPayload,
+            edit_summary: this.state.summaryPayload,
+            edit_tags: this.state.tagsPayload,
+            user_id: this.props.global.user.auth_id,
+            source_id: this.state.question_id,
+            source_type: 'question'
+        })
+    }
+    test = () => {
+        console.log({
+            edit_title: this.state.titlePayload,
+            edit_content: this.state.descPayload,
+            edit_summary: this.state.summaryPayload,
+            edit_tags: this.state.tagsPayload,
+            user_id: this.props.global.user.auth_id,
+            source_id: +this.props.match.params.id,
+            source_type: 'question'
+        })
+    }
     render() {
-        console.log(this.state)
         return (
             <>
                 <Layout>
@@ -99,7 +122,9 @@ class QuestionEditor extends Component {
                                 </TinyTagHolder>
                             })}</Suggestions>
                             <TagBar>Edit Summary</TagBar>
-                            <SearchBoxNotForTags placeholder='briefly explain your changes (corrected spelling, fixed grammar, improved formatting' onChange={e => this.setState({ titlePayload: e.target.value })} />
+                            <SearchBoxNotForTags placeholder='briefly explain your changes (corrected spelling, fixed grammar, improved formatting' onChange={e => this.setState({ summaryPayload: e.target.value })} />
+                            <button onClick={this.test}>test</button>
+
                         </Container>
                         <HowToTag>
                             <HowToTagTitle>How to Tag</HowToTagTitle>
@@ -124,8 +149,10 @@ class QuestionEditor extends Component {
         );
     }
 }
-
-export default QuestionEditor;
+function mapStateToProps(reduxStore) {
+    return { ...reduxStore };
+}
+export default connect(mapStateToProps)(QuestionEditor);
 const Original = styled.div`
 text-align:left;
 margin:15px;
