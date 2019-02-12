@@ -218,6 +218,10 @@ module.exports = {
     ]);
     activeEdit = activeEdit[0]
     console.log(activeEdit)
-    res.status(200).send({ pastEdits, activeEdit });
+    if (activeEdit) {
+      res.status(200).send({ pastEdits, activeEdit });
+    } else {
+      res.sendStatus(404)
+    }
   }
 };

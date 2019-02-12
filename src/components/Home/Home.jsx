@@ -59,7 +59,7 @@ class Home extends Component {
     let questions = this.props[this.state.view].map(question => (
       <HQCard question={question} />
     ));
-
+    console.log(this.props.global)
     return (
       <Layout>
         <LoadingWraper text loading={this.state.loading}>
@@ -70,6 +70,7 @@ class Home extends Component {
                 <Link to="/create-question">
                   <AskButton>Ask Question</AskButton>
                 </Link>
+
               </HeaderContainer>
               <ButtonContainer>
                 <TabButton
