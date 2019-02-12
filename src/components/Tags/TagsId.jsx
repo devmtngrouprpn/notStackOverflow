@@ -30,7 +30,6 @@ class TagsId extends Component {
     let res = await axios.get(
       `/api/tags/indv?tag_name=${this.props.match.params.name}`
     );
-    console.log(res.data);
     this.props.setTags(res.data);
     this.setState({ loading: false });
   };
@@ -40,6 +39,7 @@ class TagsId extends Component {
   };
 
   render() {
+    console.log(this.props);
     return (
       <Layout>
         <LoadingWraper loading={this.state.loading}>
@@ -83,8 +83,7 @@ class TagsId extends Component {
               </LargeTinyTag>
               <Searches>
                 <QuestionIn>
-                  {this.props[`${this.state.view}_total`] || this.props.total}{" "}
-                  question
+                  {this.props[`${this.state.view}_total`] || 0} question
                   {this.props[`${this.state.view}_total`] == 1 ? "" : "s"}
                 </QuestionIn>
                 <SortBar>
@@ -167,7 +166,7 @@ class TagsId extends Component {
                         No Answers
                       </TabButton>
                       <TabButton
-                        onClick={() => this.handleView("info")}
+                        onClick={() => this.handleView("active")}
                         position="right"
                       >
                         all questions
@@ -202,9 +201,12 @@ function mapStateToProps(state) {
     unansweredNoAnswer,
     frequent_total,
     featured_total,
-    total,
-    unanswered_total,
-    no_answer_total,
+    active_total,
+    votes_total,
+    newest_total,
+    unansweredNewest_total,
+    unansweredNoAnswer_total,
+    unansweredVotes_total,
     description
   } = state.tags;
   return {
@@ -218,9 +220,12 @@ function mapStateToProps(state) {
     unansweredNoAnswer,
     frequent_total,
     featured_total,
-    total,
-    unanswered_total,
-    no_answer_total,
+    active_total,
+    votes_total,
+    newest_total,
+    unansweredNewest_total,
+    unansweredNoAnswer_total,
+    unansweredVotes_total,
     description
   };
 }

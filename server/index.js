@@ -58,8 +58,8 @@ app.get("/api/answer/indv", questions.answerById);
 app.get("/api/comment/indv", questions.commentById);
 app.post("/api/question/favorite", questions.addFavorite);
 app.post("/api/page-edits", questions.getEdits);
-// app.put('/api/edits', questions.acceptEdit);
-// app.delete('/api/edits', questions.declineEdit);
+app.put("/api/edits", questions.acceptEdit);
+app.delete("/api/edits", questions.declineEdit);
 app.post("/api/edits", questions.createEdit);
 app.post(
   "/api/question/vote",

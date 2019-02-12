@@ -108,7 +108,6 @@ module.exports = {
   },
   // ==========================================================
   questionById: async (req, res) => {
-
     const id = req.query.id;
     const db = req.app.get("db");
     const question = await db.questions.get_question_by_id([id]);
@@ -211,13 +210,66 @@ module.exports = {
     const db = req.app.get("db");
     const { source_id, source_type } = req.body;
     const pastEdits = await db.questions.get_edits([source_id, source_type]);
-    console.log(req.body)
     let activeEdit = await db.questions.get_active_edit([
       source_id,
       source_type
     ]);
-    activeEdit = activeEdit[0]
-    console.log(activeEdit)
+    activeEdit = activeEdit[0];
     res.status(200).send({ pastEdits, activeEdit });
+  },
+  acceptEdit: async (req, res) => {
+    const db = req.app.get("db");
+    const {
+      edit_id,
+      user_id,
+      source_id,
+      source_type,
+      edit_content,
+      edit_title,
+      edit_tags
+    } = req.body;
+    if (source_type === "question") {
+      await db.question.save({
+        question_id: source_id,
+        question_title: edit_title,
+        question_content: edit_content
+      });
+      await db.questions.clear_tags([source_id]);
+      await Promise.all([
+        edit_tags.map(tag =>
+          db.question_tag.insert({ tag_name: tag, question_id: source_id })
+        )
+      ]);
+      await db.reputation.insert({
+        user_id,
+        amount: 2,
+        action_type: "edit",
+        source_id,
+        source_type
+      });
+      await db.edit.save({ edit_id, edit_accepted: true });
+    } else if (source_type === "answer") {
+      await db.answer.save({
+        answer_id: source_id,
+        answer_content: edit_content
+      });
+      await db.reputation.insert({
+        user_id,
+        amount: 2,
+        action_type: "edit",
+        source_id,
+        source_type
+      });
+      await db.edit.save({ edit_id, edit_accepted: true });
+    } else if (source_type === "comment") {
+      await db.comment.save({ comment_id: source_id, content: edit_content });
+    }
+    res.sendStatus(200);
+  },
+  declineEdit: async (req, res) => {
+    const db = req.app.get("db");
+    const { edit_id } = req.query;
+    db.edit.destroy({ edit_id });
+    res.sendStatus(200);
   }
 };
