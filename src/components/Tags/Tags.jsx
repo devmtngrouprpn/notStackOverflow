@@ -17,8 +17,9 @@ class Tags extends Component {
       loading: true
     };
   }
+
   componentDidMount = async () => {
-    if (this.props.popular[0]) {
+    if (!this.props.popular[0]) {
       const res = await axios.get("/api/tags/alltinytags");
       this.props.setTags(res.data);
       this.setState({ loading: false });
@@ -26,10 +27,13 @@ class Tags extends Component {
       this.setState({ loading: false });
     }
   };
+
   handleView = name => {
     this.setState({ view: name });
   };
+
   render() {
+    console.log(this.props);
     return (
       <>
         <Layout>
@@ -62,19 +66,17 @@ class Tags extends Component {
                 </ButtonContainer>
               </SortBar>
               <Grid>
-                {this.props[this.state.view].map(tags => {
+                {(this.props[this.state.view] || []).map(tag => {
                   return (
                     <MapReturn>
                       <Top>
-                        <TinyTag subject={`${tags.name}`} />
-                        <QuestionsApartOf>
-                          x {tags.questions_with_tag}
-                        </QuestionsApartOf>
+                        <TinyTag subject={`${tag.name}`} />
+                        <QuestionsApartOf>x {tag.total}</QuestionsApartOf>
                       </Top>
-                      <TagDescription>{tags.description}</TagDescription>
+                      <TagDescription>{tag.description}</TagDescription>
                       <Asked>
-                        <span>{tags.day}</span>
-                        <span>{tags.week} </span>
+                        <span>{tag.day}</span>
+                        <span>{tag.week} </span>
                       </Asked>
                     </MapReturn>
                   );

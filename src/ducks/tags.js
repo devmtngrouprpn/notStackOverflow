@@ -1,6 +1,6 @@
 const initialState = {
-  popular: {},
-  name: {}
+  popular: [],
+  name: []
 };
 
 // --- Action Types --- //
@@ -14,7 +14,7 @@ export default function(state = initialState, action) {
     case SET_TAGS:
       return { ...state, ...action.payload };
     default:
-      return { state };
+      return { ...state };
   }
 }
 
