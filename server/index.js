@@ -45,6 +45,7 @@ app.post("/api/questions/ask", questions.askQuestions);
 // TAGS START
 app.post("/api/tags/tinytag", tinyTag.getTag);
 app.get("/api/tags/alltinytags", tinyTag.getAllTags);
+app.get("/api/tags/indv", tinyTag.getTagQuestions);
 // TAGS END
 // USERS START
 app.get("/api/users/allusers", users.getUsers);

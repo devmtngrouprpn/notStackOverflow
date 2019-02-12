@@ -188,7 +188,6 @@ module.exports = {
   editQuestion: async (req, res) => {
     const db = req.app.get("db");
     const {
-      edit_id,
       edit_title,
       edit_content,
       edit_summary,
@@ -198,7 +197,6 @@ module.exports = {
       source_type
     } = req.body;
     await db.edit.insert({
-      edit_id,
       edit_title,
       edit_content,
       edit_summary,

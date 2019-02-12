@@ -21,10 +21,10 @@ class TinyTag extends Component {
   }
   clickable = () => {
     if (!this.props.notClickable) {
-      console.log('woah  there cowboy')
-      this.props.history.push(`/tags/${this.state.information.tag_name}`)
+      console.log("woah  there cowboy");
+      this.props.history.push(`/tags/${this.props.subject}`);
     }
-  }
+  };
   runCall = async () => {
     if (!this.state.information) {
       let res = await axios.post("/api/tags/tinytag", {
@@ -46,25 +46,27 @@ class TinyTag extends Component {
     }
     return (
       <>
-        <Relative
-          onMouseEnter={this.makeCall} onMouseLeave={this.leaving}
-
-        >
-          <Subject to={`/${this.state.information.subject}`}
+        <Relative onMouseEnter={this.makeCall} onMouseLeave={this.leaving}>
+          <Subject
+            to={`/${this.state.information.subject}`}
             onClick={this.clickable}
           >
             {this.props.subject}
-            {this.props.x ?
-              <SVG width="12" height="12" viewBox="0 0 14 14"><Path d="M12 3.41L10.59 2 7 5.59 3.41 2 2 3.41 5.59 7 2 10.59 3.41 12 7 8.41 10.59 12 12 10.59 8.41 7z"></Path></SVG>
-              : <></>}
+            {this.props.x ? (
+              <SVG width="12" height="12" viewBox="0 0 14 14">
+                <Path d="M12 3.41L10.59 2 7 5.59 3.41 2 2 3.41 5.59 7 2 10.59 3.41 12 7 8.41 10.59 12 12 10.59 8.41 7z" />
+              </SVG>
+            ) : (
+              <></>
+            )}
             {this.state.stillWant && this.state.information ? (
               <WhiteSquare
                 onMouseEnter={this.makeCall}
                 onMouseLeave={this.leaving}
               />
             ) : (
-                <></>
-              )}
+              <></>
+            )}
             {this.state.stillWant && this.state.information ? (
               <HoverSpace
                 onMouseEnter={this.makeCall}
@@ -78,7 +80,7 @@ class TinyTag extends Component {
                         class="svg-icon va-text-top iconFire"
                         width="18"
                         height="18"
-                      // viewBox="0 0 18 18"
+                        // viewBox="0 0 18 18"
                       >
                         <Path d="M7.48.01c.87 2.4.44 3.74-.57 4.77-1.06 1.16-2.76 2.02-3.93 3.7C1.4 10.76 1.13 15.72 6.8 17c-2.38-1.28-2.9-5-.32-7.3-.66 2.24.57 3.67 2.1 3.16 1.5-.52 2.5.58 2.46 1.84-.02.86-.33 1.6-1.22 2A6.17 6.17 0 0 0 15 10.56c0-3.14-2.74-3.56-1.36-6.2-1.64.14-2.2 1.24-2.04 3.03.1 1.2-1.11 2-2.02 1.47-.73-.45-.72-1.31-.07-1.96 1.36-1.36 1.9-4.52-2.03-6.88L7.45 0l.03.01z" />
                       </svg>
@@ -89,18 +91,15 @@ class TinyTag extends Component {
                       </Text>
                     </Watcher>
                     <Question>
-                      {
-                        (this.state.information.questions.replace(
-                          /[{()}]/g,
-                          ""
-                        ))
-                      }{" "}
+                      {this.state.information.questions.replace(/[{()}]/g, "")}{" "}
                       question{this.state.information.watchers < 2 ? "" : "s"}
                     </Question>
                   </TitleSpan>
                   <Desc>
                     {this.state.information.description}{" "}
-                    <Link to={`/tags/${this.state.information.tag_name}`}>View Tag</Link>
+                    <Link to={`/tags/${this.state.information.tag_name}`}>
+                      View Tag
+                    </Link>
                   </Desc>
                   <ButtonHolder>
                     <WatchButton>
@@ -132,8 +131,8 @@ class TinyTag extends Component {
                 </DropDown>
               </HoverSpace>
             ) : (
-                <></>
-              )}
+              <></>
+            )}
           </Subject>
         </Relative>
       </>
@@ -141,13 +140,13 @@ class TinyTag extends Component {
   }
 }
 const SVG = styled.svg`
-position: relative;
-top: 1px;
-margin-left: 5px;
-:hover{
-fill: currentColor;
-}
-`
+  position: relative;
+  top: 1px;
+  margin-left: 5px;
+  :hover {
+    fill: currentColor;
+  }
+`;
 
 const Desc = styled.div`
   margin-top: 15px;
@@ -263,8 +262,8 @@ let DropDown = styled.div`
 `;
 const Subject = styled(P)`
   position: relative;
-  display:flex;
-  justify-content:center;
+  display: flex;
+  justify-content: center;
   align-content: center;
   align-content: center;
   align-items: center;
@@ -287,4 +286,4 @@ const Subject = styled(P)`
   }
 `;
 
-export default withRouter(TinyTag)
+export default withRouter(TinyTag);

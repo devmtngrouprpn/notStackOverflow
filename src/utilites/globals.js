@@ -136,7 +136,7 @@ export const SearchBar = styled.input`
     box-sizing: border-box;
 
     outline: none;
-    /* border: 1px solid #66bfff; */
+    border: 1px solid #66bfff;
     box-shadow: 0 0 0 4px rgba(0, 149, 256, 0.15);
     border-radius: 3px;
   }

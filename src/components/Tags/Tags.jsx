@@ -13,7 +13,7 @@ class Tags extends Component {
     super();
     this.state = {
       view: "popular",
-      searching: "",
+      search: "",
       loading: true
     };
   }
@@ -32,6 +32,11 @@ class Tags extends Component {
     this.setState({ view: name });
   };
 
+  handleInput = event => {
+    const { name, value } = event.target;
+    this.setState({ [name]: value });
+  };
+
   render() {
     console.log(this.props);
     return (
@@ -46,8 +51,13 @@ class Tags extends Component {
                 for others to find and answer your question.
               </Desc>
               <SortBar>
-                <SearchBox placeholder="Filter by tag name" />
-                <ButtonContainer>
+                <SearchBox
+                  name="search"
+                  onChange={this.handleInput}
+                  placeholder="Filter by tag name"
+                  value={this.state.search}
+                />
+                <div>
                   <TabButton
                     onClick={() => this.handleView("popular")}
                     active={this.state.view === "popular"}
@@ -63,23 +73,41 @@ class Tags extends Component {
                   >
                     Name
                   </TabButton>
-                </ButtonContainer>
+                </div>
               </SortBar>
               <Grid>
                 {(this.props[this.state.view] || []).map(tag => {
-                  return (
-                    <MapReturn>
-                      <Top>
-                        <TinyTag subject={`${tag.name}`} />
-                        <QuestionsApartOf>x {tag.total}</QuestionsApartOf>
-                      </Top>
-                      <TagDescription>{tag.description}</TagDescription>
-                      <Asked>
-                        <span>{tag.day}</span>
-                        <span>{tag.week} </span>
-                      </Asked>
-                    </MapReturn>
-                  );
+                  console.log(tag.tag_name);
+                  if (tag.tag_name.includes(this.state.search)) {
+                    return (
+                      <MapReturn>
+                        <Top>
+                          <TinyTag subject={`${tag.tag_name}`} />
+                          <QuestionsApartOf>x {tag.total}</QuestionsApartOf>
+                        </Top>
+                        <TagDescription>{tag.description}</TagDescription>
+                        <Asked>
+                          {tag.day !== "0" ? (
+                            <span>
+                              {tag.day} asked today, {tag.week} this week
+                            </span>
+                          ) : tag.week !== "0" ? (
+                            <span>
+                              {tag.week} asked this week, {tag.month} this month
+                            </span>
+                          ) : tag.month !== "0" ? (
+                            <span>
+                              {tag.month} asked this month, {tag.year} this year
+                            </span>
+                          ) : tag.year !== "0" ? (
+                            <span>{tag.year} asked this year</span>
+                          ) : (
+                            <span />
+                          )}
+                        </Asked>
+                      </MapReturn>
+                    );
+                  }
                 })}
               </Grid>
             </Content>
@@ -105,8 +133,6 @@ export default connect(
 
 const SearchBox = styled(SearchBar)`
   border-radius: 3px;
-  border-color: #bbc0c4;
-  border: 1px solid lightgray;
   background-color: #fff;
   box-shadow: none;
   color: #3b4045;
@@ -114,13 +140,11 @@ const SearchBox = styled(SearchBar)`
   margin-left: 0;
   max-width: 180px;
 `;
-const ButtonContainer = styled.div``;
-const CountBox = styled.div``;
-const FeaturedBox = styled.div``;
+
 const TagDescription = styled(P)`
   box-sizing: content-box;
   font-size: 12px;
-  height: 39px;
+  height: 42px;
   line-height: 14px;
   overflow: hidden;
   margin-bottom: 4px;
