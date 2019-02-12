@@ -49,6 +49,7 @@ app.get("/api/tags/indv", tinyTag.getTagQuestions);
 // TAGS END
 // USERS START
 app.get("/api/users/allusers", users.getUsers);
+app.get("/api/users/indv", users.getFullUserData);
 // USERS END
 // QUESTIONS START
 app.get("/api/question/indv", questions.questionById);
