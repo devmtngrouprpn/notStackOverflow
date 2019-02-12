@@ -31,11 +31,10 @@ class CommentSection extends Component {
                     let res = await axios.get(`/api/comment/indv?id=${e}`);
                     console.log(res.data, 'comment return')
                     buffer.push(<Comment key={e}>
-                        <Rep>{res.data.votes || 0}</Rep>
+                        <Rep>{res.data.votes || 0} {this.props.global.user.reputation >= 15 ? <button>Upvote</button> : <></>}</Rep>
                         {res.data.content}
                         <UserName to={`/users/${res.data.username}`}> - {res.data.username}</UserName>
                         <TimeStamp>{res.data.answer_creation_timestamp || res.data.question_creation_timestamp}</TimeStamp>
-
                     </Comment>)
                 })
             )

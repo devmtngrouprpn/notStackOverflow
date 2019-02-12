@@ -136,7 +136,7 @@ const QuestionTags = styled.div`
 display: flex;
 `
 const QuestionContent = styled.div`
-    
+    	font-family: Helvetica, sans-serif;
     `
 const Section = styled.div`
     display: flex;
@@ -171,7 +171,7 @@ const TitleBox = styled.div`
         width: calc(100% - 48px);
       `;
 
-const Box = styled.div`
+const Box = styled(P)`
   /* ${flex("column")} */
         /* flex-basis: 1100px; */
         /* overflow: visible; */

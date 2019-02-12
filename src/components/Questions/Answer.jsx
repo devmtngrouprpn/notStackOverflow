@@ -63,7 +63,7 @@ function mapStateToProps(reduxStore) {
 
 export default connect(mapStateToProps)(Answer);
 
-const Wrapper = styled.div`
+const Wrapper = styled(P)`
 display:flex;
 width:100%;
 `
@@ -81,8 +81,6 @@ width:100%;
 align-items:center;
 justify-content:space-between;
 `
-
-
 const QuestionContent = styled.div`
     
     `
