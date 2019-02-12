@@ -60,7 +60,7 @@ app.post("/api/question/favorite", questions.addFavorite);
 app.get("/api/edits", questions.getEdits);
 // app.put('/api/edits', questions.acceptEdit);
 // app.delete('/api/edits', questions.declineEdit);
-// app.post('/api/edits', questions.createEdit);
+app.post("/api/edits", questions.createEdit);
 app.post(
   "/api/question/vote",
   (req, res, next) => {

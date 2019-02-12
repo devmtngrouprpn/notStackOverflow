@@ -8,7 +8,14 @@ const initialState = {
   votes: [],
   unansweredNewest: [],
   unansweredVotes: [],
-  unansweredNoAnswer: []
+  unansweredNoAnswer: [],
+  frequent_total: 0,
+  featured_total: 0,
+  total: 0,
+  unansweredNewest_total: 0,
+  unansweredNoAnswer_total: 0,
+  unansweredVotes_total: 0,
+  description: ""
 };
 
 // --- Action Types --- //

@@ -185,7 +185,7 @@ module.exports = {
     res.sendStatus(201);
   },
   // ==========================================================
-  editQuestion: async (req, res) => {
+  createEdit: async (req, res) => {
     const db = req.app.get("db");
     const {
       edit_title,

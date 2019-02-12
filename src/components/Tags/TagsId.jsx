@@ -13,7 +13,8 @@ import {
   Content,
   LoadingWraper,
   TabButton,
-  SearchBar,
+  flex,
+  featuredBoxBlue,
   colors,
   H1
 } from "../../utilites/index.js";
@@ -51,7 +52,7 @@ class TagsId extends Component {
                     <AskButton>Ask Question</AskButton>
                   </Link>
                 </TagContent>
-                <Desc>{}</Desc>
+                <Desc>{this.props.description}</Desc>
                 <WatchBar>
                   <WatchButton>
                     <svg
@@ -81,25 +82,32 @@ class TagsId extends Component {
                 </WatchBar>
               </LargeTinyTag>
               <Searches>
-                <QuestionIn>1,323,434,322 questions</QuestionIn>
+                <QuestionIn>
+                  {this.props[`${this.state.view}_total`] || this.props.total}{" "}
+                  question
+                  {this.props[`${this.state.view}_total`] == 1 ? "" : "s"}
+                </QuestionIn>
                 <SortBar>
                   {!this.state.view.includes("unanswered") ? (
                     <ButtonContainer>
                       <TabButton
                         onClick={() => this.handleView("newest")}
                         active={this.state.view === "newest"}
-                        activeNeigbor={this.state.view === "name"}
+                        activeNeigbor={this.state.view === "featured"}
                         position="left"
                       >
-                        <FeaturedBox>Newest</FeaturedBox>
+                        Newest
                       </TabButton>
                       <TabButton
-                        onClick={() => this.handleView("name")}
-                        active={this.state.view === "name"}
+                        onClick={() => this.handleView("featured")}
+                        active={this.state.view === "featured"}
                         activeNeigbor={this.state.view === "frequent"}
                         position="mid"
                       >
-                        <FeaturedBox>Featured</FeaturedBox>
+                        <FeaturedBox>
+                          <CountBox>{this.props.featured_total}</CountBox>
+                          Featured
+                        </FeaturedBox>
                       </TabButton>
                       <TabButton
                         onClick={() => this.handleView("frequent")}
@@ -107,7 +115,7 @@ class TagsId extends Component {
                         activeNeigbor={this.state.view === "votes"}
                         position="mid"
                       >
-                        <FeaturedBox>Frequent</FeaturedBox>
+                        Frequent
                       </TabButton>
                       <TabButton
                         onClick={() => this.handleView("votes")}
@@ -115,14 +123,14 @@ class TagsId extends Component {
                         activeNeigbor={this.state.view === "active"}
                         position="mid"
                       >
-                        <FeaturedBox>Votes</FeaturedBox>
+                        Votes
                       </TabButton>
                       <TabButton
                         onClick={() => this.handleView("active")}
                         active={this.state.view === "active"}
                         position="mid"
                       >
-                        <FeaturedBox>Active</FeaturedBox>
+                        Active
                       </TabButton>
                       <TabButton
                         onClick={() => this.handleView("unansweredNewest")}
@@ -191,7 +199,13 @@ function mapStateToProps(state) {
     votes,
     unansweredNewest,
     unansweredVotes,
-    unansweredNoAnswer
+    unansweredNoAnswer,
+    frequent_total,
+    featured_total,
+    total,
+    unanswered_total,
+    no_answer_total,
+    description
   } = state.tags;
   return {
     active,
@@ -201,7 +215,13 @@ function mapStateToProps(state) {
     votes,
     unansweredNewest,
     unansweredVotes,
-    unansweredNoAnswer
+    unansweredNoAnswer,
+    frequent_total,
+    featured_total,
+    total,
+    unanswered_total,
+    no_answer_total,
+    description
   };
 }
 
@@ -209,6 +229,9 @@ export default connect(
   mapStateToProps,
   { setTags }
 )(TagsId);
+const ButtonContainer = styled.div`
+  ${flex("row", "flex-end")}
+`;
 const QuestionIn = styled.div`
   display: flex;
   justify-content: center;
@@ -219,8 +242,22 @@ const SortBar = styled.div`
   flex-flow: row;
   justify-content: space-between;
 `;
-const FeaturedBox = styled.div``;
-const ButtonContainer = styled.div``;
+const FeaturedBox = styled.div`
+  ${flex()}
+  height: 15px;
+`;
+const CountBox = styled.div`
+  padding: 2px 5px 2.5px 5px;
+  background-color: ${featuredBoxBlue};
+  color: #fff;
+  font-size: 10px;
+  line-height: 10px;
+  border-radius: 3px;
+  margin-right: 5px;
+  margin-left: -2px;
+  position: relative;
+  top: 1px;
+`;
 const QuestionSection = styled.div``;
 const LargeTinyTag = styled.div`
   padding: 24px;
