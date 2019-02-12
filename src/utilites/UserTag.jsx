@@ -19,10 +19,9 @@ class UserTag extends Component {
     return (
       <Wrapper>
         <AskedLink to={`/questions/${question.question_id}`}>
-          {/* {difference} */}
+          {difference}
         </AskedLink>
         <br />
-        {difference}
         <UserInfo>
           <ProPic src={question.picture} alt="" />
           <UserName>
