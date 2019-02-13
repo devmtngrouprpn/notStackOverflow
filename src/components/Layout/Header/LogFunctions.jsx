@@ -13,9 +13,12 @@ class LogFunctions extends Component {
     this.props.addToUser(res.data);
   }
   login = () => {
-    const { REACT_APP_DOMAIN, REACT_APP_CLIENT_ID } = process.env;
-    // console.log(REACT_APP_CLIENT_ID, REACT_APP_DOMAIN)
-    const url = `http://localhost:4000/auth/callback`;
+    const {
+      REACT_APP_DOMAIN,
+      REACT_APP_CLIENT_ID,
+      REACT_APP_LOGIN
+    } = process.env;
+    const url = `${REACT_APP_LOGIN}`;
     window.location = `https://${REACT_APP_DOMAIN}/authorize?client_id=${REACT_APP_CLIENT_ID}&scope=openid%20profile%20email&redirect_uri=${url}&response_type=code`;
   };
   logout = async () => {

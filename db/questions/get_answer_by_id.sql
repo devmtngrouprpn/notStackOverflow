@@ -8,12 +8,10 @@ SELECT
 	) as reputation,
 	username,
 	(
-	select e.edit_id
+		select max(edit_id)
 	from edit as e
 	where source_id = a.answer_id
 		AND source_type = 'answer' and edit_accepted = TRUE
-	order by edit_date desc
-	limit 1
 	) as last_edit,
 	(
 	select sum(value)
