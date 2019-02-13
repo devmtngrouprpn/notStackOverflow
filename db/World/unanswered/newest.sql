@@ -29,7 +29,7 @@ SELECT
     question_creation_timestamp,
     q.user_id,
     (
-        select edit_id
+        select max(edit_id)
     from edit
     where source_id = q.question_id
         AND source_type = 'question'

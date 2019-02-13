@@ -63,27 +63,27 @@ app.delete("/api/edits", questions.declineEdit);
 app.post("/api/edits", questions.createEdit);
 app.post(
   "/api/question/vote",
-  (req, res, next) => {
-    const { value } = req.body;
-    const { reputation } = req.session.user;
-    if (value === -1) {
-      if (reputation >= 125) {
-        next();
-      } else {
-        res
-          .status(401)
-          .send("You Need 125 reputation to compleate this action.");
-      }
-    } else if (value === 1) {
-      if (reputation >= 15) {
-        next();
-      } else {
-        res
-          .status(401)
-          .send("You Need 15 reputation to compleate this action.");
-      }
-    }
-  },
+  // (req, res, next) => {
+  //   const { value } = req.body;
+  //   const { reputation } = req.session.user;
+  //   if (value === -1) {
+  //     if (reputation >= 125) {
+  //       next();
+  //     } else {
+  //       res
+  //         .status(401)
+  //         .send("You Need 125 reputation to compleate this action.");
+  //     }
+  //   } else if (value === 1) {
+  //     if (reputation >= 15) {
+  //       next();
+  //     } else {
+  //       res
+  //         .status(401)
+  //         .send("You Need 15 reputation to compleate this action.");
+  //     }
+  //   }
+  // },
   questions.addVote
 );
 app.post("/api/answer", questions.createAnswer);
