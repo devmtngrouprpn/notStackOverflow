@@ -23,7 +23,7 @@ class ArrowColumn extends Component {
     upvote = async () => {
         if (this.props.global.user.auth_id) {
             let res = await axios.post('/api/question/vote', {
-                user_id: this.props.global.user.auth_id, source_id: this.props.id, source_type: this.props.type, value: 1
+                user_id: this.props.global.user.auth_id, source_id: this.props.id, source_type: this.props.type, value: 1, owner_id: this.props.owner
             })
             this.props.reset();
         } else {
@@ -37,7 +37,7 @@ class ArrowColumn extends Component {
         })
         if (this.props.global.user.auth_id) {
             let res = await axios.post('/api/question/vote', {
-                user_id: this.props.global.user.auth_id, source_id: this.props.id, source_type: this.props.type, value: -1
+                user_id: this.props.global.user.auth_id, source_id: this.props.id, source_type: this.props.type, value: -1, owner_id: this.props.owner
             })
             this.props.reset();
         } else {

@@ -34,9 +34,9 @@ class QuestionCreator extends Component {
     };
     componentDidMount = async () => {
         let res = await axios.get('/api/tags/alltinytags');
-        console.log(res.data)
+        console.log(res.data.popular)
         this.setState({ tags: res.data.popular })
-        let array = this.state.tags.map((e) => { return e.name })
+        let array = this.state.tags.map((e) => { return e.tag_name })
         this.setState({ tagNames: array, loading: false })
 
     };
