@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import Layout from "../Layout/Layout1.jsx";
-import Answer from './Answer'
-import { Link } from 'react-router-dom'
-import AnswerCreator from './AnswerCreator'
-import UserTag from '../../utilites/UserTag'
-import ArrowColumn from '../../utilites/ArrowColumn'
-import CommentSection from './CommentSection'
-import ReactHtmlParser from 'react-html-parser'
+import Answer from "./Answer";
+import { Link } from "react-router-dom";
+import AnswerCreator from "./AnswerCreator";
+import UserTag from "../../utilites/UserTag";
+import ArrowColumn from "../../utilites/ArrowColumn";
+import CommentSection from "./CommentSection";
+import ReactHtmlParser from "react-html-parser";
 import {
   Page,
   Adds,
@@ -70,8 +70,8 @@ export default class QuestionId extends Component {
             <QuestionPage>
               <Content>
                 <Section>
-<<<<<<< HEAD
                   <ArrowColumn
+                    owner={question.user_id}
                     favnum={question.favorites}
                     reset={this.reMount}
                     id={question.question_id}
@@ -79,9 +79,6 @@ export default class QuestionId extends Component {
                     stars={question.favorites}
                     votes={question.votes}
                   />
-=======
-                  <ArrowColumn owner={question.user_id} favnum={question.favorites} reset={this.reMount} id={question.question_id} type={'question'} stars={question.favorites} votes={question.votes} />
->>>>>>> master
                   <QuestionContent>
                     {ReactHtmlParser(question.question_content)}
                     <QuestionTags>
@@ -144,9 +141,7 @@ export default class QuestionId extends Component {
     );
   }
 }
-<<<<<<< HEAD
 const Edit = styled(Link)``;
-const CompleteAnswer = styled.div``;
 const TotalAnswers = styled(P)`
   width: 100%;
   border-bottom: 1px solid ${borderGray};
@@ -154,19 +149,6 @@ const TotalAnswers = styled(P)`
   font-size: 18px;
   font-weight: 400;
 `;
-const NewAnswer = styled.div``;
-=======
-const Edit = styled(Link)`
-
-`
-const TotalAnswers = styled(P)`
-width:100%;
-border-bottom: 1px solid ${borderGray};
-padding-bottom:25px;
-font-size:18px;
-font-weight:400;
-`
->>>>>>> master
 const QuestionUserTag = styled(UserTag)`
   height: 50px;
   width: 50px;

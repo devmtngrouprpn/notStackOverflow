@@ -1,3 +1,5 @@
+import stringSimilarity from "string-similarity";
+import axios from "axios";
 export function toggle(value) {
   return !value;
 }
@@ -50,7 +52,7 @@ export async function getUserData(userId) {
 export async function getQuestions() {
   let res = await axios.get(`/api/questions/interesting`);
   return res.data.interesting;
-import stringSimilarity from "string-similarity";
+}
 
 export function stringCheck(value, tagNames) {
   let object = stringSimilarity.findBestMatch(value, tagNames);

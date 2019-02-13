@@ -12,6 +12,7 @@ import UsersId from "./components/Users/UsersId.jsx";
 import QuestionCreator from "./components/QuestionCreator/QuestionCreator";
 import QuestionEditor from "./components/Questions/QuestionEditor";
 import ScrollToTop from "./utilites/ScrollToTop";
+import AnswerEditor from "./components/Questions/AnswerEditor.jsx";
 class App extends Component {
   getHome() {
     let auth_id = "user1";
