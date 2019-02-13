@@ -33,8 +33,8 @@ class App extends Component {
           <Route path="/create-question" component={QuestionCreator} />
           <Route path="/edit/question/:id" component={QuestionEditor} />
           <Route path="/edit/answer/:id" component={AnswerEditor} />
-          {/* <Route path="/edit/accept/answer/:id" component={QuestionEditor} />
-          <Route path="/edit/accept/question/:id" component={QuestionEditor} /> */}
+          <Route path="/edit/accept/answer/:id" component={QuestionEditor} />
+          <Route path="/edit/accept/question/:id" component={QuestionEditor} />
         </Switch>
       </HashRouter>
     );
