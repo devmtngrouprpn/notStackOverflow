@@ -75,6 +75,7 @@ class QuestionCreator extends Component {
   };
   grabRelated = e => {
     this.setState({ typingTag: e.target.value });
+    console.log(stringCheck(e.target.value, this.state.tagNames));
     this.setState({
       tagsForMapping: stringCheck(e.target.value, this.state.tagNames)
     });
