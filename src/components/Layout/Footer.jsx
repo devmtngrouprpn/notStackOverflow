@@ -3,17 +3,7 @@ import styled from "styled-components";
 // import Logo from "./../../assets/NotStackOverFlowLogo.png";
 import {
   P,
-  hrGray,
-  flex,
-  tenKViews,
-  oneKViews,
-  TinyTag,
-  green,
-  questionBoxGray,
   H1,
-  H2,
-  StyledLink,
-  textLightGray,
   Logo
 } from "./../../utilites/index";
 // import Logo from "./../../utilites/globals";

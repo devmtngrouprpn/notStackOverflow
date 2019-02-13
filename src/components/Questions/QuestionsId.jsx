@@ -7,7 +7,7 @@ import AnswerCreator from './AnswerCreator'
 import UserTag from '../../utilites/UserTag'
 import ArrowColumn from '../../utilites/ArrowColumn'
 import CommentSection from './CommentSection'
-import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser'
+import ReactHtmlParser from 'react-html-parser'
 import {
   Page,
   Adds,
@@ -21,7 +21,6 @@ import {
   TinyTag
 } from "../../utilites/index.js";
 import axios from "axios";
-import { format } from "path";
 
 export default class QuestionId extends Component {
   state = {
@@ -103,16 +102,12 @@ export default class QuestionId extends Component {
 const Edit = styled(Link)`
 
 `
-const CompleteAnswer = styled.div``
 const TotalAnswers = styled(P)`
 width:100%;
 border-bottom: 1px solid ${borderGray};
 padding-bottom:25px;
 font-size:18px;
 font-weight:400;
-`
-const NewAnswer = styled.div`
-
 `
 const QuestionUserTag = styled(UserTag)`
 height:50px;

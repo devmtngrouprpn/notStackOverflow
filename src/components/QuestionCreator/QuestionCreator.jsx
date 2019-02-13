@@ -328,14 +328,6 @@ const SearchBoxNotForTags = styled(SearchBar)`
   width: 100%;
   margin-bottom: 20px;
 `;
-const SearchBox = styled(SearchBar)`
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-  max-height: 50px;
-  margin-left: 0;
-  border-left: none;
-  width: available;
-`;
 const TinyTagHolder = styled.div`
   height: 30px;
   width: fit-content;
