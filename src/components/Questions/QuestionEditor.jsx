@@ -7,6 +7,7 @@ import Quill from "../QuestionCreator/Quil";
 import { connect } from "react-redux";
 import ReactHtmlParser from 'react-html-parser'
 import { Link } from 'react-router-dom'
+import { stringObjectToArray } from '../../test/Logic'
 import Select from 'react-select'
 // import { SearchBar } from '../../utilites/globals';
 import Layout from '../Layout/Layout1'
@@ -60,7 +61,7 @@ class QuestionEditor extends Component {
     handleSelectChange = async (selectedOption) => {
         if (selectedOption.label === 'Active Edit') {
             selectedOption = selectedOption.value
-            await this.setState({ idPayload: selectedOption.edit_id, viewingActive: true, updateTextArea: true, titlePayload: selectedOption.edit_title, descPayload: selectedOption.edit_content, tagsPayload: selectedOption.edit_tags.split('{')[1].split('}')[0].split(','), summaryPayload: selectedOption.edit_summary });
+            await this.setState({ idPayload: selectedOption.edit_id, viewingActive: true, updateTextArea: true, titlePayload: selectedOption.edit_title, descPayload: selectedOption.edit_content, tagsPayload: stringObjectToArray(selectedOption.edit_tags), summaryPayload: selectedOption.edit_summary });
         } else {
             selectedOption = selectedOption.value.e
             await this.setState({ idPayload: selectedOption.edit_id, viewingActive: false, updateTextArea: true, titlePayload: selectedOption.edit_title, descPayload: selectedOption.edit_content, tagsPayload: selectedOption.edit_tags.split('{')[1].split('}')[0].split(','), summaryPayload: selectedOption.edit_summary });
