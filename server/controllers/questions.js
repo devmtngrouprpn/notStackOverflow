@@ -273,8 +273,13 @@ module.exports = {
       source_id,
       source_type
     ]);
-    activeEdit = activeEdit[0];
-    res.status(200).send({ pastEdits, activeEdit });
+    activeEdit = activeEdit[0]
+    console.log(activeEdit)
+    if (activeEdit) {
+      res.status(200).send({ pastEdits, activeEdit });
+    } else {
+      res.sendStatus(404)
+    }
   },
   acceptEdit: async (req, res) => {
     const db = req.app.get("db");

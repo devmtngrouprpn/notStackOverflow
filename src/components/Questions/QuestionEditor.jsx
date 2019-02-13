@@ -35,35 +35,43 @@ class QuestionEditor extends Component {
             summaryPayload: '',
             selectedOption: 'your edit',
             choices: [],
-
+            updateTextArea: false
         }
     }
     componentDidMount = async () => {
         const res = await axios.get(
             `/api/question/indv?id=${+this.props.match.params.id}`
         );
-        console.log('mounting')
         let res2 = await axios.get('/api/tags/alltinytags');
         await this.setState({ user: res.data.user_id, original: res.data.question_content, source: res.data.question_id, loading: false, descPayload: res.data.question_content, tagsPayload: res.data.tags, titlePayload: res.data.question_title });
         await this.setState({ tags: res2.data.popular })
         let array = this.state.tags.map((e) => { return e.tag_name })
         this.setState({ tagNames: array, loading: false })
-        console.log({ source_id: this.state.source, source_type: 'question' })
         let options = await axios.post('/api/page-edits', { source_id: this.state.source, source_type: 'question' });
-        this.setState({ choices: [options.data.activeEdit] })
-        console.log(options, 'yo')
-        console.log('mounted')
+        let edits
+        if (options.data.pastEdits) {
+            edits = options.data.pastEdits.map(e => { return { label: `Past Edit # ${e.edit_id}`, value: { e } } })
+        } else { edits = [] }
+        this.setState({ choices: [{ value: options.data.activeEdit, label: "Active Edit" }, ...edits] })
+        console.log(options.data.pastEdits)
     };
-    handleSelectChange = (selectedOption) => {
-        console.log(typeof selectedOption.edit_tags)
-        this.setState({ titlePayload: selectedOption.edit_title, descPayload: selectedOption.descPayload, tagsPayload: selectedOption.edit_tags, summaryPayload: selectedOption.edit_summary });
+    handleSelectChange = async (selectedOption) => {
+        if (selectedOption.label == 'Active Edit') {
+            selectedOption = selectedOption.value
+            await this.setState({ updateTextArea: true, titlePayload: selectedOption.edit_title, descPayload: selectedOption.edit_content, tagsPayload: selectedOption.edit_tags.split('{')[1].split('}')[0].split(','), summaryPayload: selectedOption.edit_summary });
+        } else {
+            selectedOption = selectedOption.value.e
+            await this.setState({ updateTextArea: true, titlePayload: selectedOption.edit_title, descPayload: selectedOption.edit_content, tagsPayload: selectedOption.edit_tags.split('{')[1].split('}')[0].split(','), summaryPayload: selectedOption.edit_summary });
+        }
+
+        this.setState({ updateTextArea: false })
+        console.log(selectedOption)
     }
     handleChange = async (defaultValue = '') => {
         await this.setState({ descPayload: defaultValue })
     }
     grabRelated = (e) => {
         this.setState({ typingTag: e.target.value })
-        console.log(this.state.tagNames)
         let object = stringSimilarity.findBestMatch(e.target.value, this.state.tagNames)
         object = object.ratings.sort((a, b) => { return a.rating * 100 - b.rating * 100 }).reverse().filter(a => a.rating > 0)
         object = object.slice(0, 6)
@@ -107,11 +115,11 @@ class QuestionEditor extends Component {
                                 <T>We welcome all constructive edits, but please make them substantial. Avoid trivial edits unless absolutely necessary. </T>
                             </Head>
                             <TagBar>View Other Edits</TagBar>
-                            <TheSelect value={this.state.selectedOption} onChange={this.handleSelectChange} options={this.state.choices} />
+                            <TheSelect value={this.state.selectedOption.auth_id} onChange={this.handleSelectChange} options={this.state.choices} />
                             <TagBar>Title</TagBar>
                             <SearchBoxNotForTags value={this.state.titlePayload} onChange={e => this.setState({ titlePayload: e.target.value })} />
                             <TagBar>Body</TagBar>
-                            <TextSpot dataStore={this.handleChange} reset={this.state.toggle} text={this.state.descPayload} />
+                            <TextSpot reload={this.state.updateTextArea} dataStore={this.handleChange} reset={this.state.toggle} text={this.state.descPayload} />
                             <Original>
                                 {ReactHtmlParser(this.state.original)}
                             </Original>
@@ -140,7 +148,7 @@ class QuestionEditor extends Component {
                                 </TinyTagHolder>
                             })}</Suggestions>
                             <TagBar>Edit Summary</TagBar>
-                            <SearchBoxNotForTags placeholder='briefly explain your changes (corrected spelling, fixed grammar, improved formatting' onChange={e => this.setState({ summaryPayload: e.target.value })} />
+                            <SearchBoxNotForTags value={this.state.summaryPayload} placeholder='briefly explain your changes (corrected spelling, fixed grammar, improved formatting' onChange={e => this.setState({ summaryPayload: e.target.value })} />
                             <Options>
                                 <Button onClick={this.uploadEdit}>Submit Edit</Button>
                                 {this.props.global.user.reputation > 10000 || this.props.global.user.auth_id == this.state.user_id ? <Button>Accept Edit</Button> : <></>}

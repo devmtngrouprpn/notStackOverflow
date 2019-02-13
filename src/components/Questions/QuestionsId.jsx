@@ -66,7 +66,7 @@ export default class QuestionId extends Component {
             <QuestionPage>
               <Content>
                 <Section>
-                  <ArrowColumn favnum={question.favorites} reset={this.reMount} id={question.question_id} type={'question'} stars={question.favorites} votes={question.votes} />
+                  <ArrowColumn owner={question.user_id} favnum={question.favorites} reset={this.reMount} id={question.question_id} type={'question'} stars={question.favorites} votes={question.votes} />
                   <QuestionContent>
                     {ReactHtmlParser(question.question_content)}
                     <QuestionTags>
