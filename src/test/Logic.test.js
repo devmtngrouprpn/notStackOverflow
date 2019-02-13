@@ -1,5 +1,4 @@
-import { stringCheck } from "./Logic.js";
-
+import { stringCheck, stringObjectToArray } from "./Logic.js";
 describe("testing a string similarity function", () => {
   const dummyTags = [
     "react",
@@ -24,5 +23,20 @@ describe("testing a string similarity function", () => {
     expect(stringCheck("re", dummyTags).length >= 1).toBe(true);
   });
 
-  test("", () => {});
+  test("", () => { });
 });
+
+
+//McCoy's tests
+test('returns an array', () => {
+  expect(Array.isArray(stringObjectToArray('{heyo,lol}'))).toBe(true);
+})
+test('returns correct parsed array', () => {
+  expect(stringObjectToArray('{heyo,lol}')).toEqual(['heyo', 'lol']);
+})
+test('can handle strings', () => {
+  expect(stringObjectToArray('heyo,lol')).toEqual(['heyo', 'lol']);
+})
+test('can handle large objects', () => {
+  expect(stringObjectToArray)
+})
