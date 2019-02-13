@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import styled from "styled-components";
+import axios from "axios";
 // import Logo from "./../../assets/NotStackOverFlowLogo.png";
 import {
   P,
@@ -17,8 +18,12 @@ import {
   Logo
 } from "./../../utilites/index";
 // import Logo from "./../../utilites/globals";
-
 class Foooter extends Component {
+  async SendMail() {
+    let res = await axios.get("/send/mail");
+    console.log("Sending");
+    alert(res.data.msg);
+  }
   render() {
     return (
       <SiteFooter>
@@ -128,7 +133,7 @@ class Foooter extends Component {
                 LinkedIn
               </SiteFooterLink>
             </SiteFooterList>
-            <SiteFooterLink href="">
+            <SiteFooterLink onClick={() => this.SendMail()}>
               site design / logo © 2019 Stack Exchange Inc; user contributions
               licensed under cc by-sa 3.0 with attribution required. rev
               2019.2.5.32815

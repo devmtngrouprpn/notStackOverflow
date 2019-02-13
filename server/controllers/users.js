@@ -7,6 +7,7 @@ module.exports = {
   getFullUserData: async (req, res) => {
     const db = req.app.get("db");
     const { user_id } = req.query;
+    console.log("here", user_id);
     const user = await db.Users.select_user_data([user_id]);
 
     res.status(200).send({ basicData: user });

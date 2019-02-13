@@ -79,7 +79,7 @@ class User extends Component {
                     <Flex>
                       <Image src={`${user.picture}`} alt="image" />
                       <UserInfo>
-                        <StyledCardLink to={`/users/${user.username}`}>
+                        <StyledCardLink to={`/users/${user.auth_id}`}>
                           <P>{user.username}</P>
                         </StyledCardLink>
                         <Location>Candada,North America</Location>

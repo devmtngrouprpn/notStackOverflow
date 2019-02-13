@@ -1,124 +1,49 @@
-/* eslint no-console: 0 */
-
-"use strict";
-
-const nodemailer = require("../lib/nodemailer");
-
-// Generate SMTP service account from ethereal.email
-nodemailer.createTestAccount((err, account) => {
-  if (err) {
-    console.error("Failed to create a testing account");
-    console.error(err);
-    return process.exit(1);
-  }
-
-  console.log("Credentials obtained, sending message...");
-
-  // NB! Store the account object values somewhere if you want
-  // to re-use the same account for future mail deliveries
-
-  // Create a SMTP transporter object
-  let transporter = nodemailer.createTransport(
-    {
-      host: account.smtp.host,
-      port: account.smtp.port,
-      secure: account.smtp.secure,
+const nodemailer = require("nodemailer");
+module.exports = {
+  SendMail: async (req, res) => {
+    const output = `
+      <p>Hello This is sent over mail</p>
+      <ul>
+      <il>This</il>
+      <il>Is</il>
+      <il>A <il>
+      <il>New</il>
+      </ul>
+    `;
+    // create reusable transporter object using the default SMTP transport
+    let transporter = nodemailer.createTransport({
+      host: "smtp.gmail.com",
+      port: 587,
+      secure: false, // true for 465, false for other ports
       auth: {
-        user: account.user,
-        pass: account.pass
+        user: "ryanzhutch@gmail.com", // generated ethereal user
+        pass: "D!rtbike98" // generated ethereal password
       },
-      logger: true,
-      debug: false // include SMTP traffic in the logs
-    },
-    {
-      // default message fields
-
-      // sender info
-      from: "Pangalink <no-reply@pangalink.net>",
-      headers: {
-        "X-Laziness-level": 1000 // just an example header, no need to use this
+      tls: {
+        rejectUnauthorized: false
       }
-    }
-  );
+    });
 
-  // Message object
-  let message = {
-    // Comma separated list of recipients
-    to: "Andris Reinman <andris.reinman@gmail.com>",
+    // setup email data with unicode symbols
+    let mailOptions = {
+      from: '"Im Scary 👻" <rzhutch98@gmail.com', // sender address
+      to: "rzhutch98@gmail.com", // list of receivers
+      subject: "New World", // Subject line
+      text: "Hello world?", // plain text body
+      html: output // html body
+    };
 
-    // Subject of the message
-    subject: "Nodemailer is unicode friendly ✔",
-
-    // plaintext body
-    text: "Hello to myself!",
-
-    // HTML body
-    html:
-      '<p><b>Hello</b> to myself <img src="cid:note@example.com"/></p>' +
-      '<p>Here\'s a nyan cat for you as an embedded attachment:<br/><img src="cid:nyan@example.com"/></p>',
-
-    // An array of attachments
-    attachments: [
-      // String attachment
-      {
-        filename: "notes.txt",
-        content: "Some notes about this e-mail",
-        contentType: "text/plain" // optional, would be detected from the filename
-      },
-
-      // Binary Buffer attachment
-      {
-        filename: "image.png",
-        content: Buffer.from(
-          "iVBORw0KGgoAAAANSUhEUgAAABAAAAAQAQMAAAAlPW0iAAAABlBMVEUAAAD/" +
-            "//+l2Z/dAAAAM0lEQVR4nGP4/5/h/1+G/58ZDrAz3D/McH8yw83NDDeNGe4U" +
-            "g9C9zwz3gVLMDA/A6P9/AFGGFyjOXZtQAAAAAElFTkSuQmCC",
-          "base64"
-        ),
-
-        cid: "note@example.com" // should be as unique as possible
-      },
-
-      // File Stream attachment
-      {
-        filename: "nyan cat ✔.gif",
-        path: __dirname + "/assets/nyan.gif",
-        cid: "nyan@example.com" // should be as unique as possible
+    // send mail with defined transport object
+    let info = await transporter.sendMail(mailOptions, (err, info) => {
+      if (err) {
+        console.log(err, info);
       }
-    ],
+    });
 
-    list: {
-      // List-Help: <mailto:admin@example.com?subject=help>
-      help: "admin@example.com?subject=help",
-
-      // List-Unsubscribe: <http://example.com> (Comment)
-      unsubscribe: [
-        {
-          url: "http://example.com/unsubscribe",
-          comment: "A short note about this url"
-        },
-        "unsubscribe@example.com"
-      ],
-
-      // List-ID: "comment" <example.com>
-      id: {
-        url: "mylist.example.com",
-        comment: "This is my awesome list"
-      }
-    }
-  };
-
-  transporter.sendMail(message, (error, info) => {
-    if (error) {
-      console.log("Error occurred");
-      console.log(error.message);
-      return process.exit(1);
-    }
-
-    console.log("Message sent successfully!");
-    console.log(nodemailer.getTestMessageUrl(info));
-
-    // only needed when using pooled connections
-    transporter.close();
-  });
-});
+    // console.log("Message sent: %s", info.messageId);
+    // Preview only available when sending through an Ethereal account
+    // console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+    // res.render(`Home`, { msg: "Mail has been sent" });
+    res.status(200).send({ msg: "Mail Has Been Sent" });
+  }
+};

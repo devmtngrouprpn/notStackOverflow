@@ -36,6 +36,7 @@ class Home extends Component {
   async getQuestions() {
     let res = await axios.get(`/api/questions/interesting`);
     this.props.update_home(res.data);
+    console.log(res.data.interesting.length);
     this.setState({ loading: false });
   }
 
