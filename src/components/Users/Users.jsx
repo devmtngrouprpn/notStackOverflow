@@ -4,7 +4,7 @@ import Layout from "../Layout/Layout1.jsx";
 import { connect } from "react-redux";
 import { SearchBar } from "../../utilites/globals";
 
-import { flex, P, H1, StyledLink, TabButton } from "../../utilites/index.js";
+import { P, H1, StyledLink, TabButton } from "../../utilites/index.js";
 import axios from "axios";
 
 class User extends Component {
@@ -88,7 +88,7 @@ class User extends Component {
                     </Flex>
                     <WatchedTags>{`${
                       user.tags_watching[0] ? user.tags_watching : ""
-                    }`}</WatchedTags>
+                      }`}</WatchedTags>
                   </UserContainer>
                 );
               })}
@@ -145,7 +145,7 @@ const ButtonContainer = styled.div`
   display: flex;
   flex-wrap: nowrap;
 `;
-const FeaturedBox = styled.div``;
+// const FeaturedBox = styled.div``;
 const Image = styled.img`
   width: 48px;
   box-shadow: 2px 2px 4px rgba(12, 13, 14, 0.5);
@@ -166,7 +166,6 @@ const Repuation = styled.div`
   margin-right: 2px;
   color: #6a737c;
 `;
-const Username = styled.div``;
 const UserContainer = styled.div`
   /* display:flex; */
   padding: 5px 6px 7px 7px;

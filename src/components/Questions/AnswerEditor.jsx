@@ -17,7 +17,7 @@ import {
     blueButton,
 } from "./../../utilites/index";
 
-class QuestionEditor extends Component {
+class AnswerEditor extends Component {
     constructor() {
         super()
         this.state = {
@@ -41,15 +41,15 @@ class QuestionEditor extends Component {
     }
     componentDidMount = async () => {
         const res = await axios.get(
-            `/api/question/indv?id=${+this.props.match.params.id}`
+            `/api/answer/indv?id=${+this.props.match.params.id}`
         );
         console.log(res)
         let res2 = await axios.get('/api/tags/alltinytags');
-        await this.setState({ user: res.data.user_id, original: res.data.question_content, source: res.data.question_id, loading: false, descPayload: res.data.question_content, tagsPayload: res.data.tags, titlePayload: res.data.question_title });
+        await this.setState({ user: res.data.user_id, original: res.data.answer_content, source: res.data.answer_id, loading: false, descPayload: res.data.answer_content, tagsPayload: res.data.tags, titlePayload: res.data.answer_title });
         await this.setState({ tags: res2.data.popular })
         let array = this.state.tags.map((e) => { return e.tag_name })
         this.setState({ tagNames: array, loading: false })
-        let options = await axios.post('/api/page-edits', { source_id: this.state.source, source_type: 'question' });
+        let options = await axios.post('/api/page-edits', { source_id: this.state.source, source_type: 'answer' });
         let edits
         if (options.data.pastEdits) {
             edits = options.data.pastEdits.map(e => { return { label: `Past Edit # ${e.edit_id}`, value: { e } } })
@@ -72,19 +72,12 @@ class QuestionEditor extends Component {
     handleChange = async (defaultValue = '') => {
         await this.setState({ descPayload: defaultValue })
     }
-    grabRelated = (e) => {
-        this.setState({ typingTag: e.target.value })
-        let object = stringSimilarity.findBestMatch(e.target.value, this.state.tagNames)
-        object = object.ratings.sort((a, b) => { return a.rating * 100 - b.rating * 100 }).reverse().filter(a => a.rating > 0)
-        object = object.slice(0, 6)
-        this.setState({ tagsForMapping: object })
-    }
     acceptEdit = async () => {
         await axios.put('/api/edits', {
             edit_id: this.state.idPayload,
             user_id: this.props.global.user.auth_id,
             source_id: this.state.source,
-            source_type: 'question',
+            source_type: 'answer',
             edit_content: this.state.descPayload,
             edit_title: this.state.titlePayload,
             edit_tags: this.state.tagsPayload
@@ -96,10 +89,6 @@ class QuestionEditor extends Component {
         await axios.delete(`/api/edits?edit_id=${this.state.idPayload}`)
         this.props.history.goBack()
 
-    }
-    removeTag = (tag) => {
-        let newArr = this.state.tagsPayload.filter((e) => { return e !== tag })
-        this.setState({ tagsPayload: newArr })
     }
     uploadEdit = async () => {
         console.log(this.state.question_id)
@@ -118,17 +107,6 @@ class QuestionEditor extends Component {
                 this.props.history.goBack()
             } else { alert("you must select at least one related tag") }
         } else { alert('you must be logged in to submit edits') }
-    }
-    test = () => {
-        console.log({
-            edit_title: this.state.titlePayload,
-            edit_content: this.state.descPayload,
-            edit_summary: this.state.summaryPayload,
-            edit_tags: this.state.tagsPayload,
-            user_id: this.props.global.user.auth_id,
-            source_id: +this.props.match.params.id,
-            source_type: 'question'
-        })
     }
     render() {
         return (
@@ -151,30 +129,6 @@ class QuestionEditor extends Component {
                             <Original>
                                 {ReactHtmlParser(this.state.original)}
                             </Original>
-                            <DualBox>
-                                <HiddenTags>{this.state.tagsPayload.map((e) => {
-                                    return <BadTag onClick={
-                                        () => { this.removeTag(e) }
-                                    }>
-                                        <TinyTag subject={e} x={true} notClickable={true} />
-                                    </BadTag>
-                                })}</HiddenTags>
-                                <TagBox value={this.state.typingTag} onChange={(value) => this.grabRelated(value)} />
-                            </DualBox>
-                            <Suggestions>{this.state.tagsForMapping.map((e) => {
-                                return <TinyTagHolder
-                                    onClick={() => {
-                                        if (!this.state.tagsPayload.includes(e.target)) {
-                                            this.setState({ tagsPayload: [...this.state.tagsPayload, e.target], typingTag: '' })
-                                        }
-                                    }
-                                    }
-                                >
-                                    <TinyTag
-                                        subject={e.target} notClickable={true}
-                                    />
-                                </TinyTagHolder>
-                            })}</Suggestions>
                             <TagBar>Edit Summary</TagBar>
                             <SearchBoxNotForTags value={this.state.summaryPayload} placeholder='briefly explain your changes (corrected spelling, fixed grammar, improved formatting' onChange={e => this.setState({ summaryPayload: e.target.value })} />
                             <Options>
@@ -210,7 +164,7 @@ class QuestionEditor extends Component {
 function mapStateToProps(reduxStore) {
     return { ...reduxStore };
 }
-export default connect(mapStateToProps)(QuestionEditor);
+export default connect(mapStateToProps)(AnswerEditor);
 const Cancel = styled(Link)`
 font-family:Helvetica;
 text-decoration:none;
@@ -275,82 +229,11 @@ const T = styled.div`
 margin-bottom:1em;
 font-size:14px;
 `
-const BadTag = styled.div`
-width: fit-content;
-height: fit-content;
-`;
-const TagBox = styled(SearchBar)`
-border-top-left-radius:0;
-border-bottom-left-radius: 0;
-max-height: 50px;
-margin-left:0;
-border-left:none;
-width: available;
-:focus{
-box-shadow:none;
-outline:none;
-border:none;
-/* border-color: transparent; */
-                            }
-                            `
-const DualBox = styled.div`
-                            flex-wrap: nowrap;
-                            display:flex;
-                            max-height: 40px;
-                            width: 100%;
-                            display: flex;
-                            border-radius: 3px;
-:focus-within{
-                                outline: none;
-                            /* border: 1px solid #66bfff; */
-                            border:none;
-                            border-color: transparent;
-                            
-                            box-shadow: 0 0 0 4px rgba(0, 149, 256, 0.15);
-                            }
-                            `;
-const HiddenTags = styled.div`
-                            display:flex;
-                            max-height: 50px;
-                            border: 1px solid lightgray;
-                            border-radius:3px;
-                            margin-right: 0;
-                            border-right: none;
-                            border-bottom-right-radius: 0;
-                            border-top-right-radius:0;
-                            border-top-left-radius: 3px;
-                            border-top-right-radius: 3px;
-:focus{
-                                /* border-color: transparent; */
-                                box-shadow: none;
-                            border-top-right-radius:0;
-                            outline:none;
-                            border: 1px solid lightgray;
-                            
-                            }
-:active{
-                                border: none;
-                            }
-                            `
 const SearchBoxNotForTags = styled(SearchBar)`
                             max-height: 50px;
                             margin-left: 0;
                             width: 100%;
                             margin-bottom: 20px;
-                            `;
-const TinyTagHolder = styled.div`
-                            height: 30px;
-                            width: fit-content;
-                            `;
-const Suggestions = styled.div`
-                            padding: 20px;
-                            display: flex;
-                            position: relative;
-                            border-radius: 3px;
-                            left: 6px;
-                            box-sizing: border-box;
-                            width: 100%;
-                            /* height: 200px; */
                             `;
 const TextSpot = styled(Quill)`
                             width: 100%;

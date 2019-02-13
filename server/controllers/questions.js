@@ -115,7 +115,6 @@ module.exports = {
       question_id: id,
       question_views: question[0].question_views + 1
     });
-    // console.log(question);
     res.status(200).send(question[0]);
   },
   answerById: async (req, res) => {
@@ -132,7 +131,7 @@ module.exports = {
   },
   // ==========================================================
   addVote: async (req, res) => {
-    const { user_id, source_id, source_type, value } = req.body;
+    const { user_id, source_id, source_type, value, owner_id } = req.body;
     const db = req.app.get("db");
     const check = await db.questions.check_vote([
       user_id,
@@ -140,19 +139,78 @@ module.exports = {
       source_type
     ]);
 
-    // const repCheck = db.questions.check_rep([user_id]);
+    const repCheck = await db.questions.check_rep([
+      source_type.toString(),
+      source_id.toString(),
+      owner_id
+    ]);
 
-    if (req.session.user) {
-      if (!check[0]) {
-        await db.vote.insert({ user_id, source_id, source_type, value });
-        res.sendStatus(201);
+    // console.log(repCheck);
+
+    let rep_value =
+      value > 0
+        ? source_type === "question"
+          ? 5
+          : source_type === "answer"
+          ? 10
+          : 0
+        : -2;
+
+    console.log(rep_value);
+    if (source_type === "question" || source_type === "answer") {
+      if (check[0]) {
+        if (
+          (value > 0 && check[0].value > 0) ||
+          (value < 0 && check[0].value < 0)
+        ) {
+        } else {
+          if (value < 0) {
+            db.reputation.save;
+            // a change to downvote
+          } else {
+            // a change to upvote
+          }
+        }
+        // vote exists flip rep
       } else {
-        await db.vote.save({ vote_id: check[0].vote_id, value });
-        res.sendStatus(200);
+        console.log("nothing made");
+        if (repCheck[0]) {
+          db.reputation.save({
+            reputation_id: repCheck[0].reputation_id,
+            amount: repCheck[0].amount + rep_value
+          });
+        } else {
+          db.reputation.input({
+            user_id: owner_id,
+            amount: rep_value,
+            action_type: "vote",
+            source_id,
+            source_type
+          });
+        }
+        if (rep_value < 0) {
+          db.reputation.insert({
+            user_id,
+            amount: -1,
+            action_type: "downvote",
+            source_id,
+            source_type
+          });
+        }
       }
-    } else {
-      res.sendStatus(401);
     }
+
+    // if (req.session.user) {
+    if (!check[0]) {
+      await db.vote.insert({ user_id, source_id, source_type, value });
+      res.sendStatus(201);
+    } else {
+      await db.vote.save({ vote_id: check[0].vote_id, value });
+      res.sendStatus(200);
+    }
+    // } else {
+    // res.sendStatus(401);
+    // }
   },
   // ==========================================================
   addFavorite: async (req, res) => {
@@ -185,7 +243,7 @@ module.exports = {
     res.sendStatus(201);
   },
   // ==========================================================
-  editQuestion: async (req, res) => {
+  createEdit: async (req, res) => {
     const db = req.app.get("db");
     const {
       edit_title,
@@ -211,10 +269,72 @@ module.exports = {
     const db = req.app.get("db");
     const { source_id, source_type } = req.body;
     const pastEdits = await db.questions.get_edits([source_id, source_type]);
-    const activeEdit = await db.questions.get_active_edits([
+    let activeEdit = await db.questions.get_active_edit([
       source_id,
       source_type
     ]);
-    res.status(200).send({ pastEdits, activeEdit });
+    activeEdit = activeEdit[0]
+    console.log(activeEdit)
+    if (activeEdit) {
+      res.status(200).send({ pastEdits, activeEdit });
+    } else {
+      res.sendStatus(404)
+    }
+  },
+  acceptEdit: async (req, res) => {
+    console.log('accept edit hit')
+    const db = req.app.get("db");
+    const {
+      edit_id,
+      user_id,
+      source_id,
+      source_type,
+      edit_content,
+      edit_title,
+      edit_tags
+    } = req.body;
+    if (source_type === "question") {
+      await db.question.save({
+        question_id: source_id,
+        question_title: edit_title,
+        question_content: edit_content
+      });
+      await db.questions.clear_tags([source_id]);
+      await Promise.all([
+        edit_tags.map(tag =>
+          db.question_tag.insert({ tag_name: tag, question_id: source_id })
+        )
+      ]);
+      await db.reputation.insert({
+        user_id,
+        amount: 2,
+        action_type: "edit",
+        source_id,
+        source_type
+      });
+      await db.edit.save({ edit_id, edit_accepted: true });
+    } else if (source_type === "answer") {
+      await db.answer.save({
+        answer_id: source_id,
+        answer_content: edit_content
+      });
+      await db.reputation.insert({
+        user_id,
+        amount: 2,
+        action_type: "edit",
+        source_id,
+        source_type
+      });
+      await db.edit.save({ edit_id, edit_accepted: true });
+    } else if (source_type === "comment") {
+      await db.comment.save({ comment_id: source_id, content: edit_content });
+    }
+    res.sendStatus(200);
+  },
+  declineEdit: async (req, res) => {
+    const db = req.app.get("db");
+    const { edit_id } = req.query;
+    db.edit.destroy({ edit_id });
+    res.sendStatus(200);
   }
 };

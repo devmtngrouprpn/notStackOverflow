@@ -28,9 +28,13 @@ module.exports = {
       db.Tags.unanswered_newest([tag_name]),
       db.Tags.unanswered_votes([tag_name]),
       db.Tags.no_answers([tag_name]),
-      db.Tags.frequent_total([tag_name])
+      db.Tags.frequent_total([tag_name]),
+      db.Tags.featured_total([tag_name]),
+      db.Tags.question_total([tag_name]),
+      db.Tags.unanswered_total([tag_name]),
+      db.Tags.no_answer_total([tag_name]),
+      db.Tags.details([tag_name])
     ]);
-    console.log(results);
     const [
       active,
       frequent,
@@ -39,7 +43,13 @@ module.exports = {
       votes,
       unansweredNewest,
       unansweredVotes,
-      unansweredNoAnswer
+      unansweredNoAnswer,
+      frequent_total,
+      featured_total,
+      total,
+      unanswered_total,
+      no_answer_total,
+      description
     ] = results;
     res.status(200).send({
       active,
@@ -49,7 +59,16 @@ module.exports = {
       votes,
       unansweredNewest,
       unansweredVotes,
-      unansweredNoAnswer
+      unansweredNoAnswer,
+      frequent_total: frequent_total[0].question_total,
+      featured_total: featured_total[0].featured_total,
+      active_total: total[0].question_total,
+      votes_total: total[0].question_total,
+      newest_total: total[0].question_total,
+      unansweredNewest_total: unanswered_total[0].count,
+      unansweredVotes_total: unanswered_total[0].count,
+      unansweredNoAnswer_total: no_answer_total[0].count,
+      description: description[0].description
     });
   }
 };
