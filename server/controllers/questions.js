@@ -7,7 +7,6 @@ module.exports = {
   },
   // ==========================================================
   questionsInteresting: async (req, res, next) => {
-    // console.log("starting");
     let db = req.app.get("db");
     let dbResult = await Promise.all([
       db.Home.interesting([]),
@@ -17,7 +16,6 @@ module.exports = {
       db.Home.month([]),
       db.Home.tfeatured([])
     ]);
-    // console.log("ending");
     let [interesting, featured, hot, week, month, tfeatured] = dbResult;
     res
       .status(200)
@@ -93,10 +91,9 @@ module.exports = {
     let dbResult = await Promise.all([
       db.user_input.new_question([userId, content, title])
     ]).catch(err => {
-      // console.log(err);
+      console.log(err);
     });
     let question_id = dbResult[0][0].question_id;
-    // console.log(question_id, dbResult[0][0]);
     tags.forEach(tag => {
       db.user_input.new_question_tag([tag, question_id]);
     });
@@ -145,18 +142,20 @@ module.exports = {
       owner_id
     ]);
 
-    // console.log(repCheck);
+    let rep_value;
 
-    let rep_value =
-      value > 0
-        ? source_type === "question"
-          ? 5
-          : source_type === "answer"
-          ? 10
-          : 0
-        : -2;
+    if (value > 0) {
+      if (source_type === "question") {
+        rep_value = 5;
+      } else if ((source_type = "answer")) {
+        rep_value = 10;
+      } else {
+        rep_value = 0;
+      }
+    } else {
+      rep_value = -2;
+    }
 
-    console.log(rep_value);
     if (source_type === "question" || source_type === "answer") {
       if (check[0]) {
         if (
@@ -165,9 +164,29 @@ module.exports = {
         ) {
         } else {
           if (value < 0) {
-            db.reputation.save;
+            db.reputation.save({
+              reputation_id: repCheck[0].reputation_id,
+              amount:
+                repCheck[0].amount - (source_type === "question" ? 5 : 10) - 2
+            });
+            db.reputation.insert({
+              user_id,
+              amount: -1,
+              action_type: "downvote",
+              source_id,
+              source_type
+            });
             // a change to downvote
           } else {
+            db.reputation.save({
+              reputation_id: repCheck[0].reputation_id,
+              amount: repCheck[0].amount + 2 + rep_value
+            });
+            db.questions.destroy_downvote([
+              user_id,
+              source_id.toString(),
+              source_type
+            ]);
             // a change to upvote
           }
         }
@@ -200,17 +219,17 @@ module.exports = {
       }
     }
 
-    // if (req.session.user) {
-    if (!check[0]) {
-      await db.vote.insert({ user_id, source_id, source_type, value });
-      res.sendStatus(201);
+    if (req.session.user) {
+      if (!check[0]) {
+        await db.vote.insert({ user_id, source_id, source_type, value });
+        res.sendStatus(201);
+      } else {
+        await db.vote.save({ vote_id: check[0].vote_id, value });
+        res.sendStatus(200);
+      }
     } else {
-      await db.vote.save({ vote_id: check[0].vote_id, value });
-      res.sendStatus(200);
+      res.sendStatus(401);
     }
-    // } else {
-    // res.sendStatus(401);
-    // }
   },
   // ==========================================================
   addFavorite: async (req, res) => {
@@ -273,16 +292,14 @@ module.exports = {
       source_id,
       source_type
     ]);
-    activeEdit = activeEdit[0]
-    console.log(activeEdit)
+    activeEdit = activeEdit[0];
     if (activeEdit) {
       res.status(200).send({ pastEdits, activeEdit });
     } else {
-      res.sendStatus(404)
+      res.sendStatus(404);
     }
   },
   acceptEdit: async (req, res) => {
-    console.log('accept edit hit')
     const db = req.app.get("db");
     const {
       edit_id,
