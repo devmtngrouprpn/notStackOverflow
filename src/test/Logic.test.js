@@ -27,6 +27,7 @@ describe("", () => {
 });
 // RYAN TEST END
 import { stringCheck } from "./Logic.js";
+import { compareTwoStrings } from "string-similarity";
 
 describe("testing a string similarity function", () => {
   const dummyTags = [
@@ -40,8 +41,8 @@ describe("testing a string similarity function", () => {
     "facebook"
   ];
 
-  test("returns an object", () => {
-    expect(typeof stringCheck("react", dummyTags)).toBe("object");
+  test("returns an array", () => {
+    expect(Array.isArray(stringCheck("react", dummyTags))).toBe(true);
   });
 
   test("returns one or more items", () => {
@@ -52,5 +53,16 @@ describe("testing a string similarity function", () => {
     expect(stringCheck("re", dummyTags).length >= 1).toBe(true);
   });
 
-  test("", () => {});
+  test("returns similar strings", () => {
+    let res = stringCheck("react", dummyTags);
+    res.forEach(tag => {
+      expect(compareTwoStrings(tag.target, "react") > 0).toBe(true);
+    });
+  });
+
+  test("gets highest similarity strings", () => {
+    let tagSimilarity = dummyTags.map(tag => compareTwoStrings("react", tag));
+    let topTag = stringCheck("react", dummyTags)[0].rating;
+    expect(Math.max(...tagSimilarity) === topTag);
+  });
 });

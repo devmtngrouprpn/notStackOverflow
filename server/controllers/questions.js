@@ -142,18 +142,20 @@ module.exports = {
       owner_id
     ]);
 
-    // console.log(repCheck);
+    let rep_value;
 
-    let rep_value =
-      value > 0
-        ? source_type === "question"
-          ? 5
-          : source_type === "answer"
-          ? 10
-          : 0
-        : -2;
+    if (value > 0) {
+      if (source_type === "question") {
+        rep_value = 5;
+      } else if ((source_type = "answer")) {
+        rep_value = 10;
+      } else {
+        rep_value = 0;
+      }
+    } else {
+      rep_value = -2;
+    }
 
-    console.log(rep_value);
     if (source_type === "question" || source_type === "answer") {
       if (check[0]) {
         if (
@@ -162,9 +164,29 @@ module.exports = {
         ) {
         } else {
           if (value < 0) {
-            db.reputation.save;
+            db.reputation.save({
+              reputation_id: repCheck[0].reputation_id,
+              amount:
+                repCheck[0].amount - (source_type === "question" ? 5 : 10) - 2
+            });
+            db.reputation.insert({
+              user_id,
+              amount: -1,
+              action_type: "downvote",
+              source_id,
+              source_type
+            });
             // a change to downvote
           } else {
+            db.reputation.save({
+              reputation_id: repCheck[0].reputation_id,
+              amount: repCheck[0].amount + 2 + rep_value
+            });
+            db.questions.destroy_downvote([
+              user_id,
+              source_id.toString(),
+              source_type
+            ]);
             // a change to upvote
           }
         }
@@ -197,17 +219,17 @@ module.exports = {
       }
     }
 
-    // if (req.session.user) {
-    if (!check[0]) {
-      await db.vote.insert({ user_id, source_id, source_type, value });
-      res.sendStatus(201);
+    if (req.session.user) {
+      if (!check[0]) {
+        await db.vote.insert({ user_id, source_id, source_type, value });
+        res.sendStatus(201);
+      } else {
+        await db.vote.save({ vote_id: check[0].vote_id, value });
+        res.sendStatus(200);
+      }
     } else {
-      await db.vote.save({ vote_id: check[0].vote_id, value });
-      res.sendStatus(200);
+      res.sendStatus(401);
     }
-    // } else {
-    // res.sendStatus(401);
-    // }
   },
   // ==========================================================
   addFavorite: async (req, res) => {

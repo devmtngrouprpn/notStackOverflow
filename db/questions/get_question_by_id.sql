@@ -35,7 +35,7 @@ SELECT
 		select array_agg(comment_id)
 	from comment
 	where source_id = q.question_id AND source_type = 'question'
-	) as comments
+	) as comments,
 	(
 		select max(edit_id)
 	from edit
