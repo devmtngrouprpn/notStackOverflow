@@ -353,5 +353,7 @@ module.exports = {
     const { edit_id } = req.query;
     db.edit.destroy({ edit_id });
     res.sendStatus(200);
-  }
+  },
+  // ==========================================================
+  search: async (req, res) => {}
 };
