@@ -2,18 +2,12 @@ import React, { Component } from "react";
 import { Link } from 'react-router-dom';
 import styled from "styled-components";
 import {
-    Adds,
-    Content,
-    LoadingWraper,
-    H1,
     P,
-    flex,
     borderGray,
     blueButton,
 } from "../../utilites/index";
 import axios from "axios";
 import { connect } from 'react-redux'
-import { promised } from "q";
 
 class CommentSection extends Component {
     state = {

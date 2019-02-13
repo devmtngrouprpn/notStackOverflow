@@ -4,15 +4,9 @@ import axios from 'axios'
 import { connect } from 'react-redux'
 import Quill from '../QuestionCreator/Quil'
 import {
-    Page,
-    Adds,
-    Content,
-    LoadingWraper,
     P,
     borderGray,
-    flex,
     blueButton,
-    TinyTag
 } from "../../utilites/index.js";
 
 class AnswerCreator extends Component {

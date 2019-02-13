@@ -84,7 +84,7 @@ class TagsId extends Component {
               <Searches>
                 <QuestionIn>
                   {this.props[`${this.state.view}_total`] || 0} question
-                  {this.props[`${this.state.view}_total`] == 1 ? "" : "s"}
+                  {this.props[`${this.state.view}_total`] === 1 ? "" : "s"}
                 </QuestionIn>
                 <SortBar>
                   {!this.state.view.includes("unanswered") ? (
@@ -139,40 +139,40 @@ class TagsId extends Component {
                       </TabButton>
                     </ButtonContainer>
                   ) : (
-                    <ButtonContainer>
-                      <TabButton
-                        onClick={() => this.handleView("unansweredNewest")}
-                        active={this.state.view === "unansweredNewest"}
-                        activeNeigbor={this.state.view === "unansweredVotes"}
-                        position="left"
-                      >
-                        Newest
+                      <ButtonContainer>
+                        <TabButton
+                          onClick={() => this.handleView("unansweredNewest")}
+                          active={this.state.view === "unansweredNewest"}
+                          activeNeigbor={this.state.view === "unansweredVotes"}
+                          position="left"
+                        >
+                          Newest
                       </TabButton>
-                      <TabButton
-                        onClick={() => this.handleView("unansweredVotes")}
-                        active={this.state.view === "unansweredVotes"}
-                        activeNeigbor={
-                          this.state.view === "unansweredNoAnswers"
-                        }
-                        position="mid"
-                      >
-                        Votes
+                        <TabButton
+                          onClick={() => this.handleView("unansweredVotes")}
+                          active={this.state.view === "unansweredVotes"}
+                          activeNeigbor={
+                            this.state.view === "unansweredNoAnswers"
+                          }
+                          position="mid"
+                        >
+                          Votes
                       </TabButton>
-                      <TabButton
-                        onClick={() => this.handleView("unansweredNoAnswers")}
-                        active={this.state.view === "unansweredNoAnswers"}
-                        position="mid"
-                      >
-                        No Answers
+                        <TabButton
+                          onClick={() => this.handleView("unansweredNoAnswers")}
+                          active={this.state.view === "unansweredNoAnswers"}
+                          position="mid"
+                        >
+                          No Answers
                       </TabButton>
-                      <TabButton
-                        onClick={() => this.handleView("active")}
-                        position="right"
-                      >
-                        all questions
+                        <TabButton
+                          onClick={() => this.handleView("active")}
+                          position="right"
+                        >
+                          all questions
                       </TabButton>
-                    </ButtonContainer>
-                  )}
+                      </ButtonContainer>
+                    )}
                 </SortBar>
               </Searches>
               <QuestionSection>
@@ -298,7 +298,6 @@ const IgnoreButton = styled.div`
   margin-top: 15px;
   border-radius: 3px;
 `;
-const Text = styled.div``;
 const Path = styled.path`
   fill: currentColor;
 `;
