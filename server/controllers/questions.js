@@ -7,7 +7,6 @@ module.exports = {
   },
   // ==========================================================
   questionsInteresting: async (req, res, next) => {
-    // console.log("starting");
     let db = req.app.get("db");
     let dbResult = await Promise.all([
       db.Home.interesting([]),
@@ -17,7 +16,6 @@ module.exports = {
       db.Home.month([]),
       db.Home.tfeatured([])
     ]);
-    // console.log("ending");
     let [interesting, featured, hot, week, month, tfeatured] = dbResult;
     res
       .status(200)
@@ -93,10 +91,9 @@ module.exports = {
     let dbResult = await Promise.all([
       db.user_input.new_question([userId, content, title])
     ]).catch(err => {
-      // console.log(err);
+      console.log(err);
     });
     let question_id = dbResult[0][0].question_id;
-    // console.log(question_id, dbResult[0][0]);
     tags.forEach(tag => {
       db.user_input.new_question_tag([tag, question_id]);
     });
@@ -273,16 +270,14 @@ module.exports = {
       source_id,
       source_type
     ]);
-    activeEdit = activeEdit[0]
-    console.log(activeEdit)
+    activeEdit = activeEdit[0];
     if (activeEdit) {
       res.status(200).send({ pastEdits, activeEdit });
     } else {
-      res.sendStatus(404)
+      res.sendStatus(404);
     }
   },
   acceptEdit: async (req, res) => {
-    console.log('accept edit hit')
     const db = req.app.get("db");
     const {
       edit_id,
