@@ -47,7 +47,7 @@ class Answer extends Component {
             <LoadingWraper loading={this.state.loading}>
 
                 <Wrapper>
-                    <ArrowColumn reset={this.reset} id={answer.answer_id} type={'answer'} noStars={true} votes={answer.votes} />
+                    <ArrowColumn owner={answer.user_id} reset={this.reset} id={answer.answer_id} type={'answer'} noStars={true} votes={answer.votes} />
                     <Section>
                         <QuestionContent>
                             {ReactHtmlParser(answer.answer_content)}
