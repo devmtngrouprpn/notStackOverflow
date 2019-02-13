@@ -223,6 +223,7 @@ module.exports = {
     }
   },
   acceptEdit: async (req, res) => {
+    console.log('accept edit hit')
     const db = req.app.get("db");
     const {
       edit_id,

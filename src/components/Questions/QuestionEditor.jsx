@@ -35,7 +35,9 @@ class QuestionEditor extends Component {
             summaryPayload: '',
             selectedOption: 'your edit',
             choices: [],
-            updateTextArea: false
+            updateTextArea: false,
+            viewingActive: false,
+            idPayload: '',
         }
     }
     componentDidMount = async () => {
@@ -53,15 +55,15 @@ class QuestionEditor extends Component {
             edits = options.data.pastEdits.map(e => { return { label: `Past Edit # ${e.edit_id}`, value: { e } } })
         } else { edits = [] }
         this.setState({ choices: [{ value: options.data.activeEdit, label: "Active Edit" }, ...edits] })
-        console.log(options.data.pastEdits)
+        console.log(options.data)
     };
     handleSelectChange = async (selectedOption) => {
         if (selectedOption.label == 'Active Edit') {
             selectedOption = selectedOption.value
-            await this.setState({ updateTextArea: true, titlePayload: selectedOption.edit_title, descPayload: selectedOption.edit_content, tagsPayload: selectedOption.edit_tags.split('{')[1].split('}')[0].split(','), summaryPayload: selectedOption.edit_summary });
+            await this.setState({ idPayload: selectedOption.edit_id, viewingActive: true, updateTextArea: true, titlePayload: selectedOption.edit_title, descPayload: selectedOption.edit_content, tagsPayload: selectedOption.edit_tags.split('{')[1].split('}')[0].split(','), summaryPayload: selectedOption.edit_summary });
         } else {
             selectedOption = selectedOption.value.e
-            await this.setState({ updateTextArea: true, titlePayload: selectedOption.edit_title, descPayload: selectedOption.edit_content, tagsPayload: selectedOption.edit_tags.split('{')[1].split('}')[0].split(','), summaryPayload: selectedOption.edit_summary });
+            await this.setState({ idPayload: selectedOption.edit_id, viewingActive: false, updateTextArea: true, titlePayload: selectedOption.edit_title, descPayload: selectedOption.edit_content, tagsPayload: selectedOption.edit_tags.split('{')[1].split('}')[0].split(','), summaryPayload: selectedOption.edit_summary });
         }
 
         this.setState({ updateTextArea: false })
@@ -76,6 +78,32 @@ class QuestionEditor extends Component {
         object = object.ratings.sort((a, b) => { return a.rating * 100 - b.rating * 100 }).reverse().filter(a => a.rating > 0)
         object = object.slice(0, 6)
         this.setState({ tagsForMapping: object })
+    }
+    acceptEdit = async () => {
+        console.log('hi')
+        console.log({
+            edit_id: this.state.idPayload,
+            user_id: this.props.global.user.auth_id,
+            source_id: this.state.source,
+            source_type: 'question',
+            edit_content: this.state.descPayload,
+            edit_title: this.state.titlePayload,
+            edit_tags: this.state.tagsPayload
+        })
+        let res = axios.put('/api/edits', {
+            edit_id: this.state.idPayload,
+            user_id: this.props.global.user.auth_id,
+            source_id: this.state.source,
+            source_type: 'question',
+            edit_content: this.state.descPayload,
+            edit_title: this.state.titlePayload,
+            edit_tags: this.state.tagsPayload
+        })
+        console.log(res, 'accepted edit')
+    }
+    rejectEdit = async () => {
+        console.log('sup')
+        // let res = axios.delete('/api/edits', {})
     }
     uploadEdit = async () => {
         console.log(this.state.question_id)
@@ -114,6 +142,7 @@ class QuestionEditor extends Component {
                                 <T>Your edit will be place in queue until it is peer reviewed.</T>
                                 <T>We welcome all constructive edits, but please make them substantial. Avoid trivial edits unless absolutely necessary. </T>
                             </Head>
+                            {this.state.idPayload}
                             <TagBar>View Other Edits</TagBar>
                             <TheSelect value={this.state.selectedOption.auth_id} onChange={this.handleSelectChange} options={this.state.choices} />
                             <TagBar>Title</TagBar>
@@ -150,8 +179,8 @@ class QuestionEditor extends Component {
                             <TagBar>Edit Summary</TagBar>
                             <SearchBoxNotForTags value={this.state.summaryPayload} placeholder='briefly explain your changes (corrected spelling, fixed grammar, improved formatting' onChange={e => this.setState({ summaryPayload: e.target.value })} />
                             <Options>
-                                <Button onClick={this.uploadEdit}>Submit Edit</Button>
-                                {this.props.global.user.reputation > 10000 || this.props.global.user.auth_id == this.state.user_id ? <Button>Accept Edit</Button> : <></>}
+                                <Button onClick={this.uploadEdit}>Submit Edit For Review</Button>
+                                {this.state.viewingActive & (this.props.global.user.reputation > 10000 || this.props.global.user.auth_id == this.state.user_id) ? <> <Button onClick={this.acceptEdit}>Accept Edit</Button > <Button onClick={this.rejectEdit}>Reject Edit</Button></> : <></>}
                                 <Cancel to='/'>Cancel</Cancel>
                             </Options>
 
