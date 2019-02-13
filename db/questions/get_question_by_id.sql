@@ -36,13 +36,12 @@ SELECT
 	from comment
 	where source_id = q.question_id AND source_type = 'question'
 	) as comments
-	-- COMMENTED BECAUSE IT BREAKS LOADING, also missing comma after comments when you paste it back in
-	-- (
-	-- 	select edit_id
-	-- from edit
-	-- where source_id = $1 AND source_type = 'question' and edit_accepted = TRUE
-	-- order by edit_date
-	-- ) as last_edit
+	(
+		select max(edit_id)
+	from edit
+	where source_id = $1 AND source_type = 'question' and edit_accepted = TRUE
+	order by edit_date
+	) as last_edit
 FROM question AS q
 	JOIN users AS u ON u.auth_id = q.user_id
 	LEFT JOIN bounty AS b ON b.question_id = q.question_id
