@@ -8,6 +8,7 @@ import UserTag from "../../utilites/UserTag";
 import ArrowColumn from "../../utilites/ArrowColumn";
 import CommentSection from "./CommentSection";
 import ReactHtmlParser from "react-html-parser";
+import Ads from "./../../utilites/RightSideBar";
 import {
   Page,
   Adds,
