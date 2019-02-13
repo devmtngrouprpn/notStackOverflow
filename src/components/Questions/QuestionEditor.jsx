@@ -119,17 +119,6 @@ class QuestionEditor extends Component {
             } else { alert("you must select at least one related tag") }
         } else { alert('you must be logged in to submit edits') }
     }
-    test = () => {
-        console.log({
-            edit_title: this.state.titlePayload,
-            edit_content: this.state.descPayload,
-            edit_summary: this.state.summaryPayload,
-            edit_tags: this.state.tagsPayload,
-            user_id: this.props.global.user.auth_id,
-            source_id: +this.props.match.params.id,
-            source_type: 'question'
-        })
-    }
     render() {
         return (
             <>
