@@ -355,5 +355,8 @@ module.exports = {
     res.sendStatus(200);
   },
   // ==========================================================
-  search: async (req, res) => {}
+  search: async (req, res) => {
+    const { search } = req.query;
+    const db = req.app.get("db");
+  }
 };

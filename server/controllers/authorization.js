@@ -1,3 +1,6 @@
+require("dotenv").config();
+const { REDIRECT } = process.env;
+
 module.exports = {
   authCallback: async (request, response) => {
     console.log("it called back");
@@ -48,7 +51,7 @@ module.exports = {
       response.send("please log in");
       return;
     }
-    response.redirect("http://localhost:3000");
+    response.redirect(REDIRECT);
   },
   checkUser: (req, res) => {
     if (req.body.type === "login") {
