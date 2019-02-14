@@ -34,12 +34,7 @@ class App extends Component {
           <Route path="/create-question" component={QuestionCreator} />
           <Route path="/edit/question/:id" component={QuestionEditor} />
           <Route path="/edit/answer/:id" component={AnswerEditor} />
-<<<<<<< HEAD
-          <Route path="/edit/accept/answer/:id" component={QuestionEditor} />
-          <Route path="/edit/accept/question/:id" component={QuestionEditor} />
-=======
           <Route path="/search" component={SearchResults} />
->>>>>>> master
         </Switch>
       </HashRouter>
     );
