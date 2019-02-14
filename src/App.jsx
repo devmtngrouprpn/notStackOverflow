@@ -23,6 +23,7 @@ class App extends Component {
     return (
       <HashRouter>
         <Switch>
+          {/* <ScrollToTop /> */}
           <Route exact path="/" component={Home} />
           <Route path="/questions/:id" component={QuestionsId} />
           <Route path="/questions" component={Questions} />

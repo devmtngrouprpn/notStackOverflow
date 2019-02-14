@@ -77,7 +77,7 @@ class Tags extends Component {
               </SortBar>
               <Grid>
                 {(this.props[this.state.view] || []).map(tag => {
-                  console.log(tag.tag_name);
+                  // console.log(tag.tag_name);
                   if (tag.tag_name.includes(this.state.search)) {
                     return (
                       <MapReturn>
@@ -102,8 +102,8 @@ class Tags extends Component {
                           ) : tag.year !== "0" ? (
                             <span>{tag.year} asked this year</span>
                           ) : (
-                                    <span />
-                                  )}
+                            <span />
+                          )}
                         </Asked>
                       </MapReturn>
                     );
