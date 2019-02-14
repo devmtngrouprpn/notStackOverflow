@@ -144,7 +144,7 @@ module.exports = {
     if (value > 0) {
       if (source_type === "question") {
         rep_value = 5;
-      } else if ((source_type = "answer")) {
+      } else if ((source_type === "answer")) {
         rep_value = 10;
       } else {
         rep_value = 0;

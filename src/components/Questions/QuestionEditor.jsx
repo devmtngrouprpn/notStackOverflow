@@ -15,6 +15,7 @@ import {
     LoadingWraper,
     SearchBar,
     P,
+    black,
     blueButton,
 } from "./../../utilites/index";
 
@@ -226,7 +227,7 @@ const Options = styled.div`
 display:flex;
 align-items:center;
 `
-const Original = styled.div`
+const Original = styled(P)`
 text-align:left;
 margin:15px;
 border-top:rgb(200, 204, 208) 1px dotted;
@@ -353,6 +354,7 @@ ${blueButton()};
                             `
 
 const Head = styled(P)`
+color:${black};
                             padding: 15px 15px 10px;
                                 background-color: #FFF8DC;
                                 border: 1px solid #E0DCBF;
@@ -367,6 +369,7 @@ const TagBar = styled(P)`
                             padding: 10px;
                             `;
 const Container = styled.div`
+color:${black};
                             padding:24px;
                             text-align: left;
                             /* width: 1100px; */

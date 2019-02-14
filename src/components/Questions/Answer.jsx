@@ -26,17 +26,14 @@ class Answer extends Component {
     }
     componentDidMount = async () => {
         let res = await axios.get(`/api/answer/indv?id=${this.props.id}`)
-        console.log(res.data)
         this.setState({ answer: res.data, loading: false })
     }
     reset = async () => {
         let res = await axios.get(`/api/answer/indv?id=${this.props.id}`)
-        console.log(res.data)
         await this.setState({ answer: res.data })
     }
     render() {
         let { answer } = this.state
-        console.log(answer.comments, 'look here')
         return (
             <LoadingWraper loading={this.state.loading}>
 
@@ -47,7 +44,7 @@ class Answer extends Component {
                             {ReactHtmlParser(answer.answer_content)}
                         </QuestionContent>
                         <ShareEditUser><Edit to={`/edit/answer/${answer.answer_id}`}>edit</Edit>{answer.answer_creation_timestamp ? <QuestionUserTag question={answer} /> : <></>}</ShareEditUser>
-                        <CommentSection comments={answer.comments} reMount={this.reset} type={'answer'} id={answer.answer_id} />
+                        <CommentSection reset={this.reset} comments={answer.comments} reMount={this.reset} type={'answer'} id={answer.answer_id} />
                     </Section >
                 </Wrapper>
 
@@ -66,7 +63,9 @@ const Edit = styled(Link)`
 
 `
 const Wrapper = styled(P)`
+position:relative;
 display:flex;
+float:top;
 width:100%;
 `
 const QuestionUserTag = styled(UserTagForAnswer)`

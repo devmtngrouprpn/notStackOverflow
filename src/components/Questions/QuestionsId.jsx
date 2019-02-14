@@ -57,13 +57,10 @@ class QuestionId extends Component {
 
   render() {
     let { question } = this.state;
-    // console.log(question.question_content)
     // let message = question.question_content.replace(/^"'/, '').replace(/'"$/, '');
-    // console.log(message)
     // let messageCopy = message.split(`'`)
     // let formatedhtml = messageCopy.slice(1, messageCopy.length - 1).join('').replace(/,,/g, `'`)
     // let newHtml = question.question_content.replace(/^"'/, '').replace(/'"$/, '').split(`'`)
-    // console.log(newHtml)
     return (
       <Layout>
         <LoadingWraper loading={this.state.loading}>
@@ -102,6 +99,7 @@ class QuestionId extends Component {
                       <QuestionUserTag question={question} />
                     </ShareEditUser>
                     <CommentSection
+                      reset={this.reMount}
                       comments={question.comments}
                       reMount={this.reMount}
                       type={"question"}
@@ -120,8 +118,8 @@ class QuestionId extends Component {
                     })}
                   </Section3>
                 ) : (
-                  <></>
-                )}
+                    <></>
+                  )}
 
                 <Section2>
                   <AnswerCreator
