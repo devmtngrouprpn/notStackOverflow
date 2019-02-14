@@ -13,6 +13,7 @@ import Layout from '../Layout/Layout1'
 import {
     LoadingWraper,
     SearchBar,
+    black,
     P,
     blueButton,
 } from "./../../utilites/index";
@@ -186,11 +187,12 @@ width:100%;
 font-family:Helvetica;
 
 `
-const Options = styled.div`
+const Options = styled(P)`
 display:flex;
 align-items:center;
+color:${black};
 `
-const Original = styled.div`
+const Original = styled(P)`
 text-align:left;
 margin:15px;
 border-top:rgb(200, 204, 208) 1px dotted;
@@ -215,6 +217,7 @@ font-weight: 400;`
 const HowToTagContent = styled.div`
 padding: 16px 13px 16px;
 font-size:13px;
+color:${black};
 `
 const HowToTag = styled(P)`
   box-shadow: 0px 2px 5px 1px lightgray;
@@ -224,6 +227,7 @@ margin:25px;
     background-color: #FFF8DC;
     border-bottom-left-radius:3px;
     border-bottom-right-radius:3px;
+    color:${black};
 `
 const T = styled.div`
 margin-bottom:1em;

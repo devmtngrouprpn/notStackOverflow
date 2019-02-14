@@ -1,3 +1,4 @@
+import { stringCheck, stringObjectToArray } from "./Logic.js";
 import { timeFunction, Ads, getUserData, getQuestions } from "./Logic";
 // RYAN TEST START
 describe("Tests The difference of time between NOW and posted Date", () => {
@@ -68,15 +69,15 @@ describe("testing a string similarity function", () => {
 });
 
 //McCoy's tests
-test("returns an array", () => {
-  expect(Array.isArray(stringObjectToArray("{heyo,lol}"))).toBe(true);
-});
-test("returns correct parsed array", () => {
-  expect(stringObjectToArray("{heyo,lol}")).toEqual(["heyo", "lol"]);
-});
-test("can handle strings", () => {
-  expect(stringObjectToArray("heyo,lol")).toEqual(["heyo", "lol"]);
-});
-test("can handle large objects", () => {
-  expect(stringObjectToArray);
-});
+test('returns an array', () => {
+  expect(Array.isArray(stringObjectToArray('{heyo,lol}'))).toBe(true);
+})
+test('returns correct parsed array', () => {
+  expect(stringObjectToArray('{heyo,lol}')).toEqual(['heyo', 'lol']);
+})
+test('can handle strings', () => {
+  expect(stringObjectToArray('heyo,lol')).toEqual(['heyo', 'lol']);
+})
+test('can handle large objects', () => {
+  expect(stringObjectToArray)
+})
