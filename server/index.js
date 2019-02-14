@@ -46,6 +46,7 @@ app.get("/api/questions/world", questions.worldQuestions);
 app.post("/api/questions/ask", questions.askQuestions);
 // HOME END
 // TAGS START
+app.put("/api/tags/watch", questions.watchTag);
 app.post("/api/tags/tinytag", tinyTag.getTag);
 app.get("/api/tags/alltinytags", tinyTag.getAllTags);
 app.get("/api/tags/indv", tinyTag.getTagQuestions);
