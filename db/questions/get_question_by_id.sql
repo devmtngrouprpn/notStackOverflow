@@ -3,6 +3,8 @@ SELECT
 	username,
 	picture,
 	question_views,
+	question_creation_timestamp,
+	bounty_id,
 	bounty_value,
 	bounty_creation_timestamp,
 	b.user_id as bounty_creator_id,

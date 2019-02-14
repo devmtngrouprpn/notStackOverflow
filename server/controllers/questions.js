@@ -135,14 +135,8 @@ module.exports = {
     const db = req.app.get("db");
     const check = await db.questions.check_vote([
       user_id,
-      source_id,
-      source_type
-    ]);
-
-    const repCheck = await db.questions.check_rep([
-      source_type.toString(),
       source_id.toString(),
-      owner_id
+      source_type
     ]);
 
     let rep_value;
@@ -160,6 +154,11 @@ module.exports = {
     }
 
     if (source_type === "question" || source_type === "answer") {
+      const repCheck = await db.questions.check_rep([
+        source_type.toString(),
+        source_id.toString(),
+        owner_id
+      ]);
       if (check[0]) {
         if (
           (value > 0 && check[0].value > 0) ||
@@ -387,6 +386,11 @@ module.exports = {
       source_id: question_id,
       source_type: "question"
     });
+  },
+  accceptBounty: async (req, res) => {
+    const db = req.app.get("db");
+    const { bounty_id, winner_id, bounty_value } = req.body;
+    // await db
   },
   // ========================================================== not implemented
   acceptAnswer: async (req, res) => {
