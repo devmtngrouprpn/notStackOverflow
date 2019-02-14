@@ -42,6 +42,7 @@ class QuestionEditor extends Component {
         }
     }
     componentDidMount = async () => {
+        console.log(stringObjectToArray('{}'))
         const res = await axios.get(
             `/api/question/indv?id=${+this.props.match.params.id}`
         );
