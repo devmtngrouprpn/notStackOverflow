@@ -25,7 +25,8 @@ class CommentSection extends Component {
                     let res = await axios.get(`/api/comment/indv?id=${e}`);
                     console.log(res.data, 'comment return')
                     buffer.push(<Comment key={e}>
-                        <Rep>{res.data.votes || 0} {this.props.global.user.reputation >= 15 ? <button>Upvote</button> : <></>}</Rep>
+                        <Rep>{res.data.votes || 0} {this.props.global.user.reputation >= 15 ? <Svg onClick={this.upvote} aria-hidden="true" class="svg-icon m0 iconArrowUpLg" width="36" height="36" viewBox="0 0 36 36"><Path d="M2 26h32L18 10z"></Path></Svg>
+                            : <></>}</Rep>
                         {res.data.content}
                         <UserName to={`/users/${res.data.username}`}> - {res.data.username}</UserName>
                         <TimeStamp>{res.data.comment_creation_timestamp}</TimeStamp>
@@ -162,4 +163,14 @@ height:500px;
 margin: 25px 0 25px 0px;
 padding:5px 0 5px 0;
 
+    `
+const Svg = styled.svg`
+color: rgb(187, 192, 196);
+cursor:pointer;
+`
+
+const Path = styled.path`
+    /* transform: rotate(45deg); */
+    fill: rgb(187, 192, 196);
+    
     `
