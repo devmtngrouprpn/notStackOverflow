@@ -2,7 +2,14 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import {} from "../../../ducks/global";
 import { connect } from "react-redux";
-import { flex, orange, P } from "../../../utilites/index.js";
+import {
+  flex,
+  orange,
+  P,
+  bronze,
+  silver,
+  gold
+} from "../../../utilites/index.js";
 
 let picture;
 class UserDisplay extends Component {
@@ -17,7 +24,7 @@ class UserDisplay extends Component {
         <ImageWrapper>
           <Image src={this.props.user.picture} height="24" width="24" />
           <Repuation>
-            <P>{this.props.user.reputation}</P>
+            <P2>{this.props.user.reputation}</P2>
           </Repuation>
           <Bronze>
             <P>●8</P>
@@ -48,6 +55,13 @@ export default connect(
 const Image = styled.img`
 background-image: '${picture}'
 `;
+
+const P2 = styled(P)`
+  font-size: 12px;
+  color: #535a60;
+  font-weight: 400;
+`;
+
 const ImageWrapper = styled.div`
   ${flex()}
   height: 50px;
@@ -63,21 +77,21 @@ const ImageWrapper = styled.div`
 const Bronze = styled.div`
   font-size: 14px;
   font-weight: 0;
-  color: brown;
+  color: ${bronze};
   font-weight: 550;
   padding-left: 8px;
 `;
 const Silver = styled.div`
   font-size: 14px;
   font-weight: 0;
-  color: silver;
+  color: ${silver};
   font-weight: 550;
   padding-left: 8px;
 `;
 const Gold = styled.div`
   font-size: 14px;
   font-weight: 0;
-  color: gold;
+  color: ${gold};
   font-weight: 550;
   padding-left: 8px;
 `;

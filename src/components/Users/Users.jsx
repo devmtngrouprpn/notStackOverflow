@@ -83,12 +83,12 @@ class User extends Component {
                           <P>{user.username}</P>
                         </StyledCardLink>
                         <Location>Candada,North America</Location>
-                        <Repuation>2000</Repuation>
+                        <Repuation>{user.reputation}</Repuation>
                       </UserInfo>
                     </Flex>
                     <WatchedTags>{`${
                       user.tags_watching[0] ? user.tags_watching : ""
-                      }`}</WatchedTags>
+                    }`}</WatchedTags>
                   </UserContainer>
                 );
               })}

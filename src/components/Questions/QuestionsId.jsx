@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import styled from "styled-components";
+import { connect } from "react-redux";
 import Layout from "../Layout/Layout1.jsx";
 import Answer from "./Answer";
 import { Link } from "react-router-dom";
@@ -24,22 +25,26 @@ import {
 } from "../../utilites/index.js";
 import axios from "axios";
 
-export default class QuestionId extends Component {
+class QuestionId extends Component {
   state = {
     loading: true,
     question: {
       answers: [],
       question_content: "",
       question_title: "",
-      tags: []
+      tags: [],
+      acceptShow: false
     }
   };
   componentDidMount = async () => {
     const res = await axios.get(
       `/api/question/indv?id=${this.props.match.params.id}`
     );
-    // console.log(res.data);
-    this.setState({ loading: false, question: res.data });
+    let accept = false;
+    if (res.data.user_id === this.props.auth_id && res.data.answer_accepted) {
+      accept = true;
+    }
+    this.setState({ loading: false, question: res.data, acceptShow: accept });
   };
   reMount = async () => {
     const res = await axios.get(
@@ -79,6 +84,7 @@ export default class QuestionId extends Component {
                     type={"question"}
                     stars={question.favorites}
                     votes={question.votes}
+                    acceptShow={this.state.acceptShow}
                   />
                   <QuestionContent>
                     {ReactHtmlParser(question.question_content)}
@@ -142,6 +148,15 @@ export default class QuestionId extends Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  const { auth_id } = state.users;
+  return {
+    auth_id
+  };
+}
+
+export default connect(mapStateToProps)(QuestionId);
 const Edit = styled(Link)``;
 const TotalAnswers = styled(P)`
   width: 100%;
