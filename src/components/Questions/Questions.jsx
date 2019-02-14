@@ -175,12 +175,13 @@ const QuestionBox = styled.div`
 const HeaderContainer = styled.div`
   ${flex("row", "space-between", "flex-start")}
   margin: 24px;
+  margin-right: 0;
   max-width: 727px;
 `;
 
 const ButtonContainer = styled.div`
   ${flex("row", "flex-end")}
-  margin: 0 24px 24px 16px;
+  margin: 0 0 24px 16px;
 `;
 
 const FeaturedBox = styled.div`

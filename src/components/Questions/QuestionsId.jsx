@@ -1,13 +1,14 @@
 import React, { Component } from "react";
 import styled from "styled-components";
+import { connect } from "react-redux";
 import Layout from "../Layout/Layout1.jsx";
-import Answer from './Answer'
-import { Link } from 'react-router-dom'
-import AnswerCreator from './AnswerCreator'
-import UserTag from '../../utilites/UserTag'
-import ArrowColumn from '../../utilites/ArrowColumn'
-import CommentSection from './CommentSection'
-import ReactHtmlParser from 'react-html-parser'
+import Answer from "./Answer";
+import { Link } from "react-router-dom";
+import AnswerCreator from "./AnswerCreator";
+import UserTag from "../../utilites/UserTag";
+import ArrowColumn from "../../utilites/ArrowColumn";
+import CommentSection from "./CommentSection";
+import ReactHtmlParser from "react-html-parser";
 import {
   Page,
   Adds,
@@ -22,28 +23,36 @@ import {
 } from "../../utilites/index.js";
 import axios from "axios";
 
-export default class QuestionId extends Component {
+class QuestionId extends Component {
   state = {
     loading: true,
-    question: { answers: [], question_content: '', question_title: '', tags: [] },
+    question: {
+      answers: [],
+      question_content: "",
+      question_title: "",
+      tags: [],
+      acceptShow: false
+    }
   };
   componentDidMount = async () => {
     const res = await axios.get(
       `/api/question/indv?id=${this.props.match.params.id}`
     );
-    // console.log(res.data);
-    this.setState({ loading: false, question: res.data });
+    let accept = false;
+    if (res.data.user_id === this.props.auth_id && res.data.answer_accepted) {
+      accept = true;
+    }
+    this.setState({ loading: false, question: res.data, acceptShow: accept });
   };
   reMount = async () => {
     const res = await axios.get(
       `/api/question/indv?id=${this.props.match.params.id}`
     );
     this.setState({ loading: false, question: res.data });
-  }
-
+  };
 
   render() {
-    let { question } = this.state
+    let { question } = this.state;
     // console.log(question.question_content)
     // let message = question.question_content.replace(/^"'/, '').replace(/'"$/, '');
     // console.log(message)
@@ -65,29 +74,64 @@ export default class QuestionId extends Component {
             <QuestionPage>
               <Content>
                 <Section>
-                  <ArrowColumn owner={question.user_id} favnum={question.favorites} reset={this.reMount} id={question.question_id} type={'question'} stars={question.favorites} votes={question.votes} />
+                  <ArrowColumn
+                    owner={question.user_id}
+                    favnum={question.favorites}
+                    reset={this.reMount}
+                    id={question.question_id}
+                    type={"question"}
+                    stars={question.favorites}
+                    votes={question.votes}
+                    acceptShow={this.state.acceptShow}
+                  />
                   <QuestionContent>
                     {ReactHtmlParser(question.question_content)}
                     <QuestionTags>
-                      {question.tags.map(e => { return (<TinyTag subject={e} />) })}
+                      {question.tags.map(e => {
+                        return <TinyTag subject={e} />;
+                      })}
                     </QuestionTags>
-                    <ShareEditUser><Edit to={`/edit/question/${question.question_id}`}>edit</Edit><QuestionUserTag question={question} /></ShareEditUser>
-                    <CommentSection comments={question.comments} reMount={this.reMount} type={'question'} id={question.question_id} />
+                    <ShareEditUser>
+                      <Edit to={`/edit/question/${question.question_id}`}>
+                        edit
+                      </Edit>
+                      <QuestionUserTag question={question} />
+                    </ShareEditUser>
+                    <CommentSection
+                      comments={question.comments}
+                      reMount={this.reMount}
+                      type={"question"}
+                      id={question.question_id}
+                    />
                   </QuestionContent>
                 </Section>
-                {question.answers !== null ? <Section3>
-                  <TotalAnswers> {`Answers ${question.answers.length}`}</TotalAnswers>
-                  {question.answers.map(e => { return <Answer id={e}></Answer> })}
-                </Section3> : <></>}
+                {question.answers !== null ? (
+                  <Section3>
+                    <TotalAnswers>
+                      {" "}
+                      {`Answers ${question.answers.length}`}
+                    </TotalAnswers>
+                    {question.answers.map(e => {
+                      return <Answer id={e} />;
+                    })}
+                  </Section3>
+                ) : (
+                  <></>
+                )}
 
                 <Section2>
-                  <AnswerCreator reMount={this.reMount} questionId={question.question_id} />
+                  <AnswerCreator
+                    reMount={this.reMount}
+                    questionId={question.question_id}
+                  />
                 </Section2>
               </Content>
               <AddsColumn>
                 <AskedInfo>
-                  <Posted>asked</Posted><br />
-                  <Posted>viewed</Posted><br />
+                  <Posted>asked</Posted>
+                  <br />
+                  <Posted>viewed</Posted>
+                  <br />
                   {question.bounty_value ? <Posted>Active</Posted> : <></>}
                 </AskedInfo>
                 <Adds />
@@ -99,76 +143,83 @@ export default class QuestionId extends Component {
     );
   }
 }
-const Edit = styled(Link)`
 
-`
+function mapStateToProps(state) {
+  const { auth_id } = state.users;
+  return {
+    auth_id
+  };
+}
+
+export default connect(mapStateToProps)(QuestionId);
+const Edit = styled(Link)``;
 const TotalAnswers = styled(P)`
-width:100%;
-border-bottom: 1px solid ${borderGray};
-padding-bottom:25px;
-font-size:18px;
-font-weight:400;
-`
+  width: 100%;
+  border-bottom: 1px solid ${borderGray};
+  padding-bottom: 25px;
+  font-size: 18px;
+  font-weight: 400;
+`;
 const QuestionUserTag = styled(UserTag)`
-height:50px;
-width:50px;
-background: blue;
-border:1px black solid;
-padding: 30px;
-`
+  height: 50px;
+  width: 50px;
+  background: blue;
+  border: 1px black solid;
+  padding: 30px;
+`;
 
 const ShareEditUser = styled.div`
-display:flex;
-justify-content:space-between;
-`
+  display: flex;
+  justify-content: space-between;
+`;
 const Posted = styled.span`
-margin: 15px 0px 15px 15px;
-`
+  margin: 15px 0px 15px 15px;
+`;
 const AskedInfo = styled.div`
-margin-bottom:15px;
-`
+  margin-bottom: 15px;
+`;
 const AddsColumn = styled.div`
-width:100%;
-padding: 25px 0 25px 25px;
-`
+  width: 100%;
+  padding: 25px 0 25px 25px;
+`;
 const QuestionTags = styled.div`
-display: flex;
-`
+  display: flex;
+`;
 const QuestionContent = styled.div`
-    	font-family: Helvetica, sans-serif;
-    `
+  font-family: Helvetica, sans-serif;
+`;
 const Section = styled.div`
-    display: flex;
-    align-items:flex-start;
-    margin: 25px 5px 25px 5px;
-    border-bottom: 1px solid ${borderGray};
-    height: fit-content;
-    width: 750px;
-    `
+  display: flex;
+  align-items: flex-start;
+  margin: 25px 5px 25px 5px;
+  border-bottom: 1px solid ${borderGray};
+  height: fit-content;
+  width: 750px;
+`;
 const Section2 = styled.div`
-    display: flex;
-    align-items:flex-start;
-    margin: 25px 5px 25px 5px;
-    height: fit-content;
-    width: 750px;
-    `
+  display: flex;
+  align-items: flex-start;
+  margin: 25px 5px 25px 5px;
+  height: fit-content;
+  width: 750px;
+`;
 const Section3 = styled.div`
-    display: flex;
-    flex-flow:column;
-    align-items:flex-start;
-    margin: 25px 5px 25px 5px;
-    height: fit-content;
-    width: 750px;
-    `
+  display: flex;
+  flex-flow: column;
+  align-items: flex-start;
+  margin: 25px 5px 25px 5px;
+  height: fit-content;
+  width: 750px;
+`;
 const AskButton = styled.button`
   ${blueButton("10.4px 10.4px 10.4px 10.4px")}
-        `;
+`;
 
 const TitleBox = styled.div`
   ${flex("row", "space-between", "flex-start")}
-        margin: 0 24px;
-        width: calc(100% - 48px);
-      `;
+  margin: 0 24px;
+  width: calc(100% - 48px);
+`;
 
 const Box = styled(P)`
   /* ${flex("column")} */
@@ -179,14 +230,14 @@ const Box = styled(P)`
       `;
 
 const TopAdds = styled.div`
-        height: 90px;
-        width: calc(100% - 48px);
-        margin: 24px;
-      `;
+  height: 90px;
+  width: calc(100% - 48px);
+  margin: 24px;
+`;
 
 const QuestionPage = styled(Page)`
   border-top: 1px solid ${borderGray};
-        margin: 13px 24px 24px 24px;
-        width: calc(100% - 48px);
-        height:fit-content;
-      `;
+  margin: 13px 24px 24px 24px;
+  width: calc(100% - 48px);
+  height: fit-content;
+`;
