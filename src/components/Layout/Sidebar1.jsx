@@ -2,6 +2,7 @@ import React from "react";
 import { withRouter } from "react-router-dom";
 import styled from "styled-components";
 import { flex, colors, P, StyledLink } from "../../utilites/index.js";
+import TeamQA from "./../../assets/TeamQA.png";
 
 function Sidebar({ match }) {
   const route = (match.path.match(/(\w+)$/) || ["home"])[0];
@@ -35,6 +36,12 @@ function Sidebar({ match }) {
       <SidebarLink indent="28px" to="/users" active={route === "users"}>
         <SidebarP>Users</SidebarP>
       </SidebarLink>
+
+      <SidebarLink indent="28px" to="/users" active={route === "users"}>
+        <SidebarP>Jobs</SidebarP>
+      </SidebarLink>
+
+      <SideBarPic src={TeamQA} alt="TeamWork Makes The Dream Work" />
     </SidebarContainer>
   );
 }
@@ -42,7 +49,10 @@ function Sidebar({ match }) {
 const Path = styled.path`
   fill: currentColor;
 `;
-
+const SideBarPic = styled.img`
+  position: relative;
+  max-width: 150px;
+`;
 const SidebarContainer = styled.div`
   ${flex("column", "flex-start", "flex-start")}
   padding-left: 8px;
@@ -55,7 +65,7 @@ const SidebarContainer = styled.div`
 `;
 
 const SidebarLink = styled(StyledLink)`
-position: relative;
+  position: relative;
   height: 35px;
   width: 155px;
   vertical-align: center;
@@ -69,7 +79,7 @@ position: relative;
 `;
 
 const SidebarP = styled(P)`
-position: relative;
+  position: relative;
   vertical-align: center;
   font-size: ${props => props.fontSize || "13px"};
   margin: ${props => props.margin || "0 0 0 0"};
