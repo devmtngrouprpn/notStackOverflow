@@ -136,7 +136,6 @@ class QuestionId extends Component {
                   <br />
                   {question.bounty_value ? <Posted>Active</Posted> : <></>}
                 </AskedInfo>
-                <Adds />
               </AddsColumn>
             </QuestionPage>
           </Box>
