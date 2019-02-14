@@ -31,24 +31,19 @@ export default class UsersId extends Component {
     await this.getUserData();
     // call for data useing props.match.params.id as the query
   };
-  // async getUserData() {
-  //   let res = await axios.get(`/api/user/indv?user_id=${this.state.userId}`);
-  //   console.log(res.data.basicData[0]);
-  //   let Created = timeFunction(res.data.basicData[0].user_created);
-  //   let LastLog = timeFunction(res.data.basicData[0].last_logout);
-  //   this.setState({
-  //     userInfo: res.data.basicData[0],
-  //     Created: Created,
-  //     LastLog: LastLog
-  //   });
-  // }
-  async getUserData(userId) {
-    let res = await axios.get(`/api/user/indv?user_id=${userId}`);
-    // console.log(res.data.basicData[0].username);
+  async getUserData() {
+    let res = await axios.get(`/api/user/indv?user_id=${this.state.userId}`);
+    console.log(res.data.basicData[0]);
+    let Created = timeFunction(res.data.basicData[0].user_created);
+    let LastLog = timeFunction(res.data.basicData[0].last_logout);
+    this.setState({
+      userInfo: res.data.basicData[0],
+      Created: Created,
+      LastLog: LastLog
+    });
   }
 
   render() {
-    this.getUserData("user1");
     let {
       answers,
       auth_id,
@@ -72,8 +67,6 @@ export default class UsersId extends Component {
       username
     } = this.state.userInfo;
     let { Created, LastLog } = this.state;
-
-    console.log(user_created);
     return (
       <LoadingWraper loading={this.state.loading}>
         <Layout>
@@ -128,32 +121,97 @@ export default class UsersId extends Component {
                 {LastLog}
               </ContactPart>
             </UserInfoBioPart>
-            {answers}
-            {auth_id}
-            {bio}
             {facebook}
             {favorites}
             {git_hub}
             {last_logout}
             {location}
             {occupation}
-            {people_reached}
             {personal_site}
             {picture}
             {questions}
             {reputation}
             {tags_watching}
             {twitter}
-            {user_created}
-            {user_first_last}
-            {user_views}
-            {username}
+            <MainPart>
+              <BottomSideBar>
+                <Communities>
+                  <Header>Communities</Header>
+                  <Line />
+                  Stack Overflow
+                </Communities>
+                <TopMetaPosts>Keyboard Shortcut</TopMetaPosts>
+                <NetworkPosts>DNS DROPING</NetworkPosts>
+              </BottomSideBar>
+              <BottomMain>
+                <TopTags>React</TopTags>
+                <TopPosts>How Do I Copy Posts in Python</TopPosts>
+                <BottomBadge>Badge 1 2 and 3</BottomBadge>
+              </BottomMain>
+            </MainPart>
           </UserPage>
         </Layout>
       </LoadingWraper>
     );
   }
 }
+const BottomBadge = styled.div`
+  border: solid gray 2px;
+`;
+const BottomSideBar = styled.div`
+  border: solid green 1px;
+  /* height: 90px; */
+  margin: 12px;
+  width: 16.2051282rem !important;
+  margin-right: 0;
+  margin-left: 0;
+  margin-top: 0;
+  display: flex;
+  flex-direction: column !important;
+`;
+const BottomMain = styled.div`
+  border: solid orange 1px;
+  margin-left: 5%;
+`;
+const TopTags = styled.div`
+  border: solid black 1px;
+  /* width: 1000px; */
+`;
+const TopPosts = styled.div``;
+const Header = styled(H1)`
+  font-size: 1.2em;
+  margin: 5%;
+  margin-bottom: 2%;
+`;
+const Line = styled.div`
+  margin: 5%;
+  border: solid 0.5px #d6d9dc;
+`;
+const Communities = styled.div`
+  border: solid brown 1px;
+  margin: 0;
+  width: 100%;
+  margin-bottom: 5%;
+`;
+const TopMetaPosts = styled.div`
+  border: solid brown 1px;
+  margin: 0;
+  width: 100%;
+  margin-bottom: 5%;
+`;
+const NetworkPosts = styled.div`
+  border: solid brown 1px;
+  margin: 0;
+  width: 100%;
+  margin-bottom: 5%;
+`;
+const MainPart = styled.div`
+  border: solid purple 1px;
+  display: flex;
+  padding-bottom: 30px;
+  max-width: 1060px;
+  margin-left: 1%;
+`;
 const Username = styled.h1`
   font-weight: 600;
   font-size: 1.3em;
@@ -180,7 +238,7 @@ const ReachIndv = styled.div`
   flex-direction: column;
 `;
 const UserPage = styled.div`
-  width: 80vw;
+  width: 70vw;
 `;
 const UserInfoBioPart = styled.div`
   width: 100%;

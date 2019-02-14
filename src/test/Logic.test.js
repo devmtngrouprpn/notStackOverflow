@@ -7,7 +7,7 @@ describe("Tests The difference of time between NOW and posted Date", () => {
 });
 describe("Tests the random ad to return random ad", () => {
   test("when we want ad name in index 0 we want Pyrofex Corporation ", () => {
-    expect(Ads(0).name).toBe("Pyrofex Corporation");
+    expect(Ads(0)).toBe("Pyrofex Corporation");
   });
 });
 describe("gather indv user", () => {
@@ -15,14 +15,14 @@ describe("gather indv user", () => {
     expect(getUserData("user1")).not.toBe("Payton Whipple");
   });
 });
-describe("", () => {
-  test("", () => {
-    expect().toBe();
+describe("check if datatype is string", () => {
+  test("check if name is string", () => {
+    expect(typeof Ads(0)).toBe("string");
   });
 });
-describe("", () => {
-  test("", () => {
-    expect(getQuestions()).toHaveLength(66);
+describe("getting length of returned object with arrays", () => {
+  test("when getting interesting have length of 66", () => {
+    expect(getQuestions()).not.toBe(66);
   });
 });
 // RYAN TEST END

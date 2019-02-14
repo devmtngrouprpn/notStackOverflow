@@ -19,7 +19,7 @@ export const timeFunction = postedDate => {
 };
 
 export function Ads(num) {
-  num = Math.floor(Math.random() * 2);
+  // num = Math.floor(Math.random() * 2);
   let API = [
     {
       name: "Pyrofex Corporation",
@@ -42,7 +42,7 @@ export function Ads(num) {
       jobNum: 2
     }
   ];
-  return API[num];
+  return API[num].name;
 }
 
 export async function getUserData(userId) {
@@ -51,7 +51,7 @@ export async function getUserData(userId) {
 }
 export async function getQuestions() {
   let res = await axios.get(`/api/questions/interesting`);
-  return res.data.interesting;
+  return res.data;
 }
 
 export function stringCheck(value, tagNames) {

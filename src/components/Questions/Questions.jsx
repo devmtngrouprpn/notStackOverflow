@@ -37,7 +37,7 @@ class Questions extends Component {
   getQuestions = async () => {
     let res = await axios.get(`/api/questions/world`);
     this.props.update_questions(res.data);
-    console.log();
+    console.log(res.data.interesting);
     this.setState({ loading: false });
   };
   handleView = name => {
