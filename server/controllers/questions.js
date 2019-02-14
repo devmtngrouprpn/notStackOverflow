@@ -131,6 +131,7 @@ module.exports = {
   // ==========================================================
   addVote: async (req, res) => {
     const { user_id, source_id, source_type, value, owner_id } = req.body;
+    console.log(req.body)
     const db = req.app.get("db");
     const check = await db.questions.check_vote([
       user_id,
@@ -143,7 +144,7 @@ module.exports = {
     if (value > 0) {
       if (source_type === "question") {
         rep_value = 5;
-      } else if ((source_type = "answer")) {
+      } else if ((source_type === "answer")) {
         rep_value = 10;
       } else {
         rep_value = 0;

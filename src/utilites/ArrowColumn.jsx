@@ -13,7 +13,6 @@ class ArrowColumn extends Component {
     };
 
     componentDidMount = async () => {
-        console.log(this.props.stars)
     };
     upvote = async () => {
         if (this.props.global.user.auth_id) {
@@ -27,9 +26,6 @@ class ArrowColumn extends Component {
     }
 
     downVote = async () => {
-        console.log({
-            user_id: this.props.global.user.auth_id, source_id: this.props.id, source_type: this.props.type, value: -1
-        })
         if (this.props.global.user.auth_id) {
             await axios.post('/api/question/vote', {
                 user_id: this.props.global.user.auth_id, source_id: this.props.id, source_type: this.props.type, value: -1, owner_id: this.props.owner
@@ -98,6 +94,6 @@ const Shell = styled(P)`
     flex-flow:column;
     margin:15px;
     margin-left: 0px;
-    justify-content:center;
+    justify-content:flex-start;
     align-items:center;
     `

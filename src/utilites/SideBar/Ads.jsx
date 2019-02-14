@@ -277,7 +277,7 @@ function Ads(props) {
       jobNum: 3
     }
   ];
-  console.log(num);
+  // console.log(num);
   let {
     name,
     logo,

@@ -7,6 +7,7 @@ import Quill from "../QuestionCreator/Quil";
 import { connect } from "react-redux";
 import ReactHtmlParser from 'react-html-parser'
 import { Link } from 'react-router-dom'
+import { stringObjectToArray } from '../../test/Logic'
 import Select from 'react-select'
 // import { SearchBar } from '../../utilites/globals';
 import Layout from '../Layout/Layout1'
@@ -14,6 +15,7 @@ import {
     LoadingWraper,
     SearchBar,
     P,
+    black,
     blueButton,
 } from "./../../utilites/index";
 
@@ -40,6 +42,7 @@ class QuestionEditor extends Component {
         }
     }
     componentDidMount = async () => {
+        console.log(stringObjectToArray('{}'))
         const res = await axios.get(
             `/api/question/indv?id=${+this.props.match.params.id}`
         );
@@ -60,7 +63,7 @@ class QuestionEditor extends Component {
     handleSelectChange = async (selectedOption) => {
         if (selectedOption.label === 'Active Edit') {
             selectedOption = selectedOption.value
-            await this.setState({ idPayload: selectedOption.edit_id, viewingActive: true, updateTextArea: true, titlePayload: selectedOption.edit_title, descPayload: selectedOption.edit_content, tagsPayload: selectedOption.edit_tags.split('{')[1].split('}')[0].split(','), summaryPayload: selectedOption.edit_summary });
+            await this.setState({ idPayload: selectedOption.edit_id, viewingActive: true, updateTextArea: true, titlePayload: selectedOption.edit_title, descPayload: selectedOption.edit_content, tagsPayload: stringObjectToArray(selectedOption.edit_tags), summaryPayload: selectedOption.edit_summary });
         } else {
             selectedOption = selectedOption.value.e
             await this.setState({ idPayload: selectedOption.edit_id, viewingActive: false, updateTextArea: true, titlePayload: selectedOption.edit_title, descPayload: selectedOption.edit_content, tagsPayload: selectedOption.edit_tags.split('{')[1].split('}')[0].split(','), summaryPayload: selectedOption.edit_summary });
@@ -118,17 +121,6 @@ class QuestionEditor extends Component {
                 this.props.history.goBack()
             } else { alert("you must select at least one related tag") }
         } else { alert('you must be logged in to submit edits') }
-    }
-    test = () => {
-        console.log({
-            edit_title: this.state.titlePayload,
-            edit_content: this.state.descPayload,
-            edit_summary: this.state.summaryPayload,
-            edit_tags: this.state.tagsPayload,
-            user_id: this.props.global.user.auth_id,
-            source_id: +this.props.match.params.id,
-            source_type: 'question'
-        })
     }
     render() {
         return (
@@ -236,7 +228,7 @@ const Options = styled.div`
 display:flex;
 align-items:center;
 `
-const Original = styled.div`
+const Original = styled(P)`
 text-align:left;
 margin:15px;
 border-top:rgb(200, 204, 208) 1px dotted;
@@ -363,6 +355,7 @@ ${blueButton()};
                             `
 
 const Head = styled(P)`
+color:${black};
                             padding: 15px 15px 10px;
                                 background-color: #FFF8DC;
                                 border: 1px solid #E0DCBF;
@@ -377,6 +370,7 @@ const TagBar = styled(P)`
                             padding: 10px;
                             `;
 const Container = styled.div`
+color:${black};
                             padding:24px;
                             text-align: left;
                             /* width: 1100px; */
