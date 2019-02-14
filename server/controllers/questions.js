@@ -353,5 +353,10 @@ module.exports = {
     const { edit_id } = req.query;
     db.edit.destroy({ edit_id });
     res.sendStatus(200);
+  },
+  // ==========================================================
+  search: async (req, res) => {
+    const { search } = req.query;
+    const db = req.app.get("db");
   }
 };

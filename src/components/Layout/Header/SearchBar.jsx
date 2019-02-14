@@ -5,6 +5,7 @@ import {
   flex,
   SearchBar as SearchBox
 } from "../../../utilites/index.js";
+import axios from "axios";
 
 class SearchBar extends Component {
   state = {
@@ -14,6 +15,15 @@ class SearchBar extends Component {
   handleInput = event => {
     const { name, value } = event.target;
     this.setState({ [name]: value });
+  };
+
+  search = async event => {
+    console.log(event.keyCode);
+    if (event.keyCode === 13) {
+      let res = axios
+        .get(`/api/search?search=${this.state.searchInput}`)
+        .catch(err => console.log(err));
+    }
   };
 
   render() {
@@ -34,6 +44,7 @@ class SearchBar extends Component {
               height="18"
               viewBox="0 0 18 18"
               color="white"
+              onClick={this.search}
             >
               <Path d="M12.86 11.32L18 16.5 16.5 18l-5.18-5.14v-.35a7 7 0 1 1 1.19-1.19h.35zM7 12A5 5 0 1 0 7 2a5 5 0 0 0 0 10z" />
             </svg>
