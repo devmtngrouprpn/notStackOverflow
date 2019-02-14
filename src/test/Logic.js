@@ -9,7 +9,7 @@ export const timeFunction = postedDate => {
   let currentDate = new Date(cD2[0] + " " + cD2[1].split("Z")[0]);
   let first = postedDate.split("T");
   var qMade = new Date(first[0] + " " + first[1].split("Z")[0]);
-  const time = function(currentTime, postTime) {
+  const time = function (currentTime, postTime) {
     var delta = Math.floor(
       Math.abs(currentTime.getTime() - postTime.getTime()) / 10
     );
@@ -66,6 +66,9 @@ export function stringCheck(value, tagNames) {
   return object;
 }
 export function stringObjectToArray(strObj) {
+  if (typeof strObj !== 'string') {
+    return false
+  }
   let array = strObj.split('{')[1].split('}')[0].split(',')
   return array
 }

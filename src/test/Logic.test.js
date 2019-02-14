@@ -27,7 +27,6 @@ describe("getting length of returned object with arrays", () => {
   });
 });
 // RYAN TEST END
-import { stringCheck } from "./Logic.js";
 import { compareTwoStrings } from "string-similarity";
 
 describe("testing a string similarity function", () => {
@@ -75,9 +74,12 @@ test('returns an array', () => {
 test('returns correct parsed array', () => {
   expect(stringObjectToArray('{heyo,lol}')).toEqual(['heyo', 'lol']);
 })
-test('can handle strings', () => {
-  expect(stringObjectToArray('heyo,lol')).toEqual(['heyo', 'lol']);
-})
 test('can handle large objects', () => {
-  expect(stringObjectToArray)
+  expect(stringObjectToArray('{heyo,lol,woah,no,wow}')).toEqual(['heyo', 'lol', 'woah', 'no', 'wow'])
+})
+test('empty object returns an array with empty string', () => {
+  expect(stringObjectToArray('{}')).toEqual(['']);
+})
+test('if type is not string then return false', () => {
+  expect(stringObjectToArray({})).toEqual(false);
 })
