@@ -17,6 +17,7 @@ const ads = require("./controllers/ads");
 const app = express();
 // *** TOPLEVEL MIDDLEWARE *** //
 
+app.use(express.static(`${__dirname}/../build`));
 app.use(express.json());
 app.use(
   session({
