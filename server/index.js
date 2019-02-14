@@ -55,6 +55,7 @@ app.get("/api/users/allusers", users.getUsers);
 app.get("/api/users/indv", users.getFullUserData);
 // USERS END
 // QUESTIONS START
+app.post("/api/bounty", questions.createBounty);
 app.get("/api/question/indv", questions.questionById);
 app.get("/api/answer/indv", questions.answerById);
 app.get("/api/comment/indv", questions.commentById);
