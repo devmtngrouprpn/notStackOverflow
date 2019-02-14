@@ -1,3 +1,5 @@
+const { findBestMatch } = require("string-similarity");
+
 module.exports = {
   homeStart: async (req, res, next) => {
     let { auth_id } = req.params;
@@ -352,6 +354,51 @@ module.exports = {
     const db = req.app.get("db");
     const { edit_id } = req.query;
     db.edit.destroy({ edit_id });
+    res.sendStatus(200);
+  },
+  // ==========================================================
+  search: async (req, res) => {
+    const { search } = req.query;
+    const db = req.app.get("db");
+    const tag = await db.search.search_tags([search.toLowerCase()]);
+    if (tag[0]) {
+      res.status(200).send({ url: `/tags/${search}` });
+      return;
+    }
+    const questions = await db.search.search_questions([search]);
+    const total = await db.search.question_total([search]);
+    res.status(200).send({
+      url: "/search",
+      questions,
+      total: total[0].total,
+      searchString: search
+    });
+  },
+  // ========================================================== not implemented
+  createBounty: async (req, res) => {
+    const db = req.app.get("db");
+    const { question_id, user_id, bounty_value } = req.body;
+    await db.bounty.insert({ question_id, user_id, bounty_value });
+    await db.reputation.insert({
+      user_id,
+      amount: -bounty_value,
+      action_type: "bounty_creation",
+      source_id: question_id,
+      source_type: "question"
+    });
+  },
+  // ========================================================== not implemented
+  acceptAnswer: async (req, res) => {
+    const db = req.app.get("db");
+    const { answer_id, user_id } = req.body;
+    await db.answer.save({ answer_id, answer_accepted: true });
+    await db.reputation.insert({
+      user_id,
+      amount: 15,
+      action_type: "answer_accepted",
+      source_id: answer_id,
+      source_type: "answer"
+    });
     res.sendStatus(200);
   }
 };

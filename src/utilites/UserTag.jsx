@@ -22,7 +22,7 @@ class UserTag extends Component {
           {/* {difference} */}
         </AskedLink>
         <br />
-        {difference}
+        <P2>{difference}</P2>
         <UserInfo>
           <ProPic src={question.picture} alt="" />
           <UserName>
@@ -48,6 +48,13 @@ class UserTag extends Component {
     );
   }
 }
+
+const P2 = styled(P)`
+  color: #9199a1;
+  font-size: 12px;
+  font-weight: 400;
+`;
+
 const Wrapper = styled.div``;
 const UserInfo = styled(P)`
   display: flex;

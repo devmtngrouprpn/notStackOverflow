@@ -6,13 +6,15 @@ import users from "./users";
 import questions from "./questions";
 import home from "./home";
 import tags from "./tags";
+import search from "./search";
 
 let reducers = combineReducers({
   global,
   users,
   questions,
   home,
-  tags
+  tags,
+  search
 });
 
 export default createStore(

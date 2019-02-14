@@ -18,8 +18,7 @@ class LogFunctions extends Component {
       REACT_APP_CLIENT_ID,
       REACT_APP_LOGIN
     } = process.env;
-    const url = `${REACT_APP_LOGIN}`;
-    window.location = `https://${REACT_APP_DOMAIN}/authorize?client_id=${REACT_APP_CLIENT_ID}&scope=openid%20profile%20email&redirect_uri=${url}&response_type=code`;
+    window.location = `https://${REACT_APP_DOMAIN}/authorize?client_id=${REACT_APP_CLIENT_ID}&scope=openid%20profile%20email&redirect_uri=${REACT_APP_LOGIN}&response_type=code`;
   };
   logout = async () => {
     let res = await axios.post("/api/user-data", { type: "logout" });

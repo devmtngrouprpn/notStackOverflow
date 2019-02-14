@@ -143,7 +143,7 @@ export const SearchBar = styled.input`
   }
 
   :focus + button {
-    display: block;
+    opacity: 1;
   }
 
   ::placeholder {
