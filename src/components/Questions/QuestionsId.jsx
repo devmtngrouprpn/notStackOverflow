@@ -142,18 +142,14 @@ class QuestionId extends Component {
                   <Posted>
                     viewed <Viewed>{question.question_views} times</Viewed>
                   </Posted>
+                  <Adds>
+                    <Ads />
+                  </Adds>
                 </AskedInfo>
-                <Adds>
-                  {" "}
-                  <Ads />{" "}
-                </Adds>
               </AddsColumn>
             </QuestionPage>
           </Box>
         </LoadingWraper>
-        <Adds>
-          <Ads />
-        </Adds>
       </Layout>
     );
   }

@@ -33,7 +33,7 @@ export const Adds = styled.div`
   /* border: 1px black solid; */
   flex-basis: 324px;
   flex-shrink: 0;
-  height: 5000px;
+  /* height: 5000px; */
   margin-left: 5%;
 `;
 
