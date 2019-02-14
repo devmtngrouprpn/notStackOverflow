@@ -19,9 +19,12 @@ import {
   borderGray,
   flex,
   blueButton,
-  TinyTag
+  TinyTag,
+  timeFunction,
+  black
 } from "../../utilites/index.js";
 import axios from "axios";
+import Ads from "../../utilites/SideBar/Ads.jsx";
 
 class QuestionId extends Component {
   state = {
@@ -31,8 +34,9 @@ class QuestionId extends Component {
       question_content: "",
       question_title: "",
       tags: [],
-      acceptShow: false
-    }
+      question_creation_timestamp: "T"
+    },
+    acceptShow: false
   };
   componentDidMount = async () => {
     const res = await axios.get(
@@ -128,13 +132,22 @@ class QuestionId extends Component {
               </Content>
               <AddsColumn>
                 <AskedInfo>
-                  <Posted>asked</Posted>
-                  <br />
-                  <Posted>viewed</Posted>
-                  <br />
-                  {question.bounty_value ? <Posted>Active</Posted> : <></>}
+                  <Posted>
+                    asked{" "}
+                    <Asked>
+                      {timeFunction(
+                        question.question_creation_timestamp
+                      ).replace(/asked/g, "")}
+                    </Asked>
+                  </Posted>
+                  <Posted>
+                    viewed <Viewed>{question.question_views} times</Viewed>
+                  </Posted>
                 </AskedInfo>
-                <Adds />
+                <Adds>
+                  {" "}
+                  <Ads />{" "}
+                </Adds>
               </AddsColumn>
             </QuestionPage>
           </Box>
@@ -152,6 +165,17 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps)(QuestionId);
+
+const Asked = styled.span`
+  color: ${black};
+  margin-left: 14px;
+`;
+
+const Viewed = styled.span`
+  color: ${black};
+  margin-left: 8px;
+`;
+
 const Edit = styled(Link)``;
 const TotalAnswers = styled(P)`
   width: 100%;
@@ -173,14 +197,16 @@ const ShareEditUser = styled.div`
   justify-content: space-between;
 `;
 const Posted = styled.span`
-  margin: 15px 0px 15px 15px;
+  margin: 15px 0px 5px 16px;
+  color: #9199a1;
+  font-size: 14px;
 `;
 const AskedInfo = styled.div`
   margin-bottom: 15px;
+  ${flex("column", "flex-start", "flex-start")}
 `;
 const AddsColumn = styled.div`
   width: 100%;
-  padding: 25px 0 25px 25px;
 `;
 const QuestionTags = styled.div`
   display: flex;
