@@ -16,7 +16,19 @@ class CommentSection extends Component {
         loading: false,
         commentDisplay: []
     };
-
+    upvote = async (id, owner, sourceType) => {
+        console.log({
+            user_id: this.props.global.user.auth_id, source_id: id, source_type: 'comment', value: 1, owner_id: owner
+        })
+        if (this.props.global.user.auth_id) {
+            await axios.post('/api/question/vote', {
+                user_id: this.props.global.user.auth_id, source_id: id, source_type: 'comment', value: 1, owner_id: owner
+            })
+            this.props.reset();
+        } else {
+            alert('please log in to vote')
+        }
+    }
     componentDidMount = async () => {
         let buffer = []
         if (this.props.comments) {
@@ -25,7 +37,7 @@ class CommentSection extends Component {
                     let res = await axios.get(`/api/comment/indv?id=${e}`);
                     console.log(res.data, 'comment return')
                     buffer.push(<Comment key={e}>
-                        <Rep>{res.data.votes || 0} {this.props.global.user.reputation >= 15 ? <Svg onClick={this.upvote} aria-hidden="true" class="svg-icon m0 iconArrowUpLg" width="36" height="36" viewBox="0 0 36 36"><Path d="M2 26h32L18 10z"></Path></Svg>
+                        <Rep>{res.data.votes || 0} {this.props.global.user.reputation >= 15 ? <Svg onClick={() => this.upvote(res.data.comment_id, res.data.source_id, e.source_type)} aria-hidden="true" class="svg-icon m0 iconArrowUpLg" width="15" height="20" viewBox="0 0 36 36"><Path d="M2 26h32L18 10z"></Path></Svg>
                             : <></>}</Rep>
                         {res.data.content}
                         <UserName to={`/users/${res.data.username}`}> - {res.data.username}</UserName>

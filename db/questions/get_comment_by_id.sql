@@ -6,6 +6,9 @@ SELECT
 	) as reputation,
 	username,
 	c.user_id,
+	comment_id,
+	source_id,
+	source_type,
 	(
 	select sum(value)
 	from vote

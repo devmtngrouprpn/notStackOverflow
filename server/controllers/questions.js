@@ -131,6 +131,7 @@ module.exports = {
   // ==========================================================
   addVote: async (req, res) => {
     const { user_id, source_id, source_type, value, owner_id } = req.body;
+    console.log(req.body)
     const db = req.app.get("db");
     const check = await db.questions.check_vote([
       user_id,
