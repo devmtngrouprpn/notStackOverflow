@@ -65,3 +65,7 @@ export function stringCheck(value, tagNames) {
   object = object.slice(0, 6);
   return object;
 }
+export function stringObjectToArray(strObj) {
+  let array = strObj.split('{')[1].split('}')[0].split(',')
+  return array
+}

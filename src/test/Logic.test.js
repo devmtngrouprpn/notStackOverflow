@@ -66,3 +66,17 @@ describe("testing a string similarity function", () => {
     expect(Math.max(...tagSimilarity) === topTag);
   });
 });
+
+//McCoy's tests
+test("returns an array", () => {
+  expect(Array.isArray(stringObjectToArray("{heyo,lol}"))).toBe(true);
+});
+test("returns correct parsed array", () => {
+  expect(stringObjectToArray("{heyo,lol}")).toEqual(["heyo", "lol"]);
+});
+test("can handle strings", () => {
+  expect(stringObjectToArray("heyo,lol")).toEqual(["heyo", "lol"]);
+});
+test("can handle large objects", () => {
+  expect(stringObjectToArray);
+});
