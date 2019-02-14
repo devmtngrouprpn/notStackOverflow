@@ -9,6 +9,7 @@ import UserTag from "../../utilites/UserTag";
 import ArrowColumn from "../../utilites/ArrowColumn";
 import CommentSection from "./CommentSection";
 import ReactHtmlParser from "react-html-parser";
+import Ads from "./../../utilites/RightSideBar";
 import {
   Page,
   Adds,
@@ -19,7 +20,8 @@ import {
   borderGray,
   flex,
   blueButton,
-  TinyTag
+  TinyTag,
+  ads
 } from "../../utilites/index.js";
 import axios from "axios";
 
@@ -139,6 +141,9 @@ class QuestionId extends Component {
             </QuestionPage>
           </Box>
         </LoadingWraper>
+        <Adds>
+          <Ads />
+        </Adds>
       </Layout>
     );
   }

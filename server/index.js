@@ -4,8 +4,12 @@ const { DB_CONNECTION_STRING, SERVER_PORT, SESSION_SECRET, DEV } = process.env;
 const express = require("express");
 const session = require("express-session");
 const massive = require("massive");
+const bodyParser = require("body-parser");
+const exphbs = require("express-handlebars");
+const nodemailer = require("nodemailer");
 const authorization = require("./controllers/authorization");
 const questions = require("./controllers/questions");
+const Mail = require("./controllers/mailer");
 const tinyTag = require("./controllers/tinyTags");
 const users = require("./controllers/users");
 const ads = require("./controllers/ads");
@@ -34,9 +38,11 @@ massive(DB_CONNECTION_STRING).then(db => {
 });
 
 // *** ENDPOINTS *** //
-
+// User Start
 app.get("/auth/callback", authorization.authCallback);
 app.post("/api/user-data", authorization.checkUser);
+app.get("/api/user/indv", users.getFullUserData);
+// User End
 
 // HOME START
 app.get("/api/search", questions.search);
@@ -106,5 +112,11 @@ app.post(
 // ADS START
 app.get("/api/adsapi", ads.Ads);
 // ADS END
-
+//
+// Engine Setup
+app.engine("handlebars", exphbs());
+app.set("view engine", "handlebars");
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.get("/send/mail", Mail.SendMail);
 // *** IM LISTENING! *** //
