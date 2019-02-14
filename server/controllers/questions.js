@@ -389,10 +389,18 @@ module.exports = {
   },
   accceptBounty: async (req, res) => {
     const db = req.app.get("db");
-    const { bounty_id, winner_id, bounty_value } = req.body;
-    // await db
+    const { bounty_id, winner_id, bounty_value, question_id } = req.body;
+    await db.reputation.insert({
+      user_id: winner_id,
+      amount: bounty_value,
+      action_type: "bounty_won",
+      source_id: question_id,
+      source_type: "question"
+    });
+    await db.bounty.save({ bounty_id, bounty_winner: winner_id });
+    res.sendStatus(200);
   },
-  // ========================================================== not implemented
+  // ==========================================================
   acceptAnswer: async (req, res) => {
     const db = req.app.get("db");
     const { answer_id, user_id } = req.body;
@@ -405,5 +413,33 @@ module.exports = {
       source_type: "answer"
     });
     res.sendStatus(200);
+  },
+  // ==========================================================
+  watchTag: async (req, res) => {
+    const db = req.app.get("db");
+    const { tag, user_id } = req.body;
+    const results = await db.Tags.watch_tag([tag, user_id]);
+    console.log(results);
+    res.status(201).send(results[0]);
+  },
+  unwatchTag: async (req, res) => {
+    const db = req.app.get("db");
+    const { tags_watching, tag, user_id } = req.body;
+    const newTags = tags_watching.filter(tag_name => tag === tag_name);
+    await db.users.save({ auth_id: user_id, tags_watching: newTags });
+    res.status(200).send(newTags);
+  },
+  ignoreTag: async (req, res) => {
+    const db = req.app.get("db");
+    const { tag, user_id } = req.body;
+    const results = await db.Tags.ignore_tag([tag, user_id]);
+    res.status(201).send(results[0]);
+  },
+  unignoreTag: async (req, res) => {
+    const db = req.app.get("db");
+    const { tags_ignoring, tag, user_id } = req.body;
+    const newTags = tags_ignoring.filter(tag_name => tag === tag_name);
+    await db.users.save({ auth_id: user_id, tags_ignored: newTags });
+    res.status(200).send(newTags);
   }
 };

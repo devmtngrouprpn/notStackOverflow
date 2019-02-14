@@ -44,7 +44,10 @@ class QuestionId extends Component {
       `/api/question/indv?id=${this.props.match.params.id}`
     );
     let accept = false;
-    if (res.data.user_id === this.props.auth_id && res.data.answer_accepted) {
+    if (
+      res.data.user_id === this.props.user.auth_id &&
+      res.data.answer_accepted
+    ) {
       accept = true;
     }
     this.setState({ loading: false, question: res.data, acceptShow: accept });
@@ -156,9 +159,9 @@ class QuestionId extends Component {
 }
 
 function mapStateToProps(state) {
-  const { auth_id } = state.users;
+  const { user } = state.global;
   return {
-    auth_id
+    user
   };
 }
 
