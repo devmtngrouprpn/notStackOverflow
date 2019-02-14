@@ -374,7 +374,7 @@ module.exports = {
       searchString: search
     });
   },
-  // ==========================================================
+  // ========================================================== not implemented
   createBounty: async (req, res) => {
     const db = req.app.get("db");
     const { question_id, user_id, bounty_value } = req.body;
@@ -387,11 +387,18 @@ module.exports = {
       source_type: "question"
     });
   },
-  // ==========================================================
+  // ========================================================== not implemented
   acceptAnswer: async (req, res) => {
     const db = req.app.get("db");
-    const { answer_id } = req.body;
-    db.answer.save({ answer_id, answer_acceptedj: true });
+    const { answer_id, user_id } = req.body;
+    await db.answer.save({ answer_id, answer_accepted: true });
+    await db.reputation.insert({
+      user_id,
+      amount: 15,
+      action_type: "answer_accepted",
+      source_id: answer_id,
+      source_type: "answer"
+    });
     res.sendStatus(200);
   }
 };

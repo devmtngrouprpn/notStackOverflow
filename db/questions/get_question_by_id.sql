@@ -40,7 +40,12 @@ SELECT
 		select max(edit_id)
 	from edit
 	where source_id = $1 AND source_type = 'question' and edit_accepted = TRUE
-	) as last_edit
+	) as last_edit,
+	(
+	select bool_or(answer_accepted)
+	from answer
+	where question_id = q.question_id
+	) as answer_accepted
 FROM question AS q
 	JOIN users AS u ON u.auth_id = q.user_id
 	LEFT JOIN bounty AS b ON b.question_id = q.question_id
