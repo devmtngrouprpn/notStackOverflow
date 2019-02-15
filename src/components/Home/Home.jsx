@@ -59,7 +59,7 @@ class Home extends Component {
     let questions = this.props[this.state.view].map(question => (
       <HQCard question={question} />
     ));
-    console.log(this.props.global)
+    console.log(this.props.global);
     return (
       <Layout>
         <LoadingWraper text loading={this.state.loading}>
@@ -70,7 +70,6 @@ class Home extends Component {
                 <Link to="/create-question">
                   <AskButton>Ask Question</AskButton>
                 </Link>
-
               </HeaderContainer>
               <ButtonContainer>
                 <TabButton
@@ -119,7 +118,6 @@ class Home extends Component {
                 </TabButton>
               </ButtonContainer>
               <Questions>{questions}</Questions>
-              <button onClick={this.pushitrealgood}>Push for Test</button>
             </Content>
             <Adds>
               {" "}
@@ -139,12 +137,13 @@ const Questions = styled.div`
 const HeaderContainer = styled.div`
   ${flex("row", "space-between", "flex-start")}
   margin: 24px;
+  margin-right: 0px;
   max-width: 727px;
 `;
 
 const ButtonContainer = styled.div`
   ${flex("row", "flex-end")}
-  margin: 0 24px 24px 16px;
+  margin: 0 0 24px 16px;
 `;
 
 const FeaturedBox = styled.div`

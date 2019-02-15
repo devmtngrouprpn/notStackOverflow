@@ -75,25 +75,25 @@ const ImageWrapper = styled.div`
   }
 `;
 const Bronze = styled.div`
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 0;
   color: ${bronze};
-  font-weight: 550;
+  font-weight: 400;
   padding-left: 8px;
 `;
 const Silver = styled.div`
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 0;
   color: ${silver};
-  font-weight: 550;
-  padding-left: 8px;
+  font-weight: 400;
+  padding-left: 6px;
 `;
 const Gold = styled.div`
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 0;
   color: ${gold};
-  font-weight: 550;
-  padding-left: 8px;
+  font-weight: 400;
+  padding-left: 6px;
 `;
 const Repuation = styled.div`
   font-size: 16px;

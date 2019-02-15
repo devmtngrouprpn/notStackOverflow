@@ -14,6 +14,14 @@ SELECT
 	where auth_id = b.user_id
 	) as bounty_creator_username,
 	(
+		CASE 
+			when AGE(now(),(select max(bounty_creation_timestamp) from bounty where question_id = q.question_id and bounty_winner IS NULL)) < INTERVAL '1 day'
+				then true
+			when AGE(now(),(select max(bounty_creation_timestamp) from bounty where question_id = q.question_id and bounty_winner IS NULL)) > INTERVAL '1 day'
+				then false
+		END
+	) as active_bounty,
+	(
 		select sum(amount)
 	from reputation
 	where user_id = q.user_id

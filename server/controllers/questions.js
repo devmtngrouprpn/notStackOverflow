@@ -131,7 +131,7 @@ module.exports = {
   // ==========================================================
   addVote: async (req, res) => {
     const { user_id, source_id, source_type, value, owner_id } = req.body;
-    console.log(req.body)
+    console.log(req.body);
     const db = req.app.get("db");
     const check = await db.questions.check_vote([
       user_id,
@@ -144,7 +144,7 @@ module.exports = {
     if (value > 0) {
       if (source_type === "question") {
         rep_value = 5;
-      } else if ((source_type === "answer")) {
+      } else if (source_type === "answer") {
         rep_value = 10;
       } else {
         rep_value = 0;
@@ -201,7 +201,7 @@ module.exports = {
             amount: repCheck[0].amount + rep_value
           });
         } else {
-          db.reputation.input({
+          db.reputation.insert({
             user_id: owner_id,
             amount: rep_value,
             action_type: "vote",
@@ -386,8 +386,9 @@ module.exports = {
       source_id: question_id,
       source_type: "question"
     });
+    res.sendStatus(201);
   },
-  accceptBounty: async (req, res) => {
+  acceptBounty: async (req, res) => {
     const db = req.app.get("db");
     const { bounty_id, winner_id, bounty_value, question_id } = req.body;
     await db.reputation.insert({

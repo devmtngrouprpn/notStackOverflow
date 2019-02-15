@@ -37,7 +37,7 @@ function Sidebar({ match }) {
         <SidebarP>Users</SidebarP>
       </SidebarLink>
 
-      <SidebarLink indent="28px" to="/users" active={route === "users"}>
+      <SidebarLink indent="28px" to="/users">
         <SidebarP>Jobs</SidebarP>
       </SidebarLink>
 

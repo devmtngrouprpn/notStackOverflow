@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
+import { addToUser } from "../../ducks/global.js";
 import Layout from "../Layout/Layout1.jsx";
 import Answer from "./Answer";
 import { Link } from "react-router-dom";
@@ -22,6 +23,7 @@ import {
   black,
   blueButton,
   TinyTag,
+  SearchBar,
   ads
 } from "../../utilites/index.js";
 import axios from "axios";
@@ -37,7 +39,9 @@ class QuestionId extends Component {
       tags: [],
       question_creation_timestamp: "T"
     },
-    acceptShow: false
+    acceptShow: false,
+    bountyInput: "50",
+    areYouSure: ""
   };
   componentDidMount = async () => {
     const res = await axios.get(
@@ -52,6 +56,7 @@ class QuestionId extends Component {
     }
     this.setState({ loading: false, question: res.data, acceptShow: accept });
   };
+
   reMount = async () => {
     const res = await axios.get(
       `/api/question/indv?id=${this.props.match.params.id}`
@@ -59,8 +64,41 @@ class QuestionId extends Component {
     this.setState({ loading: false, question: res.data });
   };
 
+  getUser = async () => {
+    const res = await axios.get(
+      `/api/user/indv?user_id=${this.props.user.auth_id}`
+    );
+    console.log(res.data);
+    this.props.addToUser(res.data.basicData[0]);
+  };
+
+  handleBounty = event => {
+    let { value } = event.target;
+    console.log(typeof this.props.user.reputation);
+    console.log(typeof value);
+    if (+value < +this.props.user.reputation) {
+      this.setState({ bountyInput: value });
+    }
+  };
+
+  setSure = event => {
+    this.setState({ areYouSure: event.target.name });
+  };
+
+  setBounty = async event => {
+    await axios.post("/api/bounty", {
+      bounty_value: this.state.bountyInput,
+      question_id: this.state.question.question_id,
+      user_id: this.props.user.auth_id
+    });
+    this.setState({ areYouSure: "" });
+    this.reMount();
+    this.getUser();
+  };
+
   render() {
     let { question } = this.state;
+    console.log(question);
     // let message = question.question_content.replace(/^"'/, '').replace(/'"$/, '');
     // let messageCopy = message.split(`'`)
     // let formatedhtml = messageCopy.slice(1, messageCopy.length - 1).join('').replace(/,,/g, `'`)
@@ -122,8 +160,8 @@ class QuestionId extends Component {
                     })}
                   </Section3>
                 ) : (
-                    <></>
-                  )}
+                  <></>
+                )}
 
                 <Section2>
                   <AnswerCreator
@@ -131,6 +169,32 @@ class QuestionId extends Component {
                     questionId={question.question_id}
                   />
                 </Section2>
+                {this.state.areYouSure === "true" ? (
+                  <BountyContainer
+                    activeBounty={!this.state.question.active_bounty}
+                    rep={this.props.user.reputation}
+                  >
+                    <AskButton onClick={this.setBounty}>Sure</AskButton>
+                    <AskButton onClick={this.setSure}>Not Sure</AskButton>
+                  </BountyContainer>
+                ) : (
+                  <BountyContainer
+                    activeBounty={!this.state.question.active_bounty}
+                    rep={this.props.user.reputation}
+                  >
+                    <AskButton name="true" onClick={this.setSure}>
+                      Place Bounty
+                    </AskButton>
+                    <BountyCounter
+                      onChange={this.handleBounty}
+                      type="number"
+                      step="50"
+                      max="500"
+                      min="50"
+                      value={this.state.bountyInput}
+                    />
+                  </BountyContainer>
+                )}
               </Content>
               <AddsColumn>
                 <AskedInfo>
@@ -142,9 +206,9 @@ class QuestionId extends Component {
                       ).replace(/asked/g, "")}
                     </Asked>
                   </Posted>
-                  <Posted>
+                  <Posted2>
                     viewed <Viewed>{question.question_views} times</Viewed>
-                  </Posted>
+                  </Posted2>
                   <Adds>
                     <Ads />
                   </Adds>
@@ -165,7 +229,32 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(QuestionId);
+export default connect(
+  mapStateToProps,
+  { addToUser }
+)(QuestionId);
+const Posted = styled.span`
+  margin: 15px 0px 5px 16px;
+  color: #9199a1;
+  font-size: 14px;
+`;
+const Posted2 = styled(Posted)`
+  margin-bottom: 15px;
+`;
+
+const BountyCounter = styled(SearchBar)`
+  padding: 12px;
+  flex-basis: 50px;
+  margin-right: 15px;
+`;
+
+const BountyContainer = styled.div`
+  ${flex("row", "flex-end", "flex-end")}
+  width: 100%;
+  margin-left: 4.5px;
+  display: ${props =>
+    props.rep > 50 && props.activeBounty ? "block" : "none"};
+`;
 
 const Asked = styled.span`
   color: ${black};
@@ -197,11 +286,7 @@ const ShareEditUser = styled.div`
   display: flex;
   justify-content: space-between;
 `;
-const Posted = styled.span`
-  margin: 15px 0px 5px 16px;
-  color: #9199a1;
-  font-size: 14px;
-`;
+
 const AskedInfo = styled.div`
   margin-bottom: 15px;
   ${flex("column", "flex-start", "flex-start")}
