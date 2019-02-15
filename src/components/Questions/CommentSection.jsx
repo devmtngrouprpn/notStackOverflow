@@ -7,7 +7,8 @@ import {
     blueButton,
 } from "../../utilites/index";
 import axios from "axios";
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
+import { timeFunction } from '../../test/Logic'
 
 class CommentSection extends Component {
     state = {
@@ -35,13 +36,13 @@ class CommentSection extends Component {
             await Promise.all(
                 this.props.comments.map(async e => {
                     let res = await axios.get(`/api/comment/indv?id=${e}`);
-                    console.log(res.data, 'comment return')
+                    console.log(res.data.comment_creation_timestamp, 'woot')
                     buffer.push(<Comment key={e}>
                         <Rep>{res.data.votes || 0} {this.props.global.user.reputation >= 15 ? <Svg onClick={() => this.upvote(res.data.comment_id, res.data.source_id, e.source_type)} aria-hidden="true" class="svg-icon m0 iconArrowUpLg" width="15" height="20" viewBox="0 0 36 36"><Path d="M2 26h32L18 10z"></Path></Svg>
                             : <></>}</Rep>
                         {res.data.content}
                         <UserName to={`/users/${res.data.username}`}> - {res.data.username}</UserName>
-                        <TimeStamp>{res.data.comment_creation_timestamp}</TimeStamp>
+                        <TimeStamp>{res.data.comment_creation_timestamp.slice(0, 10)}</TimeStamp>
                     </Comment>)
                 })
             )
@@ -61,7 +62,7 @@ class CommentSection extends Component {
                             : <></>}</Rep>
                         {res.data.content}
                         <UserName to={`/users/${res.data.username}`}> - {res.data.username}</UserName>
-                        <TimeStamp>{res.data.comment_creation_timestamp}</TimeStamp>
+                        <TimeStamp>{res.data.comment_creation_timestamp.slice(0, 10)}</TimeStamp>
                     </Comment>)
                 })
             )
@@ -126,7 +127,9 @@ function mapStateToProps(reduxStore) {
 }
 export default connect(mapStateToProps)(CommentSection);
 const TimeStamp = styled.div`
-
+color: rgb(145, 153, 161);
+font-size: 13px;
+margin-left: 10px;
 `
 const Rep = styled.div`
 color: rgb(145, 153, 161);

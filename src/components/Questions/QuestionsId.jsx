@@ -125,7 +125,6 @@ class QuestionId extends Component {
                     type={"question"}
                     stars={question.favorites}
                     votes={question.votes}
-                    acceptShow={this.state.acceptShow}
                   />
                   <QuestionContent>
                     {ReactHtmlParser(question.question_content)}
@@ -260,13 +259,17 @@ const Asked = styled.span`
   color: ${black};
   margin-left: 14px;
 `;
-
 const Viewed = styled.span`
   color: ${black};
   margin-left: 8px;
 `;
-
-const Edit = styled(Link)``;
+const Edit = styled(Link)`
+  margin-top: 25px;
+  padding: 0 3px 2px;
+  color: #848d95;
+  font-size: 13px;
+  text-decoration: none;
+`;
 const TotalAnswers = styled(P)`
   width: 100%;
   border-bottom: 1px solid ${borderGray};

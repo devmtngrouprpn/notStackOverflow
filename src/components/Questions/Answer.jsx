@@ -27,6 +27,7 @@ class Answer extends Component {
     componentDidMount = async () => {
         let res = await axios.get(`/api/answer/indv?id=${this.props.id}`)
         this.setState({ answer: res.data, loading: false })
+        console.log(res.data, 'answer')
     }
     reset = async () => {
         let res = await axios.get(`/api/answer/indv?id=${this.props.id}`)
@@ -37,8 +38,9 @@ class Answer extends Component {
         return (
             <LoadingWraper loading={this.state.loading}>
 
+
                 <Wrapper>
-                    <ArrowColumn owner={answer.user_id} reset={this.reset} id={answer.answer_id} type={'answer'} noStars={true} votes={answer.votes} />
+                    <ArrowColumn owner={answer.user_id} accepted={this.state.answer.accepted} showCheck={true} acceptShow={this.state.answer.answer_accepted} reset={this.reset} id={answer.answer_id} type={'answer'} noStars={true} votes={answer.votes} />
                     <Section>
                         <QuestionContent>
                             {ReactHtmlParser(answer.answer_content)}
@@ -60,8 +62,12 @@ function mapStateToProps(reduxStore) {
 
 export default connect(mapStateToProps)(Answer);
 const Edit = styled(Link)`
-
-`
+margin-top:25px;
+    padding: 0 3px 2px;
+    color: #848d95;
+    font-size:13px;
+    text-decoration:none;
+`;
 const Wrapper = styled(P)`
 position:relative;
 display:flex;
