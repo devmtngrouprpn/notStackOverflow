@@ -107,7 +107,6 @@ class QuestionId extends Component {
       <Layout>
         <LoadingWraper loading={this.state.loading}>
           <Box>
-            <TopAdds />
             <TitleBox>
               <H1>{question.question_title}</H1>
               <Link to="/create-question">
@@ -334,6 +333,7 @@ const TitleBox = styled.div`
   ${flex("row", "space-between", "flex-start")}
   margin: 0 24px;
   width: calc(100% - 48px);
+  margin-top: 30px;
 `;
 
 const Box = styled(P)`
