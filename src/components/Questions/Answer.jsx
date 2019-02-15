@@ -62,8 +62,12 @@ function mapStateToProps(reduxStore) {
 
 export default connect(mapStateToProps)(Answer);
 const Edit = styled(Link)`
-
-`
+margin-top:25px;
+    padding: 0 3px 2px;
+    color: #848d95;
+    font-size:13px;
+    text-decoration:none;
+`;
 const Wrapper = styled(P)`
 position:relative;
 display:flex;
